@@ -16,6 +16,14 @@ export default {
     filename: 'bundle.js'
   },
   module: {
+    resolve: {
+      alias: {
+        Constants: path.resolve(__dirname, "..", "src", "constants"),
+        Data: path.resolve(__dirname, "..", "src", "data"),
+        Engine: path.resolve(__dirname, "..", "src", "engine"),
+        Mocks: path.resolve(__dirname, "..", "src", "mocks")
+      }
+    },
     rules: [
       {
         test: /\.js$/,
