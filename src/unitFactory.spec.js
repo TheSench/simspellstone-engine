@@ -3,10 +3,11 @@ import { createUnit } from './unitFactory';
 
 describe('unitFactory', () => {
   describe('createUnit', () => {
+    const unitInfo = { id: 1, level: 1, runeId: 1 };
     let unit = null;
 
     beforeEach(() => {
-      unit = createUnit({});
+      unit = createUnit(unitInfo);
     });
 
     it('should return an object', () => {
@@ -15,7 +16,13 @@ describe('unitFactory', () => {
 
     describe('returned unit', () => {
       it('should have a status', () => {
-        expect(unit).to.include('status');
+        // TODO: Figure out why it complains that "object" is not an object (Object(unit) !== unit in assertion.js)
+        //expect(unit).to.include('status');
+        expect(unit.status).to.exist;
+      });
+
+      it('should have a unitInfo property matching the passed in info', () => {
+        expect(unit.unitInfo).to.equal(unitInfo);
       });
     });
   });

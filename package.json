@@ -12,7 +12,7 @@
     "security-check": "nsp check",
     "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.spec.js\" --watch-extensions html,js,jsx,ts",
     "test:watch": "npm run test -- --watch",
-    "inspect": "node-inspector & mocha buildScripts/testSetup.js \"src/**/*.spec.js\" --ui bdd -d -g \"should X then Y\" --debug-brk"
+    "inspect": "mocha buildScripts/testSetup.js \"src/**/*.spec.js\" --ui bdd -d -g \"should X then Y\" --inspect-brk"
   },
   "author": "Jon Senchyna",
   "license": "MIT",
@@ -38,6 +38,7 @@
     "nsp": "3.2.1",
     "numeral": "2.0.6",
     "rimraf": "2.6.2",
+    "sinon": "^5.0.1",
     "url-loader": "^1.0.1",
     "webpack": "4.5.0",
     "webpack-dev-middleware": "3.1.2"
