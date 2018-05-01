@@ -17,4 +17,11 @@ describe('base64 encoding', () => {
       expect(converted).to.equal(base10);
     });
   });
+
+  it('should handle characters from the legacy hashing algorithm', () => {
+    var converted = base64ToBase10('!~');
+    var legacy = base64ToBase10('+/');
+
+    expect(legacy).to.equal(converted);
+  });
 });
