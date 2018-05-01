@@ -6,13 +6,13 @@ const levelSpace = 7;
 const runeIdSpace = 1000;
 
 export function unitKeyToBase64(unitKey) {
-  let unitId = unitKey.id;
+  let baseId = unitKey.id;
   let fusion = 0;
   let level = unitKey.level - 1;
 
-  if (fusions[unitId]) {
-    fusion = Math.floor(unitId / 10000);
-    unitId %= 10000;
+  fusion = Math.floor(baseId / 10000);
+  if(fusion > 0) {
+    baseId %= 10000;
   } else {
     fusion = Math.floor(level / levelSpace);
     level %= levelSpace;
@@ -21,7 +21,7 @@ export function unitKeyToBase64(unitKey) {
   // Runes IDs are all in the range of 5001 - 5500
   let runeId = unitKey.runeId % 5000;
 
-  let dec = unitId;
+  let dec = baseId;
   dec = dec * fusionSpace + fusion;
   dec = dec * levelSpace + level;
   dec = dec * runeIdSpace + runeId;
@@ -42,16 +42,16 @@ export function base64ToUnitKey(base64) {
   let fusion = dec % fusionSpace;
   dec = (dec - fusion) / fusionSpace;
 
-  let unitId = dec;
+  let baseId = dec;
 
-  if (fusions[unitId]) {
-    unitId += fusion * 10000;
+  if (fusions[baseId]) {
+    baseId += fusion * 10000;
   } else if (fusion > 0) {
     level += fusion * 7;
   }
 
   return {
-    id: unitId,
+    id: baseId,
     level: level,
     runeId: runeId
   };

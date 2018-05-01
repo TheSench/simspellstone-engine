@@ -1,8 +1,8 @@
+/*
 import { base64ToUnitKey, unitKeyToBase64 } from './unitHash';
 
 //Returns hash built from deck array
 export function hashEncode(deck) {
-  /*
   var current_hash = [];
   var has_priorities = false;
   var has_indexes = false;
@@ -60,11 +60,9 @@ export function hashEncode(deck) {
   current_hash = current_hash.join("");
 
   return current_hash;
-  */
 }
 
 export function hash_decode(hash) {
-  /*
   var current_deck = { deck: [] };
   var unitInfo;
   var indexes;
@@ -117,5 +115,5 @@ export function hash_decode(hash) {
   }
 
   return current_deck;
-  */
 }
+*/
