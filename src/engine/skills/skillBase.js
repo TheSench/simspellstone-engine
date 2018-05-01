@@ -1,42 +1,49 @@
-/* eslint-disable */
-
+import { random } from './../../helpers/random';
 import R from 'ramda';
 
-export default {
+export default class SkillBase {
     getFilters(skill) {
         let filters = [
-            (unit) => unit.isAlive()
+            (unit) => unit.state.alive
         ];
         if (skill.faction) filters.push((unit) => unit.isInFaction(skill.faction));
-    },
-    getTargetField(source, field) {
+
+        return filters;
+    }
+
+    getPotentialTargets(source, field) {
         return field[source.owner].units;
-    },
-    getTargets(skill, source, targetField, filters) {
-        let targets = targetField.filter(R.allPass(filters));
+    }
+
+    getTargets(skill, potentialTargets) {
+        let filters = this.getFilters(skill);
+
+        let targets = potentialTargets.filter(R.allPass(filters));
 
         // Check All
         if (targets.length && !skill.all) {
-            targets = choose_random_target(targets);
+            let i = random(targets.length);
+            return targets.slice(i, i+1);
+        } else {
+            return targets;
         }
+    }
 
-        return targets;
-    },
     getSkillValue(skill, source) {
         let value = skill.value;
-        let enhanced = getEnhancement(source, skill.id);
+        let enhanced = source.getEnhancement(skill.id);
         if (enhanced) {
             if (enhanced < 0) {
                 enhanced = Math.ceil(value * -enhanced);
             }
             value += enhanced;
         }
-    },
+    }
+
     performSkill(skill, source, field) {
-        let filters = this.getFilters(skill),
-            targetField = this.getTargetField(source, field);
+        let potentialTargets = this.getPotentialTargets(source, field);
         
-        let targets = this.getTargets(skill, source, targetField, filters);
+        let targets = this.getTargets(skill, potentialTargets);
 
         let baseValue = this.getSkillValue(skill, source);
 
@@ -47,7 +54,8 @@ export default {
             }
         }
         return affected;
-    },
+    }
+
     // eslint-disable-next-line no-unused-vars
     affectTarget(skill, source, target, baseValue) {
         return true;

@@ -17,7 +17,8 @@
   "author": "Jon Senchyna",
   "license": "MIT",
   "dependencies": {
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "seedrandom": "^2.4.3"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",

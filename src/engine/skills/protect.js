@@ -1,12 +1,12 @@
-/* eslint-disable */
+import SkillBase from './skillBase';
 
-import skillBase from './skillBase';
-
-export default Object.create(skillBase, {
+export default class Protect extends SkillBase{
     getFilters(skill) {
-        let filters = skillBase.getFilters(skill);
-        if (onlyOnDelay) filters.push((unit) => !unit.isActive());
-    },
+        let filters = super.getFilters(skill);
+        //if (onlyOnDelay) filters.push((unit) => !unit.state.isActive);
+        return filters;
+    }
+
     // eslint-disable-next-line no-unused-vars
     affectTarget(skill, source, target, baseValue) {
         // Check Nullify
@@ -19,16 +19,14 @@ export default Object.create(skillBase, {
         let protection = baseValue;
         if (!protection) {
             var mult = skill.mult;
-            if (!target.isActive()) {
+            if (!target.state.isActive) {
                 mult += (skill.on_delay_mult || 0);
             }
             protection = Math.ceil(target.health * mult);
         }
 
         target.status.protected += protection;
-        if (additional) {
-            target[additional] = (target[additional] || 0) + protection;
-        }
+        
         return true;
     }
-});
+}
