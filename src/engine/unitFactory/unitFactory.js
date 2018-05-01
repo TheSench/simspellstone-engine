@@ -47,7 +47,7 @@ const unitBase = {
   }
 };
 
-function createStatus(card) {
+export function createStatus(card) {
   return {
     healthLeft: parseInt(card.health),
     timer: parseInt(card.cost),
