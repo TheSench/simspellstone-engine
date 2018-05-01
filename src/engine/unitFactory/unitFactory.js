@@ -1,16 +1,21 @@
 import { cards as cardDatabase, runes as runeDatabase } from './../../data/gameData';
+import states from './unitStates';
 import { createSkills } from './skillFactory';
 //import R from 'ramda';
 
 export function createUnit(unitKey) {
   let card = getCard(unitKey);
 
-  let unit = {
-    unitKey,
-    baseInfo: createBaseInfo(card),
-    status: createStatus(card),
-    passives: {}
-  };
+  let unit = Object.assign(
+    Object.create(unitBase),
+    {
+      unitKey,
+      baseInfo: createBaseInfo(card),
+      state: states.inactive,
+      status: createStatus(card),
+      passives: {}
+    }
+  );
 
   let allSkills = createSkills(card.skill || []);
 
@@ -21,6 +26,26 @@ export function createUnit(unitKey) {
 
   return unit;
 }
+
+const unitBase = {
+  takeDamage(damage) {
+    this.status.healthLeft -= damage;
+    if(this.status.healthLeft <= 0) {
+      this.state = this.state.die();
+    }
+  },
+  tickTimer() {
+    this.status.timer--;
+    switch(this.status.timer) {
+      case 1:
+      this.state = this.state.activateNextTurn();
+        break;
+      case 0:
+        this.state = this.state.activate();
+      break;
+    }
+  }
+};
 
 function createStatus(card) {
   return {

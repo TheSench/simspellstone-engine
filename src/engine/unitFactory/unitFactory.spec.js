@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { createUnit } from './unitFactory';
 import * as skillFactory from './skillFactory';
+
 import * as gameData from './../../data/gameData';
 import { cards as mockCards } from './../../mocks/mockGameData';
 import { ids as rarities } from './../../constants/rarities';
@@ -8,18 +9,18 @@ import { ids as cardTypes } from './../../constants/cardTypes';
 import { ids as factions } from './../../constants/factions';
 import sinon from 'sinon';
 
-const allSkills = {
-  skills: {
-    activation: [],
-    earlyActivation: [],
-    onDeath: []
-  },
-  passives: {}
-};
-
 var sandbox = sinon.createSandbox();
 
 describe('unitFactory', () => {
+  const allSkills = {
+    skills: {
+      activation: [],
+      earlyActivation: [],
+      onDeath: []
+    },
+    passives: {}
+  };
+  
   beforeEach(() => {
     sandbox.replace(gameData, 'cards', mockCards);
   });

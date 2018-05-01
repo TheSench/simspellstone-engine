@@ -15,11 +15,12 @@ describe('skillFactory', () => {
     it('should return an object with "skills" and "passives"', () => {
         let createdSkills = skillFactory.createSkills([]);
 
-        expect(createdSkills.passives, "passives").to.exist;
-        expect(createdSkills.skills, "skills").to.exist;
-        expect(createdSkills.skills.activation, "activation").to.exist;
-        expect(createdSkills.skills.earlyActivation, "earlyActivation").to.exist;
-        expect(createdSkills.skills.onDeath, "onDeath").to.exist;
+        expect(createdSkills, "createdSkills.passives").to.haveOwnProperty('passives');
+        expect(createdSkills, "createdSkills.skills").to.haveOwnProperty('skills');
+        
+        expect(createdSkills.skills, "createdSkills.skills.activation").to.haveOwnProperty('activation');
+        expect(createdSkills.skills, "createdSkills.skills.earlyActivation").to.haveOwnProperty('earlyActivation');
+        expect(createdSkills.skills, "createdSkills.skills.onDeath").to.haveOwnProperty('onDeath');
     });
 
     it('should add activation skills to correct array', () => {

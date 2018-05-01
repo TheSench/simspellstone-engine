@@ -3,15 +3,16 @@
   "version": "0.0.1",
   "description": "SIMSpellstone Engine",
   "scripts": {
-    "build": "npm-run-all --silent build:clean test lint build:compile",
+    "build": "npm-run-all --silent build:clean lint test build:compile",
     "build:clean": "rimraf ./dist && mkdir dist",
     "build:compile": "babel-node buildScripts/build.js",
-    "start": "npm-run-all --silent --parallel security-check lint:watch test:watch",
+    "startDev": "npm-run-all --silent --parallel security-check testAndLint:watch",
     "lint": "esw webpack.config.* src buildScripts --color",
-    "lint:watch": "chokidar --initial --silent \"src/**/*.js\" -c \"npm run lint\"",
     "security-check": "nsp check",
     "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.spec.js\" || exit 0",
-    "test:watch": "chokidar --initial --silent \"src/**/*.js\" -c \"npm run test\""
+    "pretestAndLint": "cls && node buildScripts/checkingMessage.js",
+    "testAndLint": "npm-run-all --silent lint test",
+    "testAndLint:watch": "chokidar --initial --silent \"src/**/*.js\" -c \"npm run testAndLint\""
   },
   "author": "Jon Senchyna",
   "license": "MIT",
