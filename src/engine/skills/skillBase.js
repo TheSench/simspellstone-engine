@@ -1,7 +1,28 @@
 import { random } from './../../helpers/random';
 import R from 'ramda';
 
+function checkNegation(negatedBy, doAffectTarget) {
+    return function (skill, source, target, baseValue) {
+        if (target.status[negatedBy]) {
+            target.status[negatedBy]--;
+            // TODO: Echo
+            return false;
+        } else {
+            doAffectTarget(skill, source, target, baseValue);
+            return true;
+        }
+    }
+}
+
 export default class SkillBase {
+    constructor(negatedBy) {
+        if (negatedBy) {
+            this.affectTarget = checkNegation(negatedBy, this.doAffectTarget.bind(this));
+        } else {
+            this.affectTarget = this.doAffectTarget;
+        }
+    }
+
     getFilters(skill) {
         let filters = [
             (unit) => unit.state.alive
@@ -23,7 +44,7 @@ export default class SkillBase {
         // Check All
         if (targets.length && !skill.all) {
             let i = random(targets.length);
-            return targets.slice(i, i+1);
+            return targets.slice(i, i + 1);
         } else {
             return targets;
         }
@@ -42,14 +63,14 @@ export default class SkillBase {
 
     performSkill(skill, source, field) {
         let potentialTargets = this.getPotentialTargets(source, field);
-        
+
         let targets = this.getTargets(skill, potentialTargets);
 
         let baseValue = this.getSkillValue(skill, source);
 
         let affected = 0;
         for (let target of targets) {
-            if(this.affectTarget(skill, source, target, baseValue)) {
+            if (this.affectTarget(skill, source, target, baseValue)) {
                 affected++;
             }
         }
@@ -57,7 +78,7 @@ export default class SkillBase {
     }
 
     // eslint-disable-next-line no-unused-vars
-    affectTarget(skill, source, target, baseValue) {
+    doAffectTarget(skill, source, target, baseValue) {
         return true;
     }
 }

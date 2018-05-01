@@ -1,6 +1,10 @@
 import SkillBase from './skillBase';
 
 export default class Protect extends SkillBase{
+    constructor() {
+        super('nullified');
+    }
+
     getFilters(skill) {
         let filters = super.getFilters(skill);
         //if (onlyOnDelay) filters.push((unit) => !unit.state.isActive);
@@ -8,13 +12,7 @@ export default class Protect extends SkillBase{
     }
 
     // eslint-disable-next-line no-unused-vars
-    affectTarget(skill, source, target, baseValue) {
-        // Check Nullify
-        if (target.status.nullified) {
-            target.status.nullified--;
-            // TODO: Echo
-            return false;
-        }
+    doAffectTarget(skill, source, target, baseValue) {
 
         let protection = baseValue;
         if (!protection) {

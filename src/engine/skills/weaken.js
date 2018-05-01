@@ -1,6 +1,6 @@
 import SkillBase from './skillBase';
 
-export default class Bolt extends SkillBase{
+export default class Weaken extends SkillBase{
     constructor() {
         super('invisible');
     }
@@ -16,13 +16,6 @@ export default class Bolt extends SkillBase{
 
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-        var targetStatus = target.status;
-        let totalDamage = baseValue + targetStatus.hexed;
-        if(targetStatus.warded) {
-            var warded = targetStatus.warded;
-            targetStatus.warded -= Math.min(totalDamage, warded);
-            totalDamage -= warded;
-        }
-        target.takeDamage(totalDamage);
+        target.status.attackWeaken += baseValue;
     }
 }

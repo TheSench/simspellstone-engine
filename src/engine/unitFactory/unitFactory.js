@@ -27,22 +27,37 @@ export function createUnit(unitKey) {
   return unit;
 }
 
+export function createTestUnit(statusOverrides) {
+  return Object.assign(
+    Object.create(unitBase),
+    {
+      state: states.active,
+      status: Object.assign(createStatus({ health: 0, cost: 0 }),
+        (statusOverrides || {})
+      ),
+      passives: {}
+    }
+  );
+}
+
 const unitBase = {
   takeDamage(damage) {
-    this.status.healthLeft -= damage;
-    if(this.status.healthLeft <= 0) {
-      this.state = this.state.die();
+    if (damage > 0) {
+      this.status.healthLeft -= damage;
+      if (this.status.healthLeft <= 0) {
+        this.state = this.state.die();
+      }
     }
   },
   tickTimer() {
     this.status.timer--;
-    switch(this.status.timer) {
+    switch (this.status.timer) {
       case 1:
-      this.state = this.state.activateNextTurn();
+        this.state = this.state.activateNextTurn();
         break;
       case 0:
         this.state = this.state.activate();
-      break;
+        break;
     }
   }
 };
@@ -54,7 +69,7 @@ export function createStatus(card) {
     // Attack Modifiers
     attackBerserk: 0,
     attackValor: 0,
-    attackRally: 0,
+    attackEmpower: 0,
     attackWeaken: 0,
     attackCorroded: 0,
     corrosionTimer: 0,
@@ -64,7 +79,7 @@ export function createStatus(card) {
     // Numeric-Statuses
     barrierIce: 0,
     corroded: 0,
-    enfeebled: 0,
+    hexed: 0,
     enraged: 0,
     envenomed: 0,
     imbued: 0,
@@ -75,8 +90,6 @@ export function createStatus(card) {
     scorched: 0,
     warded: 0,
     // Boolean-Status
-    jammed: false,
-    jammedSelf: false,
     silenced: false,
     valorTriggered: false,
     dualstrikeTriggered: false,
