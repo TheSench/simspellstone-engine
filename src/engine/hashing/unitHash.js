@@ -37,6 +37,7 @@ export function base64ToUnitKey(base64) {
   if(runeId) runeId += 5000;
 
   let level = dec % levelSpace;
+
   dec = (dec - level++) / levelSpace;
 
   let fusion = dec % fusionSpace;
