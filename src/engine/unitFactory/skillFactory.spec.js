@@ -29,7 +29,7 @@ describe('skillFactory', () => {
                 "x": 1
             }
         ]);
-        
+
         assertSkillCounts(createdSkills, {
             activation: 1,
             earlyActivation: 0,
@@ -49,7 +49,7 @@ describe('skillFactory', () => {
                 "x": 1
             }
         ]);
-        
+
         assertSkillCounts(createdSkills, {
             activation: 0,
             earlyActivation: 1,
@@ -69,7 +69,7 @@ describe('skillFactory', () => {
                 "x": 1
             }
         ]);
-        
+
         assertSkillCounts(createdSkills, {
             activation: 0,
             earlyActivation: 0,
@@ -89,7 +89,7 @@ describe('skillFactory', () => {
                 "x": 1
             }
         ]);
-        
+
         assertSkillCounts(createdSkills, {
             activation: 0,
             earlyActivation: 0,
@@ -110,8 +110,8 @@ function assertSkillCounts(allSkills, skillCounts) {
     expect(allSkills.skills.earlyActivation.length, "earlyActivation count").to.equal(skillCounts.earlyActivation);
     expect(allSkills.skills.onDeath.length, "onDeath count").to.equal(skillCounts.onDeath);
 
-    let passiveCount = R.pipe(R.toPairs, 
-        R.map(R.nth(1)), 
+    let passiveCount = R.pipe(R.toPairs,
+        R.map(R.nth(1)),
         R.filter(R.compose(R.not, R.equals(0)))
     )(allSkills.passives);
     expect(passiveCount.length, "passive count").to.equal(skillCounts.passive);

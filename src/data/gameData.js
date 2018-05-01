@@ -1,9 +1,5 @@
-import cardData from './cards';
-//import runes from './runes';
-import skillData from './skills';
-
-const runeData = new Map();
-
-export const cards = cardData;
-export const runes = runeData;
-export const skills = skillData;
+export { default as cards } from './cards';
+export { fusions, reverseFusions } from './fusions';
+//export { default as runes } from './runes';
+export const runes = {};
+export { default as skills } from './cards';
