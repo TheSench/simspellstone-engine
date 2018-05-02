@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { weaken } from './skills';
 import states from './../unitFactory/unitStates';
 import { createStatus } from './../unitFactory/unitFactory';
+import { testNegation } from './skillCommon.spec';
 
 describe('weaken', () => {
     const activeUnit = { state: states.active };
@@ -31,9 +32,9 @@ describe('weaken', () => {
         describe('when targetting units that are NOT invisible', () => {
             let target;
             let affected;
-            
+
             beforeEach(() => {
-                target = { 
+                target = {
                     status: Object.assign({}, baseStatus, { attackWeaken: 5})
                 };
                 affected = weaken.affectTarget(skill, null, target, 5);
@@ -54,30 +55,6 @@ describe('weaken', () => {
             });
         });
 
-        describe('when targetting units that are invisible', () => {
-            let target;
-            let affected;
-            
-            beforeEach(() => {
-                target = { 
-                    status: Object.assign({}, baseStatus, { invisible: 5 })
-                };
-                affected = weaken.affectTarget(skill, null, target, 5);
-            });
-
-            it('should NOT affect them', () => {
-                expect(affected).to.equal(false);
-            });
-
-            it('should decrement invisible', () => {
-                expect(target.status.invisible, "invisible").to.equal(4);
-            });
-
-            it('should ONLY modify invisible', () => {
-                let expectedStatus = Object.assign({}, baseStatus, { invisible: 4 });
-
-                expect(target.status, "target.status").to.deep.equal(expectedStatus);
-            });
-        });
+        testNegation('invisible');
     });
 });

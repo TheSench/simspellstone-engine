@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { strike as bolt } from './skills';
 import states from './../unitFactory/unitStates';
 import { createStatus, createTestUnit } from './../unitFactory/unitFactory';
+import { testNegation } from './skillCommon.spec';
 
 describe('bolt', () => {
     const activeUnit = { state: states.active };
@@ -136,28 +137,6 @@ describe('bolt', () => {
             });
         });
 
-        describe('when targetting units that are invisible', () => {
-            let target;
-            let affected;
-
-            beforeEach(() => {
-                target = createTestUnit({ healthLeft: 5, timer: 0, invisible: 5 });
-                affected = bolt.affectTarget(skill, null, target, 5);
-            });
-
-            it('should NOT affect them', () => {
-                expect(affected).to.equal(false);
-            });
-
-            it('should decrement invisible', () => {
-                expect(target.status.invisible, "invisible").to.equal(4);
-            });
-
-            it('should ONLY modify invisible', () => {
-                let expectedStatus = Object.assign({}, baseStatus, { invisible: 4 });
-
-                expect(target.status, "target.status").to.deep.equal(expectedStatus);
-            });
-        });
+        testNegation('invisible');
     });
 });

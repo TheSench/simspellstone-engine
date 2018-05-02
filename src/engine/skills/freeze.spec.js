@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { jam as freeze } from './skills';
 import states from './../unitFactory/unitStates';
 import { createStatus, createTestUnit } from './../unitFactory/unitFactory';
+import { testNegation } from './skillCommon.spec';
 
 describe('freeze', () => {
     const activeUnit = { state: states.active };
@@ -30,7 +31,7 @@ describe('freeze', () => {
         describe('when targetting units that are NOT invisible', () => {
             let target;
             let affected;
-            
+
             beforeEach(() => {
                 target = createTestUnit({ healthLeft: 5, timer: 0 });
                 affected = freeze.affectTarget(skill, null, target, null);
@@ -51,31 +52,6 @@ describe('freeze', () => {
             });
         });
 
-        describe('when targetting units that are invisible', () => {
-            let target;
-            let affected;
-            let originalState;
-            
-            beforeEach(() => {
-                target = createTestUnit({ healthLeft: 5, timer: 0, invisible: 5 });
-                originalState = target.state;
-                affected = freeze.affectTarget(skill, null, target, null);
-            });
-
-            it('should NOT affect them', () => {
-                expect(affected).to.equal(false);
-                expect(target.state, "target.state").to.equal(originalState);
-            });
-
-            it('should decrement invisible', () => {
-                expect(target.status.invisible, "invisible").to.equal(4);
-            });
-
-            it('should ONLY modify invisible', () => {
-                let expectedStatus = Object.assign({}, baseStatus, { invisible: 4 });
-
-                expect(target.status, "target.status").to.deep.equal(expectedStatus);
-            });
-        });
+        testNegation('invisible');
     });
 });

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { protect } from './skills';
 import states from './../unitFactory/unitStates';
 import { createStatus } from './../unitFactory/unitFactory';
+import { testNegation } from './skillCommon.spec';
 
 describe('protect', () => {
     const activeUnit = { state: states.active };
@@ -30,9 +31,9 @@ describe('protect', () => {
         describe('when targetting units that are NOT nullified', () => {
             let target;
             let affected;
-            
+
             beforeEach(() => {
-                target = { 
+                target = {
                     status: Object.assign({}, baseStatus, { protected: 5 })
                 };
                 affected = protect.affectTarget(skill, null, target, 5);
@@ -53,30 +54,6 @@ describe('protect', () => {
             });
         });
 
-        describe('when targetting units that are nullified', () => {
-            let target;
-            let affected;
-            
-            beforeEach(() => {
-                target = { 
-                    status: Object.assign({}, baseStatus, { nullified: 5 })
-                };
-                affected = protect.affectTarget(skill, null, target, 5);
-            });
-
-            it('should NOT affect them', () => {
-                expect(affected).to.be.false;
-            });
-
-            it('should decrement nullified', () => {
-                expect(target.status.nullified, "nullified").to.equal(4);
-            });
-
-            it('should ONLY modify nullified', () => {
-                let expectedStatus = Object.assign({}, baseStatus, { nullified: 4 });
-
-                expect(target.status, "target.status").to.deep.equal(expectedStatus);
-            });
-        });
+        testNegation('nullified');
     });
 });
