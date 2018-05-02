@@ -5,20 +5,29 @@ import { createSkills } from './skillFactory';
 
 export function createUnit(unitKey) {
   let card = getCard(unitKey);
+  return _createUnit(unitKey, card);
+}
 
+function _createUnit(unitKey, card) {
   let unit = Object.assign(
     Object.create(unitBase),
     {
       unitKey,
       baseInfo: createBaseInfo(card),
       state: states.inactive,
-      status: createStatus(card),
+      stats: {
+        attack: parseInt(card.attack),
+        health: parseInt(card.health),
+        delay: parseInt(card.cost)
+      },
       passives: {},
       position: 0,
       owner: null,
       opponent: null
     }
   );
+
+  unit.status = createStatus(unit.stats);
 
   let allSkills = createSkills(card.skill || []);
 
@@ -31,19 +40,20 @@ export function createUnit(unitKey) {
 }
 
 export function createTestUnit({ owner, opponent, state, status } = {}) {
-  return Object.assign(
-    Object.create(unitBase),
+  let unit = Object.assign(
+    _createUnit({}, { attack: 5, health: 10, cost: 5 }),
     {
       state: state || states.active,
-      status: Object.assign(createStatus({ health: 0, cost: 0 }),
-        (status || {})
-      ),
       passives: {},
       position: 0,
       owner: (owner || null),
       opponent: (opponent || null)
     }
   );
+
+  if (status) Object.assign(unit.status, status);
+
+  return unit;
 }
 
 const unitBase = (function createUnitBase() {
@@ -58,7 +68,7 @@ const unitBase = (function createUnitBase() {
     },
     applyWard(damage) {
       let status = this.status;
-      if(status.warded) {
+      if (status.warded) {
         let warded = Math.min(damage, status.warded);
         status.warded -= warded;
         return (damage - warded);
@@ -68,13 +78,16 @@ const unitBase = (function createUnitBase() {
     },
     applyProtect(damage) {
       let status = this.status;
-      if(status.protection) {
-          let protection = Math.min(damage, status.protection);
-          status.protection -= protection;
-          return (damage - protection);
+      if (status.protection) {
+        let protection = Math.min(damage, status.protection);
+        status.protection -= protection;
+        return (damage - protection);
       } else {
         return damage;
       }
+    },
+    damageTaken() {
+      return this.stats.health - this.status.healthLeft;
     },
     tickTimer() {
       this.status.timer--;
@@ -99,10 +112,10 @@ const unitBase = (function createUnitBase() {
   return unitBase;
 })();
 
-export function createStatus(card) {
+export function createStatus(stats) {
   return {
-    healthLeft: parseInt(card.health),
-    timer: parseInt(card.cost),
+    healthLeft: stats.health,
+    timer: stats.delay,
     position: -1,
     // Attack Modifiers
     attackBerserk: 0,

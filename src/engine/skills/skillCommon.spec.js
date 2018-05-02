@@ -4,12 +4,12 @@ import { createTestUnit } from './../unitFactory/unitFactory';
 
 export function testTargetting(skill, targeting) {
   const units = {
-    active: createTestUnit({ state: states.active }),
-    activeNextTurn: createTestUnit({ state: states.activeNextTurn }),
-    inactive: createTestUnit({ state: states.inactive }),
-    frozen: createTestUnit({ state: states.frozen }),
-    dead: createTestUnit({ state: states.dead }),
-    weakened: createTestUnit({ state: states.weakened })
+    active: createTestUnit({ state: states.active, status: { healthLeft: 5 } }),
+    activeNextTurn: createTestUnit({ state: states.activeNextTurn, status: { healthLeft: 5 } }),
+    inactive: createTestUnit({ state: states.inactive, status: { healthLeft: 5 } }),
+    frozen: createTestUnit({ state: states.frozen, status: { healthLeft: 5 } }),
+    dead: createTestUnit({ state: states.dead, status: { healthLeft: 5 } }),
+    weakened: createTestUnit({ state: states.weakened, status: { healthLeft: 5 } })
   };
 
   const stateNames = ['active', 'activeNextTurn', 'inactive', 'frozen', 'dead', 'weakened'];
@@ -212,18 +212,8 @@ export const testPotentialTargets = (function () {
           source = createTestUnit({ owner: 'player1', opponent: 'player2' });
         });
 
-        it(`should target units itself (pos = 0)`, () => {
-          source.position = 0;
-          let expectedTargets = [1.1];
-
-          let actualTargets = skill.getPotentialTargets(source, field)
-
-          expect(actualTargets).to.deep.equal(expectedTargets);
-        });
-
-        it(`should target units itself (pos = 2)`, () => {
-          source.position = 2;
-          let expectedTargets = [1.3];
+        it(`should target itself, regardless of the field`, () => {
+          let expectedTargets = [source];
 
           let actualTargets = skill.getPotentialTargets(source, field)
 
