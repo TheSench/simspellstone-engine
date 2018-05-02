@@ -1,6 +1,6 @@
-import SkillBase from './skillBase';
+import BuffSkill from './buffSkill';
 
-export default class Protect extends SkillBase{
+export default class Protect extends BuffSkill{
     constructor() {
         super('nullified');
     }
@@ -12,8 +12,8 @@ export default class Protect extends SkillBase{
 
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-
         let protection = baseValue;
+        /*
         if (!protection) {
             var mult = skill.mult;
             if (!target.state.isActive) {
@@ -21,9 +21,7 @@ export default class Protect extends SkillBase{
             }
             protection = Math.ceil(target.health * mult);
         }
-
+        */
         target.status.protection += protection;
-        
-        return true;
     }
 }

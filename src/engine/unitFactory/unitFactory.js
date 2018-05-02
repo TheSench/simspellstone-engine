@@ -97,6 +97,7 @@ export function createStatus(card) {
   return {
     healthLeft: parseInt(card.health),
     timer: parseInt(card.cost),
+    position: -1,
     // Attack Modifiers
     attackBerserk: 0,
     attackValor: 0,

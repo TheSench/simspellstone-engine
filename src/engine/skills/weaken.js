@@ -1,17 +1,8 @@
-import SkillBase from './skillBase';
+import DebuffSkill from './debuffSkill';
 
-export default class Weaken extends SkillBase{
-    constructor() {
-        super('invisible');
-    }
-
+export default class Weaken extends DebuffSkill {
     addSingleTargetFilters(skill, filters) {
         filters.push((unit) => unit.state.willAttack);
-    }
-
-    getPotentialTargets(source, field) {
-        // TODO: Define source.opponent
-        return field[source.oppopnent].units;
     }
 
     // eslint-disable-next-line no-unused-vars

@@ -1,15 +1,6 @@
-import SkillBase from './skillBase';
+import DebuffSkill from './debuffSkill';
 
-export default class Hex extends SkillBase{
-    constructor() {
-        super('invisible');
-    }
-
-    getPotentialTargets(source, field) {
-        // TODO: Define source.opponent
-        return field[source.oppopnent].units;
-    }
-
+export default class Hex extends DebuffSkill{
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
         target.status.hexed += baseValue;
