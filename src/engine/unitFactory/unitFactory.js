@@ -13,7 +13,10 @@ export function createUnit(unitKey) {
       baseInfo: createBaseInfo(card),
       state: states.inactive,
       status: createStatus(card),
-      passives: {}
+      passives: {},
+      position: 0,
+      owner: null,
+      opponent: null
     }
   );
 
@@ -27,7 +30,7 @@ export function createUnit(unitKey) {
   return unit;
 }
 
-export function createTestUnit({ state, status } = {}) {
+export function createTestUnit({ owner, opponent, state, status } = {}) {
   return Object.assign(
     Object.create(unitBase),
     {
@@ -35,7 +38,10 @@ export function createTestUnit({ state, status } = {}) {
       status: Object.assign(createStatus({ health: 0, cost: 0 }),
         (status || {})
       ),
-      passives: {}
+      passives: {},
+      position: 0,
+      owner: (owner || null),
+      opponent: (opponent || null)
     }
   );
 }
@@ -120,6 +126,7 @@ export function createStatus(card) {
     poisoned: 0,
     protection: 0,
     scorched: 0,
+    scorchTimer: 0,
     warded: 0,
     // Boolean-Status
     silenced: false,

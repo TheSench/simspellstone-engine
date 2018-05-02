@@ -1,8 +1,13 @@
 import SkillBase from './skillBase';
 
-export default class BuffSkill extends SkillBase {
-    constructor() {
-        super('nullified');
+const defaultConfig = {
+    negatedBy: 'nullified'
+};
+
+export default class BuffSkill extends SkillBase{
+    constructor(overrides) {
+        let config = Object.assign({}, defaultConfig, overrides);
+        super(config.negatedBy);
     }
 
     // eslint-disable-next-line no-unused-vars

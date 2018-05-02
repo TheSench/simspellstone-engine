@@ -9,10 +9,10 @@ export default class Frostbreath extends DamageSkill{
             armor: false
         });
     }
+    
     getPotentialTargets(source, field) {
-        // TODO: Define source.opponent
         var start = Math.max(source.position - 1, 0);
-        var end = source.position + 3;
-        return field[source.oppopnent].units.slice(start, end);
+        var end = source.position + 2;
+        return field[source.opponent].units.slice(start, end);
     }
 }
