@@ -14,7 +14,7 @@ describe('bolt', () => {
             let affected;
 
             beforeEach(() => {
-                target = createTestUnit({ healthLeft: 5, timer: 0 });
+                target = createTestUnit({ status: { healthLeft: 5 } });
                 affected = bolt.affectTarget(null, null, target, 4);
             });
 
@@ -37,7 +37,7 @@ describe('bolt', () => {
             let target;
 
             beforeEach(() => {
-                target = createTestUnit({ healthLeft: 5, timer: 0 });
+                target = createTestUnit({ status: { healthLeft: 5 } });
             });
 
             it('should NOT mark unit as dead when healthLeft is above 0', () => {
@@ -62,56 +62,56 @@ describe('bolt', () => {
         describe("interaction with other statuses", () => {
 
             it('should deal increased damage when unit is hexed', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, hexed: 1 });
+                let target = createTestUnit({ status: { healthLeft: 5, hexed: 1 } });
                 bolt.affectTarget(null, null, target, 1);
 
                 expect(target.status.healthLeft, "healthLeft").to.equal(3);
             });
 
             it('should deal decreased damage when unit is warded', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, warded: 1 });
+                let target = createTestUnit({ status: { healthLeft: 5, warded: 1 } });
                 bolt.affectTarget(null, null, target, 2);
 
                 expect(target.status.healthLeft, "healthLeft").to.equal(4);
             });
 
             it('should never deal negative damage due to ward', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, warded: 2 });
+                let target = createTestUnit({ status: { healthLeft: 5, warded: 2 } });
                 bolt.affectTarget(null, null, target, 1);
 
                 expect(target.status.healthLeft, "healthLeft").to.equal(5);
             });
 
             it('should deal increased damage when hexed is greater than warded', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, hexed: 3, warded: 2 });
+                let target = createTestUnit({ status: { healthLeft: 5, hexed: 3, warded: 2 } });
                 bolt.affectTarget(null, null, target, 1);
 
                 expect(target.status.healthLeft, "healthLeft").to.equal(3);
             });
 
             it('should deal decreased damage when hexed is less than warded', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, hexed: 2, warded: 3 });
+                let target = createTestUnit({ status: { healthLeft: 5, hexed: 2, warded: 3 } });
                 bolt.affectTarget(null, null, target, 2);
 
                 expect(target.status.healthLeft, "healthLeft").to.equal(4);
             });
 
             it('should deal normal damage when hexed is equal to warded', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, hexed: 2, warded: 2 });
+                let target = createTestUnit({ status: { healthLeft: 5, hexed: 2, warded: 2 } });
                 bolt.affectTarget(null, null, target, 1);
 
                 expect(target.status.healthLeft, "healthLeft").to.equal(4);
             });
 
             it('should reduce warded', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, warded: 2 });
+                let target = createTestUnit({ status: { healthLeft: 5, warded: 2 } });
                 bolt.affectTarget(null, null, target, 1);
 
                 expect(target.status.warded, "warded").to.equal(1);
             });
 
             it('should never reduce warded below 0', () => {
-                let target = createTestUnit({ healthLeft: 5, timer: 0, warded: 1 });
+                let target = createTestUnit({ status: { healthLeft: 5, warded: 1 } });
                 bolt.affectTarget(null, null, target, 2);
 
                 expect(target.status.warded, "warded").to.equal(0);

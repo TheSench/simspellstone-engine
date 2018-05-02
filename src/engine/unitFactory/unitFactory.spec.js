@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { createUnit } from './unitFactory';
 import * as skillFactory from './skillFactory';
+import states from './unitStates';
 
 import * as gameData from './../../data/gameData';
 import { cards as mockCards } from './../../mocks/mockGameData';
@@ -80,6 +81,50 @@ describe('unitFactory', () => {
 
         expect(unit.skills, "unit.skills").to.equal(allSkills.skills);
         expect(unit.passives, "unit.passives").to.equal(allSkills.passives);
+      });
+    });
+
+    describe('state changes', () => {
+      let unit;
+
+      beforeEach(() => {
+        unit = createUnit(unitKey);
+        unit.state = states.active;
+      });
+
+      it('should have a working activate method', () => {
+        unit.activate();
+        expect(unit.state).to.equal(states.active);
+      });
+      
+      it('should have a working activateNextTurn method', () => {
+        unit.activateNextTurn();
+        expect(unit.state).to.equal(states.activeNextTurn);
+      });
+      
+      it('should have a working die method', () => {
+        unit.die();
+        expect(unit.state).to.equal(states.dead);
+      });
+      
+      it('should have a working freeze method', () => {
+        unit.freeze();
+        expect(unit.state).to.equal(states.frozen);
+      });
+      
+      it('should have a working revive method', () => {
+        unit.revive();
+        expect(unit.state).to.equal(states.active);
+      });
+      
+      it('should have a working unFreeze method', () => {
+        unit.unFreeze();
+        expect(unit.state).to.equal(states.active);
+      });
+
+      it('should have a working weaken method', () => {
+        unit.weaken();
+        expect(unit.state).to.equal(states.weakened);
       });
     });
   });

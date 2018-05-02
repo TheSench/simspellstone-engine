@@ -4,12 +4,12 @@ import { createTestUnit } from './../unitFactory/unitFactory';
 
 export function testTargetting(skill, targeting) {
   const units = {
-    active: { state: states.active },
-    activeNextTurn: { state: states.activeNextTurn },
-    inactive: { state: states.inactive },
-    frozen: { state: states.frozen },
-    dead: { state: states.dead },
-    weakened: { state: states.weakened }
+    active: createTestUnit({ state: states.active }),
+    activeNextTurn: createTestUnit({ state: states.activeNextTurn }),
+    inactive: createTestUnit({ state: states.inactive }),
+    frozen: createTestUnit({ state: states.frozen }),
+    dead: createTestUnit({ state: states.dead }),
+    weakened: createTestUnit({ state: states.weakened })
   };
 
   const stateNames = ['active', 'activeNextTurn', 'inactive', 'frozen', 'dead', 'weakened'];
@@ -64,7 +64,7 @@ export function testStatusApplication(skill, affectedStatus, stacks) {
     let target;
 
     beforeEach(() => {
-      target = createTestUnit({ healthLeft: 10, timer: 0 });
+      target = createTestUnit();
     });
 
     it('should affect target', () => {
@@ -73,39 +73,49 @@ export function testStatusApplication(skill, affectedStatus, stacks) {
       expect(affected).to.equal(true);
     });
 
-    if (stacks) {
-      it(`should stack with previous ${affectedStatus}`, () => {
-        target.status[affectedStatus] = 5;
+    if (affectedStatus === undefined) {
+      it('should NOT modify any status fields', () => {
+        let expectedStatus = Object.assign({}, target.status);
 
         skill.affectTarget(null, null, target, 5);
 
-        expect(target.status[affectedStatus], affectedStatus).to.equal(10);
+        expect(target.status, "target.status").to.deep.equal(expectedStatus);
       });
     } else {
-      it(`should NOT stack with previous ${affectedStatus}`, () => {
-        target.status[affectedStatus] = 3;
+      if (stacks) {
+        it(`should stack with previous ${affectedStatus}`, () => {
+          target.status[affectedStatus] = 5;
+
+          skill.affectTarget(null, null, target, 5);
+
+          expect(target.status[affectedStatus], affectedStatus).to.equal(10);
+        });
+      } else {
+        it(`should NOT stack with previous ${affectedStatus}`, () => {
+          target.status[affectedStatus] = 3;
+
+          skill.affectTarget(null, null, target, 5);
+
+          expect(target.status[affectedStatus], affectedStatus).to.equal(5);
+        });
+
+        it(`should NOT stack replace higher values of ${affectedStatus}`, () => {
+          target.status[affectedStatus] = 5;
+
+          skill.affectTarget(null, null, target, 3);
+
+          expect(target.status[affectedStatus], affectedStatus).to.equal(5);
+        });
+      }
+
+      it(`should ONLY modify ${affectedStatus}`, () => {
+        let expectedStatus = Object.assign({}, target.status, { [affectedStatus]: 5 });
 
         skill.affectTarget(null, null, target, 5);
 
-        expect(target.status[affectedStatus], affectedStatus).to.equal(5);
-      });
-
-      it(`should NOT stack replace higher values of ${affectedStatus}`, () => {
-        target.status[affectedStatus] = 5;
-
-        skill.affectTarget(null, null, target, 3);
-
-        expect(target.status[affectedStatus], affectedStatus).to.equal(5);
+        expect(target.status, "target.status").to.deep.equal(expectedStatus);
       });
     }
-
-    it(`should ONLY modify ${affectedStatus}`, () => {
-      let expectedStatus = Object.assign({}, target.status, { [affectedStatus]: 5 });
-
-      skill.affectTarget(null, null, target, 5);
-
-      expect(target.status, "target.status").to.deep.equal(expectedStatus);
-    });
   });
 }
 
@@ -114,7 +124,7 @@ export function testNegation(skill, negator) {
     let target;
 
     beforeEach(() => {
-      target = createTestUnit({ healthLeft: 5, timer: 0, invisible: 5, nullified: 5 });
+      target = createTestUnit({ status: { invisible: 5, nullified: 5 } });
     });
 
     it('should NOT affect them', () => {

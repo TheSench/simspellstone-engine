@@ -27,40 +27,51 @@ export function createUnit(unitKey) {
   return unit;
 }
 
-export function createTestUnit(statusOverrides) {
+export function createTestUnit({ state, status } = {}) {
   return Object.assign(
     Object.create(unitBase),
     {
-      state: states.active,
+      state: state || states.active,
       status: Object.assign(createStatus({ health: 0, cost: 0 }),
-        (statusOverrides || {})
+        (status || {})
       ),
       passives: {}
     }
   );
 }
 
-const unitBase = {
-  takeDamage(damage) {
-    if (damage > 0) {
-      this.status.healthLeft -= damage;
-      if (this.status.healthLeft <= 0) {
-        this.state = this.state.die();
+const unitBase = (function createUnitBase() {
+  var unitBase = {
+    takeDamage(damage) {
+      if (damage > 0) {
+        this.status.healthLeft -= damage;
+        if (this.status.healthLeft <= 0) {
+          this.state = this.state.die();
+        }
+      }
+    },
+    tickTimer() {
+      this.status.timer--;
+      switch (this.status.timer) {
+        case 1:
+          this.state = this.state.activateNextTurn();
+          break;
+        case 0:
+          this.state = this.state.activate();
+          break;
       }
     }
-  },
-  tickTimer() {
-    this.status.timer--;
-    switch (this.status.timer) {
-      case 1:
-        this.state = this.state.activateNextTurn();
-        break;
-      case 0:
-        this.state = this.state.activate();
-        break;
+  };
+
+  // Add state-change delegate methods to unit
+  ['activate', 'activateNextTurn', 'die', 'freeze', 'revive', 'unFreeze', 'weaken'].map((stateChange) => {
+    unitBase[stateChange] = function () {
+      this.state = this.state[stateChange]();
     }
-  }
-};
+  });
+
+  return unitBase;
+})();
 
 export function createStatus(card) {
   return {
