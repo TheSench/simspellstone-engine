@@ -10,6 +10,7 @@
     "lint": "esw webpack.config.* src buildScripts --color",
     "security-check": "nsp check",
     "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.spec.js\" || exit 0",
+    "test:watch": "chokidar --initial --silent \"src/**/*.js\" -c \"npm run test\"",
     "pretestAndLint": "cls && node buildScripts/checkingMessage.js",
     "testAndLint": "npm-run-all --silent lint test",
     "testAndLint:watch": "chokidar --initial --silent \"src/**/*.js\" -c \"npm run testAndLint\""

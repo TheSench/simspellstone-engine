@@ -1,29 +1,10 @@
 import { expect } from 'chai';
 import { enfeeble as hex } from './skills';
-import states from './../unitFactory/unitStates';
 import { createStatus } from './../unitFactory/unitFactory';
-import { testNegation } from './skillCommon.spec';
+import { testTargetting, testNegation } from './skillCommon.spec';
 
 describe('hex', () => {
-    const activeUnit = { state: states.active };
-    const almostActiveUnit = { state: states.activeNextTurn };
-    const inactiveUnit = { state: states.inactive };
-    const frozenUnit = { state: states.frozen };
-    const deadUnit = { state: states.dead };
-    const weakenedUnit = { state: states.weakened };
-
-    const allUnits = [activeUnit, almostActiveUnit, inactiveUnit, frozenUnit, deadUnit, weakenedUnit];
-
-    const skill = { value: 5, all: true };
-
-    describe('targetting', () => {
-        it('should target any live units', () => {
-            let actualTargets = hex.getTargets(skill, allUnits);
-            let expectedTargets = [activeUnit, almostActiveUnit, inactiveUnit, frozenUnit, weakenedUnit];
-
-            expect(actualTargets).to.deep.equal(expectedTargets);
-        });
-    });
+    testTargetting(hex);
 
     describe('effects', () => {
         const baseStatus = createStatus({ health: 5, cost: 0 });
@@ -36,7 +17,7 @@ describe('hex', () => {
                 target = {
                     status: Object.assign({}, baseStatus, { hexed: 5})
                 };
-                affected = hex.affectTarget(skill, null, target, 5);
+                affected = hex.affectTarget(null, null, target, 5);
             });
 
             it('should affect them', () => {
@@ -54,6 +35,6 @@ describe('hex', () => {
             });
         });
 
-        testNegation('invisible');
+        testNegation(hex, 'invisible');
     });
 });

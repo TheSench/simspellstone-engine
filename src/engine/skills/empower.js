@@ -5,8 +5,9 @@ export default class Empower extends SkillBase{
         super('nullified');
     }
 
-    getFilters(skill) {
-        return super.getFilters(skill);
+    // eslint-disable-next-line no-unused-vars
+    addSingleTargetFilters(skill, filters) {
+        filters.push((unit) => unit.state.active);
     }
 
     getPotentialTargets(source, field) {

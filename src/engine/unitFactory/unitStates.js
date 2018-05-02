@@ -1,7 +1,7 @@
 const _stateBase = {
     alive: true,
     active: false,
-    canAttack: false,
+    willAttack: false,
     willBeActive: false,
 
     activate() {
@@ -41,6 +41,7 @@ const activeNextTurnState = Object.assign(
         name: 'activeNextTurn',
 
         willBeActive: true,
+        willAttack: true,
 
         freeze() {
             return frozenState;
@@ -55,7 +56,6 @@ const activeState = Object.assign(
         name: 'active',
 
         active: true,
-        canAttack: true,
 
         weaken() {
             return weakenedState;
@@ -69,8 +69,7 @@ const weakenedState = Object.assign(
     {
         name: 'weakened',
 
-        active: true,
-        canAttack: false,
+        willAttack: false,
         
         activate() {
             return this;

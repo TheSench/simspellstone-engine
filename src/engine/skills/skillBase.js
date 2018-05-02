@@ -27,9 +27,16 @@ export default class SkillBase {
         let filters = [
             (unit) => unit.state.alive
         ];
+
         if (skill.faction) filters.push((unit) => unit.isInFaction(skill.faction));
+        if (!skill.all) this.addSingleTargetFilters(skill, filters);
 
         return filters;
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    addSingleTargetFilters(skill, filters) {
+
     }
 
     getPotentialTargets(source, field) {
@@ -42,9 +49,8 @@ export default class SkillBase {
         let targets = potentialTargets.filter(R.allPass(filters));
 
         // Check All
-        if (targets.length && !skill.all) {
-            let i = random(targets.length);
-            return targets.slice(i, i + 1);
+        if (targets.length > 1 && !skill.all) {
+            return [targets[random(targets.length)]];
         } else {
             return targets;
         }

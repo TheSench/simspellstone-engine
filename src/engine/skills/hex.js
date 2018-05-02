@@ -5,10 +5,6 @@ export default class Hex extends SkillBase{
         super('invisible');
     }
 
-    getFilters(skill) {
-        return super.getFilters(skill);
-    }
-
     getPotentialTargets(source, field) {
         // TODO: Define source.opponent
         return field[source.oppopnent].units;

@@ -4,11 +4,10 @@ export default class Weaken extends SkillBase{
     constructor() {
         super('invisible');
     }
-
-    getFilters(skill) {
-        let filters = super.getFilters(skill);
+    
+    // eslint-disable-next-line no-unused-vars
+    addSingleTargetFilters(skill, filters) {
         filters.push((unit) => unit.state.willBeActive);
-        return filters;
     }
 
     getPotentialTargets(source, field) {

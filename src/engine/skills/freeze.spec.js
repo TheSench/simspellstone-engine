@@ -2,28 +2,10 @@ import { expect } from 'chai';
 import { jam as freeze } from './skills';
 import states from './../unitFactory/unitStates';
 import { createStatus, createTestUnit } from './../unitFactory/unitFactory';
-import { testNegation } from './skillCommon.spec';
+import { testTargetting, testNegation } from './skillCommon.spec';
 
 describe('freeze', () => {
-    const activeUnit = { state: states.active };
-    const almostActiveUnit = { state: states.activeNextTurn };
-    const inactiveUnit = { state: states.inactive };
-    const frozenUnit = { state: states.frozen };
-    const deadUnit = { state: states.dead };
-    const weakenedUnit = { state: states.weakened };
-
-    const allUnits = [activeUnit, almostActiveUnit, inactiveUnit, frozenUnit, deadUnit, weakenedUnit];
-
-    const skill = { all: true };
-
-    describe('targetting', () => {
-        it('should ONLY target units that will be active on their next turn', () => {
-            let actualTargets = freeze.getTargets(skill, allUnits);
-            let expectedTargets = [activeUnit, almostActiveUnit, weakenedUnit];
-
-            expect(actualTargets).to.deep.equal(expectedTargets);
-        });
-    });
+    testTargetting(freeze, ['active', 'activeNextTurn', 'weakened']);
 
     describe('effects', () => {
         const baseStatus = createStatus({ health: 5, cost: 0 });
@@ -34,7 +16,7 @@ describe('freeze', () => {
 
             beforeEach(() => {
                 target = createTestUnit({ healthLeft: 5, timer: 0 });
-                affected = freeze.affectTarget(skill, null, target, null);
+                affected = freeze.affectTarget(null, null, target, null);
             });
 
             it('should affect them', () => {
@@ -52,6 +34,6 @@ describe('freeze', () => {
             });
         });
 
-        testNegation('invisible');
+        testNegation(freeze, 'invisible');
     });
 });

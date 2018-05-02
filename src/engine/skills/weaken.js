@@ -5,8 +5,8 @@ export default class Weaken extends SkillBase{
         super('invisible');
     }
 
-    getFilters(skill) {
-        return super.getFilters(skill);
+    addSingleTargetFilters(skill, filters) {
+        filters.push((unit) => unit.state.willAttack);
     }
 
     getPotentialTargets(source, field) {

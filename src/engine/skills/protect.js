@@ -5,10 +5,9 @@ export default class Protect extends SkillBase{
         super('nullified');
     }
 
-    getFilters(skill) {
-        let filters = super.getFilters(skill);
+    // eslint-disable-next-line no-unused-vars
+    addSingleTargetFilters(skill, filters) {
         //if (onlyOnDelay) filters.push((unit) => !unit.state.isActive);
-        return filters;
     }
 
     // eslint-disable-next-line no-unused-vars

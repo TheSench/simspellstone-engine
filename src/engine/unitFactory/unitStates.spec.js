@@ -5,42 +5,42 @@ import states from './unitStates';
 describe('Unit states', () => {
     describe('state property checks', () => {
         testStateProperties('inactive', {
-            canAttack: false,
+            willAttack: false,
             active: false,
             alive: true,
             willBeActive: false
         });
 
         testStateProperties('activeNextTurn', {
-            canAttack: false,
+            willAttack: true,
             active: false,
             alive: true,
             willBeActive: true
         });
 
         testStateProperties('active', {
-            canAttack: true,
+            willAttack: true,
             active: true,
             alive: true,
             willBeActive: true
         });
 
         testStateProperties('frozen', {
-            canAttack: false,
+            willAttack: false,
             active: false,
             alive: true,
             willBeActive: false
         });
 
         testStateProperties('weakened', {
-            canAttack: false,
+            willAttack: false,
             active: true,
             alive: true,
             willBeActive: true
         });
 
         testStateProperties('dead', {
-            canAttack: false,
+            willAttack: false,
             active: false,
             alive: false,
             willBeActive: false
