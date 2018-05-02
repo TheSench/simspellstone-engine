@@ -12,6 +12,6 @@ export default class Heal extends BuffSkill{
 
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-        target.status.healthLeft += Math.min(baseValue, target.damageTaken());
+        target.healDamage(baseValue);
     }
 }

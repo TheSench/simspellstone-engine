@@ -118,8 +118,8 @@ describe('unitFactory', () => {
       });
 
       [
-        ['empower', 'weakened'], 
-        ['revive', 'dead'], 
+        ['empower', 'weakened'],
+        ['revive', 'dead'],
         ['unfreeze', 'frozen']
       ].forEach(([methodName, startingState]) => {
         [
@@ -132,11 +132,14 @@ describe('unitFactory', () => {
             unit.state = states[startingState];
 
             unit[methodName]();
-            
+
             expect(unit.state).to.equal(states[expectedState]);
           });
         });
       })
     });
+
+    // TODO: damage/healing functions
+    // TODO: ward/protect
   });
 });

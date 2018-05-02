@@ -66,6 +66,11 @@ const unitBase = (function createUnitBase() {
         }
       }
     },
+    healDamage(healing) {
+      if (healing > 0) {
+        this.status.healthLeft += Math.min(healing, this.damageTaken());
+      }
+    },
     applyWard(damage) {
       let status = this.status;
       if (status.warded) {

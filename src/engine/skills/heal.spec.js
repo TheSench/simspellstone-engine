@@ -1,42 +1,43 @@
-import {expect } from 'chai';
+import { expect } from 'chai';
 import { heal } from './skills';
-import { testTargetting, testPotentialTargets, testNegation } from './skillCommon.spec';
+import { testTargetting, testPotentialTargets, testHealing, testNegation } from './skillCommon.spec';
 import { createTestUnit } from './../unitFactory/unitFactory';
 
 describe('heal', () => {
-    testTargetting(heal);
-    testPotentialTargets.allAllied(heal);
+  testTargetting(heal);
+  testPotentialTargets.allAllied(heal);
 
-    const units = {
-        undamaged: createTestUnit(),
-        damaged: createTestUnit({ status: { healthLeft: 5 } })
-    };
-    const allUnits = [units.undamaged, units.damaged];
+  const units = {
+    undamaged: createTestUnit(),
+    damaged: createTestUnit({ status: { healthLeft: 5 } })
+  };
+  const allUnits = [units.undamaged, units.damaged];
 
-    describe('targetting', () => {
-        it(`should target undamaged units when targetting ALL`, () => {
-            let actualTargets = heal.getTargets({ all: true }, allUnits);
-            let expectedTargets = allUnits;
+  describe('targetting', () => {
+    it(`should target undamaged units when targetting ALL`, () => {
+      let actualTargets = heal.getTargets({ all: true }, allUnits);
+      let expectedTargets = allUnits;
 
-            expect(actualTargets).to.deep.equal(expectedTargets);
-        });
-
-        it(`should target damaged units when targetting single unit`, () => {
-            let actualTargets = heal.getTargets({ all: false },  [units.damaged]);
-            let expectedTargets = [units.damaged];
-
-            expect(actualTargets).to.deep.equal(expectedTargets);
-        });
-
-        it(`should NOT target undamaged units when targetting single unit`, () => {
-            let actualTargets = heal.getTargets({ all: false },  [units.undamaged]);
-            let expectedTargets = [];
-
-            expect(actualTargets).to.deep.equal(expectedTargets);
-        });
+      expect(actualTargets).to.deep.equal(expectedTargets);
     });
 
-    describe('effects', () => {
-        testNegation(heal, 'nullified');
+    it(`should target damaged units when targetting single unit`, () => {
+      let actualTargets = heal.getTargets({ all: false }, [units.damaged]);
+      let expectedTargets = [units.damaged];
+
+      expect(actualTargets).to.deep.equal(expectedTargets);
     });
+
+    it(`should NOT target undamaged units when targetting single unit`, () => {
+      let actualTargets = heal.getTargets({ all: false }, [units.undamaged]);
+      let expectedTargets = [];
+
+      expect(actualTargets).to.deep.equal(expectedTargets);
+    });
+  });
+
+  describe('effects', () => {
+    testHealing(heal);
+    testNegation(heal, 'nullified');
+  });
 });
