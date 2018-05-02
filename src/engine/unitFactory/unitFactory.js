@@ -64,9 +64,9 @@ const unitBase = (function createUnitBase() {
   };
 
   // Add state-change delegate methods to unit
-  ['activate', 'activateNextTurn', 'die', 'freeze', 'revive', 'unFreeze', 'weaken'].map((stateChange) => {
+  ['activate', 'activateNextTurn', 'die', 'empower', 'freeze', 'revive', 'unfreeze', 'weaken'].map((stateChange) => {
     unitBase[stateChange] = function () {
-      this.state = this.state[stateChange]();
+      this.state = this.state[stateChange](this.status.timer);
     }
   });
 

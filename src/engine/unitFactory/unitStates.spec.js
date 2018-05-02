@@ -52,9 +52,10 @@ describe('Unit states', () => {
             activate: 'active',
             activateNextTurn: 'activeNextTurn',
             die: 'dead',
+            empower: 'inactive',
             freeze: 'frozen',
             revive: 'inactive',
-            unFreeze: 'inactive',
+            unfreeze: 'inactive',
             weaken: 'inactive'
         });
 
@@ -62,9 +63,10 @@ describe('Unit states', () => {
             activate: 'active',
             activateNextTurn: 'activeNextTurn',
             die: 'dead',
+            empower: 'activeNextTurn',
             freeze: 'frozen',
             revive: 'activeNextTurn',
-            unFreeze: 'activeNextTurn',
+            unfreeze: 'activeNextTurn',
             weaken: 'activeNextTurn'
         });
 
@@ -72,9 +74,10 @@ describe('Unit states', () => {
             activate: 'active',
             activateNextTurn: 'activeNextTurn',
             die: 'dead',
+            empower: 'active',
             freeze: 'frozen',
             revive: 'active',
-            unFreeze: 'active',
+            unfreeze: 'active',
             weaken: 'weakened'
         });
 
@@ -82,18 +85,28 @@ describe('Unit states', () => {
             activate: 'frozen',
             activateNextTurn: 'frozen',
             die: 'dead',
+            empower: 'frozen',
             freeze: 'frozen',
             revive: 'frozen',
-            unFreeze: 'active',
+            unfreeze: {
+                0: 'active',
+                1: 'activeNextTurn',
+                other: 'inactive'
+            },
             weaken: 'frozen'
         });
 
         testStateTransitions('weakened', {
             activate: 'weakened',
             activateNextTurn: 'weakened',
+            empower: {
+                0: 'active',
+                1: 'activeNextTurn',
+                other: 'inactive'
+            },
             die: 'dead',
             freeze: 'frozen',
-            unFreeze: 'weakened',
+            unfreeze: 'weakened',
             weaken: 'weakened'
         });
 
@@ -101,9 +114,14 @@ describe('Unit states', () => {
             activate: 'dead',
             activateNextTurn: 'dead',
             die: 'dead',
+            empower: 'dead',
             freeze: 'dead',
-            revive: 'inactive',
-            unFreeze: 'dead',
+            revive: {
+                0: 'active',
+                1: 'activeNextTurn',
+                other: 'inactive'
+            },
+            unfreeze: 'dead',
             weaken: 'dead'
         });
     });
@@ -133,14 +151,17 @@ function testStateTransitions(stateName, expectations) {
     describe(`${stateName} state`, () => {
         let state = states[stateName];
 
-        R.toPairs(expectations).forEach(([what, expectedValue]) => {
-            let shouldBe = `${what} should return the ${expectedValue} state`;
+        [0, 1, 2, undefined].forEach((timer) => {
+            R.toPairs(expectations).forEach(([transition, expectedValue]) => {
+                let expectedStateName = (typeof expectedValue === "string" ? expectedValue : (expectedValue[timer] || expectedValue.other));
+                let shouldBe = `${transition} should return the ${expectedStateName} state`;
 
-            it(shouldBe, () => {
-                let newState = state[what]();
-                let expectedState = states[expectedValue];
+                it(shouldBe, () => {
+                    let newState = state[transition](timer);
+                    let expectedState = states[expectedStateName];
 
-                expect(newState.name).to.equal(expectedState.name);
+                    expect(newState.name).to.equal(expectedState.name);
+                });
             });
         });
     });

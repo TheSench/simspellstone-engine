@@ -13,19 +13,33 @@ const _stateBase = {
     die() {
         return deadState;
     },
+    empower() {
+        return this;
+    },
     freeze() {
         return frozenState;
     },
     revive() {
         return this;
     },
-    unFreeze() {
+    unfreeze() {
         return this;
     },
     weaken() {
         return this;
     }
 };
+
+function setStateBasedOnTimer(timer) {
+    switch (timer) {
+        case 0:
+            return activeState;
+        case 1:
+            return activeNextTurnState;
+        default:
+            return inactiveState;
+    }
+}
 
 const inactiveState = Object.assign(
     Object.create(_stateBase),
@@ -70,13 +84,14 @@ const weakenedState = Object.assign(
         name: 'weakened',
 
         willAttack: false,
-        
+
         activate() {
             return this;
-        },        
+        },
         activateNextTurn() {
             return this;
-        }
+        },
+        empower: setStateBasedOnTimer,
     }
 );
 
@@ -91,9 +106,7 @@ const frozenState = Object.assign(
         activateNextTurn() {
             return this;
         },
-        unFreeze() {
-            return activeState;
-        },
+        unfreeze: setStateBasedOnTimer,
         weaken() {
             return this;
         }
@@ -119,10 +132,8 @@ const deadState = Object.assign(
         freeze() {
             return this;
         },
-        revive() {
-            return inactiveState;
-        },
-        unFreeze() {
+        revive: setStateBasedOnTimer,
+        unfreeze() {
             return this;
         },
         weaken() {

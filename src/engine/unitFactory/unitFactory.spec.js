@@ -21,7 +21,7 @@ describe('unitFactory', () => {
     },
     passives: {}
   };
-  
+
   beforeEach(() => {
     sandbox.replace(gameData, 'cards', mockCards);
   });
@@ -96,36 +96,47 @@ describe('unitFactory', () => {
         unit.activate();
         expect(unit.state).to.equal(states.active);
       });
-      
+
       it('should have a working activateNextTurn method', () => {
         unit.activateNextTurn();
         expect(unit.state).to.equal(states.activeNextTurn);
       });
-      
+
       it('should have a working die method', () => {
         unit.die();
         expect(unit.state).to.equal(states.dead);
       });
-      
+
       it('should have a working freeze method', () => {
         unit.freeze();
         expect(unit.state).to.equal(states.frozen);
-      });
-      
-      it('should have a working revive method', () => {
-        unit.revive();
-        expect(unit.state).to.equal(states.active);
-      });
-      
-      it('should have a working unFreeze method', () => {
-        unit.unFreeze();
-        expect(unit.state).to.equal(states.active);
       });
 
       it('should have a working weaken method', () => {
         unit.weaken();
         expect(unit.state).to.equal(states.weakened);
       });
+
+      [
+        ['empower', 'weakened'], 
+        ['revive', 'dead'], 
+        ['unfreeze', 'frozen']
+      ].forEach(([methodName, startingState]) => {
+        [
+          [0, 'active'],
+          [1, 'activeNextTurn'],
+          [2, 'inactive']
+        ].forEach(([timer, expectedState]) => {
+          it(`should have a working ${methodName} method (timer:${timer})`, () => {
+            unit.status.timer = timer;
+            unit.state = states[startingState];
+
+            unit[methodName]();
+            
+            expect(unit.state).to.equal(states[expectedState]);
+          });
+        });
+      })
     });
   });
 });
