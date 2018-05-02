@@ -5,7 +5,7 @@ describe('protect', () => {
     testTargetting(protect);
 
     describe('effects', () => {
-        testStatusApplication(protect, 'protected', true);
+        testStatusApplication(protect, 'protection', true);
         testNegation(protect, 'nullified');
     });
 });

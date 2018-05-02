@@ -50,6 +50,26 @@ const unitBase = (function createUnitBase() {
         }
       }
     },
+    applyWard(damage) {
+      let status = this.status;
+      if(status.warded) {
+        let warded = Math.min(damage, status.warded);
+        status.warded -= warded;
+        return (damage - warded);
+      } else {
+        return damage;
+      }
+    },
+    applyProtect(damage) {
+      let status = this.status;
+      if(status.protection) {
+          let protection = Math.min(damage, status.protection);
+          status.protection -= protection;
+          return (damage - protection);
+      } else {
+        return damage;
+      }
+    },
     tickTimer() {
       this.status.timer--;
       switch (this.status.timer) {
@@ -97,7 +117,7 @@ export function createStatus(card) {
     invisible: 0,
     nullified: 0,
     poisoned: 0,
-    protected: 0,
+    protection: 0,
     scorched: 0,
     warded: 0,
     // Boolean-Status

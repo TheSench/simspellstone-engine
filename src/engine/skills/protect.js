@@ -22,7 +22,7 @@ export default class Protect extends SkillBase{
             protection = Math.ceil(target.health * mult);
         }
 
-        target.status.protected += protection;
+        target.status.protection += protection;
         
         return true;
     }

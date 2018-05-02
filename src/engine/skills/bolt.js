@@ -13,12 +13,11 @@ export default class Bolt extends SkillBase{
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
         var targetStatus = target.status;
+        
         let totalDamage = baseValue + targetStatus.hexed;
-        if(targetStatus.warded) {
-            var warded = targetStatus.warded;
-            targetStatus.warded -= Math.min(totalDamage, warded);
-            totalDamage -= warded;
-        }
+        totalDamage = target.applyWard(totalDamage);
+        totalDamage = target.applyProtect(totalDamage);
+
         target.takeDamage(totalDamage);
     }
 }
