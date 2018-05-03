@@ -11,7 +11,6 @@ export default class Bolt extends DamageSkill {
   }
 
   getFinalTargets(skill, filteredTargets) {
-    console.log('\r\nBolt.getFinalTargets(skill, filteredTargets)');
     return super.getFinalTargets(skill, filteredTargets);
   }
 }

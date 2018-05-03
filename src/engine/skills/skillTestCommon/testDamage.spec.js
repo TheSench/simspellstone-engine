@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import states from './../../unitFactory/unitStates';
 import { createTestUnit } from './../../unitFactory/unitFactory';
 
 const defaultDamageModifiers = {
@@ -133,5 +132,16 @@ export function testDamage(skill, damageModifierOverrides) {
           });
         }
       });
+
+    if (damageModifiers.warded && damageModifiers.protection) {
+      it(`should reduce warded before protection`, () => {
+        let target = createTestUnit({ status: { healthLeft: 5, warded: 4, protection: 4 } });
+
+        skill.affectTarget(null, null, target, 5);
+
+        expect(target.status.warded, "warded").to.equal(0);
+        expect(target.status.protection, "protection").to.equal(3);
+      });
+    }
   });
 }

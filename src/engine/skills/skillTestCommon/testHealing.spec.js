@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import states from './../../unitFactory/unitStates';
 import { createTestUnit } from './../../unitFactory/unitFactory';
 
 export function testHealing(skill) {

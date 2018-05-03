@@ -7,7 +7,7 @@
     "build:clean": "rimraf ./dist && mkdir dist",
     "build:compile": "babel-node buildScripts/build.js",
     "startDev": "npm-run-all --silent --parallel security-check testAndLint:watch",
-    "lint": "esw webpack.config.* src buildScripts --color",
+    "lint": "esw webpack.config.* src buildScripts --color || exit 0",
     "security-check": "nsp check",
     "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.spec.js\" || exit 0",
     "test:watch": "chokidar --initial --silent \"src/**/*.js\" -c \"npm run test\"",
