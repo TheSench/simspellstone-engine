@@ -147,14 +147,14 @@ export const testPotentialTargets = (function () {
 
         it(`should target units next to itself`, () => {
           source.position = 2;
-          let expectedTargets = [1.1, 1.3];
+          let expectedTargets = [1.2, 1.4];
 
           let actualTargets = skill.getPotentialTargets(source, field)
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
 
-        it(`should target nothing if there are no  in range`, () => {
+        it(`should target unit to its left if it is right-most unit`, () => {
           source.position = 4;
           let expectedTargets = [1.4];
 

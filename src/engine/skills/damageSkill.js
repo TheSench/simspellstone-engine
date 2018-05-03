@@ -39,5 +39,7 @@ export default class DamageSkill extends SkillBase {
         let totalDamage = this.calculateDamage(skill, source, target, baseValue);
 
         target.takeDamage(totalDamage);
+
+        return totalDamage;
     }
 }

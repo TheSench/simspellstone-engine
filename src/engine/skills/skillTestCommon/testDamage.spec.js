@@ -25,7 +25,7 @@ const damageModifierTypes = {
     constant: false
   }
 };
-export function testDamage(skill, damageModifierOverrides) {
+export function testDamage(skill, damageModifierOverrides, setsOtherStatuses) {
 
   describe('basic damage dealing', () => {
     let target;
@@ -46,11 +46,13 @@ export function testDamage(skill, damageModifierOverrides) {
       expect(target.status.healthLeft, "healthLeft").to.equal(1);
     });
 
-    it('should ONLY modify healthLeft', () => {
-      let expectedStatus = Object.assign({}, origStatus, { healthLeft: 1 });
+    if (!setsOtherStatuses) {
+      it('should ONLY modify healthLeft', () => {
+        let expectedStatus = Object.assign({}, origStatus, { healthLeft: 1 });
 
-      expect(target.status, "target.status").to.deep.equal(expectedStatus);
-    });
+        expect(target.status, "target.status").to.deep.equal(expectedStatus);
+      });
+    }
   });
 
   describe("modifying target's state", () => {
@@ -80,7 +82,7 @@ export function testDamage(skill, damageModifierOverrides) {
   });
 
   describe("interaction with other statuses", () => {
-    let damageModifiers = Object.assign(defaultDamageModifiers, damageModifierOverrides);
+    let damageModifiers = Object.assign({}, defaultDamageModifiers, damageModifierOverrides);
 
     Object.entries(damageModifierTypes).forEach(([modifierName, { effect }]) => {
       let isAffectedByStatus = damageModifiers[modifierName];

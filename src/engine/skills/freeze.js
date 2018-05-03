@@ -12,7 +12,7 @@ export default class Weaken extends SkillBase{
 
     getPotentialTargets(source, field) {
         // TODO: Define source.opponent
-        return field[source.oppopnent].units;
+        return field[source.opponent].units;
     }
 
     getSkillValue() {

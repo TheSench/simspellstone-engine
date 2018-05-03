@@ -2,7 +2,7 @@ import DebuffSkill from './debuffSkill';
 
 export default class Scorch extends DebuffSkill {
   constructor() {
-    super({ negatedBy: null }), true;
+    super({ negatedBy: null });
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -13,14 +13,14 @@ export default class Scorch extends DebuffSkill {
     return field[source.opponent].units.slice(source.position, source.position + 1);
   }
 
+  getFinalTargets(skill, filteredTargets) {
+    return filteredTargets.slice(0, 1);
+  }
+
   // eslint-disable-next-line no-unused-vars
   doAffectTarget(skill, source, target, baseValue) {
     var targetStatus = target.status;
     targetStatus.scorched += baseValue;
     targetStatus.scorchTimer = 2;
-  }
-
-  getFinalTargets(skill, filteredTargets) {
-    return filteredTargets.slice(0, 1);
   }
 }

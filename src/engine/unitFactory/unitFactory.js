@@ -91,6 +91,11 @@ const unitBase = (function createUnitBase() {
         return damage;
       }
     },
+    applyPoison(poison) {
+      if (poison > this.status.poisoned) {
+        this.status.poisoned = poison;
+      }
+    },
     damageTaken() {
       return this.stats.health - this.status.healthLeft;
     },
