@@ -86,7 +86,7 @@ export const testPotentialTargets = (function () {
     it(`should return ${singleCount} target(s) when all=false`, () => {
       let filteredTargets = Array(5).fill();
 
-      let actualTargets = skill.getFinalTargets({ all: true }, filteredTargets);
+      let actualTargets = skill.getFinalTargets({ all: false }, filteredTargets);
 
       expect(actualTargets.length, "numTargets").to.equal(singleCount);
     });
@@ -194,7 +194,7 @@ export const testPotentialTargets = (function () {
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
 
-        testFinalTargets(skill, 5, 5);
+        testFinalTargets(skill, 5, 1);
       });
     },
     adjacentAllied(skill) {
