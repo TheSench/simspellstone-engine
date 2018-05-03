@@ -19,8 +19,6 @@ export default class Scorch extends DebuffSkill {
 
   // eslint-disable-next-line no-unused-vars
   doAffectTarget(skill, source, target, baseValue) {
-    var targetStatus = target.status;
-    targetStatus.scorched += baseValue;
-    targetStatus.scorchTimer = 2;
+    target.applyScorch(baseValue);
   }
 }

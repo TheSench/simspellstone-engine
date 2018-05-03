@@ -114,10 +114,20 @@ const unitBase = (function createUnitBase() {
         return damage;
       }
     },
-    applyPoison(poison) {
-      if (poison > this.status.poisoned) {
-        this.status.poisoned = poison;
+    applyPoison(value) {
+      if (value > this.status.poisoned) {
+        this.status.poisoned = value;
       }
+    },
+    applyVenom(value) {
+      if (value > this.status.envenomed) {
+        this.status.envenomed = value;
+      }
+    },
+    applyScorch(value) {
+      var status = this.status;
+      status.scorched += value;
+      status.scorchTimer = 2;
     },
     damageTaken() {
       return this.stats.health - this.status.healthLeft;

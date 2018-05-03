@@ -42,7 +42,7 @@ function testScorchBase(scorchSkill) {
             expect(target.status.scorchTimer, 'scorchTimer').to.equal(2);
         });
 
-        it(`should ONLY modify scorch and scorchTimer and invisible`, () => {
+        it(`should ONLY modify scorch and scorchTimer`, () => {
             let target = createTestUnit();
             let expectedStatus = Object.assign({}, target.status, { scorched: 5, scorchTimer: 2 });
 
