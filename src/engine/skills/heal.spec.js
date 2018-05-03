@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { heal } from './skills';
-import { testTargetting, testPotentialTargets, testHealing, testNegation } from './skillCommon.spec';
+import { testTargetting, testPotentialTargets, testHealing, testNegation } from './skillTestCommon/skillCommon.spec';
 import { createTestUnit } from './../unitFactory/unitFactory';
 
 describe('heal', () => {

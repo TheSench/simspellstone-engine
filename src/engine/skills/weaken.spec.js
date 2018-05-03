@@ -1,5 +1,5 @@
 import { weaken } from './skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillCommon.spec';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
 
 describe('weaken', () => {
     testTargetting(weaken, ['active', 'activeNextTurn']);

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { jam as freeze } from './skills';
 import states from './../unitFactory/unitStates';
 import { createTestUnit } from './../unitFactory/unitFactory';
-import { testTargetting, testStatusApplication, testNegation } from './skillCommon.spec';
+import { testTargetting, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
 
 describe('freeze', () => {
     testTargetting(freeze, ['active', 'activeNextTurn', 'weakened']);

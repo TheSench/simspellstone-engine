@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { createTestUnit } from './../unitFactory/unitFactory';
 import { scorchbreath } from './skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillCommon.spec';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
 
 describe('scorchbreath', () => {
     testTargetting(scorchbreath);
