@@ -56,9 +56,27 @@ export function createTestUnit({ owner, opponent, state, status, passives } = {}
   return unit;
 }
 
+// TODO: Start moving some of these to skill objects
 export const defaultPassives = {
+  absorb: 0,
   armored: 0,
-  pierce: 0
+  berserk: 0,
+  corrosive: 0,
+  counter: 0,
+  counterburn: 0,
+  daze: 0,
+  evade: 0,
+  fury: 0,
+  leech: 0,
+  nullify: 0,
+  pierce: 0,
+  poison: 0,
+  regenerate: 0,
+  reinforce: 0,
+  silence: false,
+  taunt: false,
+  valor: 0,
+  venom: 0
 };
 
 const unitBase = (function createUnitBase() {
