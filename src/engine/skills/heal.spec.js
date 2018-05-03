@@ -15,21 +15,21 @@ describe('heal', () => {
 
   describe('targetting', () => {
     it(`should target undamaged units when targetting ALL`, () => {
-      let actualTargets = heal.getTargets({ all: true }, allUnits);
+      let actualTargets = heal.getFilteredTargets({ all: true }, allUnits);
       let expectedTargets = allUnits;
 
       expect(actualTargets).to.deep.equal(expectedTargets);
     });
 
     it(`should target damaged units when targetting single unit`, () => {
-      let actualTargets = heal.getTargets({ all: false }, [units.damaged]);
+      let actualTargets = heal.getFilteredTargets({ all: false }, [units.damaged]);
       let expectedTargets = [units.damaged];
 
       expect(actualTargets).to.deep.equal(expectedTargets);
     });
 
     it(`should NOT target undamaged units when targetting single unit`, () => {
-      let actualTargets = heal.getTargets({ all: false }, [units.undamaged]);
+      let actualTargets = heal.getFilteredTargets({ all: false }, [units.undamaged]);
       let expectedTargets = [];
 
       expect(actualTargets).to.deep.equal(expectedTargets);

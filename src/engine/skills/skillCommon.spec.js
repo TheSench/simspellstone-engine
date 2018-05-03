@@ -40,7 +40,7 @@ export function testTargetting(skill, targeting) {
     });
 
     it(`should target ${allStatesDesc} units when targetting ALL`, () => {
-      let actualTargets = skill.getTargets({ all: true }, allUnits);
+      let actualTargets = skill.getFilteredTargets({ all: true }, allUnits);
       // TODO: Should only target active units
       let expectedTargets = targetableStatesAll.map((state) => units[state]);
 
@@ -52,7 +52,7 @@ export function testTargetting(skill, targeting) {
       let should = (targetsState ? 'should' : 'should NOT');
 
       it(`${should} target ${state} units when targetting single unit`, () => {
-        let actualTargets = skill.getTargets({ all: false }, [units[state]]);
+        let actualTargets = skill.getFilteredTargets({ all: false }, [units[state]]);
         let expectedTargets = (targetsState ? [units[state]] : []);
 
         expect(actualTargets).to.deep.equal(expectedTargets);
@@ -73,6 +73,25 @@ export const testPotentialTargets = (function () {
     }
   }
 
+
+  function testFinalTargets(skill, allCount, singleCount) {
+    it(`should return ${allCount} target(s) when all=true`, () => {
+      let filteredTargets = Array(5).fill();
+
+      let actualTargets = skill.getFinalTargets({ all: true }, filteredTargets);
+
+      expect(actualTargets.length, "numTargets").to.equal(allCount);
+    });
+
+    it(`should return ${singleCount} target(s) when all=false`, () => {
+      let filteredTargets = Array(5).fill();
+
+      let actualTargets = skill.getFinalTargets({ all: true }, filteredTargets);
+
+      expect(actualTargets.length, "numTargets").to.equal(singleCount);
+    });
+  }
+
   return {
     allOpposing(skill) {
       describe('potential targets', () => {
@@ -80,10 +99,12 @@ export const testPotentialTargets = (function () {
           let source = createTestUnit({ owner: 'player1', opponent: 'player2' });
           let expectedTargets = field.player2.units;
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
+
+        testFinalTargets(skill, 5, 1);
       });
     },
     directlyOpposing(skill) {
@@ -98,7 +119,7 @@ export const testPotentialTargets = (function () {
           source.position = 0;
           let expectedTargets = [field.player2.units[0]];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -107,10 +128,12 @@ export const testPotentialTargets = (function () {
           source.position = 5;
           let expectedTargets = [];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
+
+        testFinalTargets(skill, 1, 1);
       });
     },
     cone(skill) {
@@ -125,7 +148,7 @@ export const testPotentialTargets = (function () {
           source.position = 2;
           let expectedTargets = [2.2, 2.3, 2.4];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -134,7 +157,7 @@ export const testPotentialTargets = (function () {
           source.position = 6;
           let expectedTargets = [];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -143,7 +166,7 @@ export const testPotentialTargets = (function () {
           source.position = 0;
           let expectedTargets = [2.1, 2.2];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -152,10 +175,12 @@ export const testPotentialTargets = (function () {
           source.position = 5;
           let expectedTargets = [2.5];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
+
+        testFinalTargets(skill, 5, 5);
       });
     },
     allAllied(skill) {
@@ -168,6 +193,8 @@ export const testPotentialTargets = (function () {
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
+
+        testFinalTargets(skill, 5, 5);
       });
     },
     adjacentAllied(skill) {
@@ -204,6 +231,8 @@ export const testPotentialTargets = (function () {
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
+
+        testFinalTargets(skill, 5, 5);
       });
     },
     self(skill) {
@@ -221,11 +250,12 @@ export const testPotentialTargets = (function () {
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
+
+        testFinalTargets(skill, 1, 1);
       });
     }
   }
 })();
-
 
 export function testStatusApplication(skill, affectedStatus, stacks, setsOtherStatuses) {
   describe('basic effects', () => {

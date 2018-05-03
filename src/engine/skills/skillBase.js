@@ -46,16 +46,18 @@ export default class SkillBase {
         return field[source.owner].units;
     }
 
-    getTargets(skill, potentialTargets) {
-        let filters = this.getFilters(skill);
+    getFilteredTargets(skill, potentialTargets) {
+      let filters = this.getFilters(skill);
 
-        let targets = potentialTargets.filter(R.allPass(filters));
+      return potentialTargets.filter(R.allPass(filters));
+    }
 
+    getFinalTargets(skill, filteredTargets) {
         // Check All
-        if (targets.length > 1 && !skill.all) {
-            return [targets[random(targets.length)]];
+        if (filteredTargets.length > 1 && !skill.all) {
+            return [filteredTargets[random(filteredTargets.length)]];
         } else {
-            return targets;
+            return filteredTargets;
         }
     }
 
@@ -73,7 +75,9 @@ export default class SkillBase {
     performSkill(skill, source, field) {
         let potentialTargets = this.getPotentialTargets(source, field);
 
-        let targets = this.getTargets(skill, potentialTargets);
+        let filteredTargets = this.getFilteredTargets(skill, potentialTargets)
+
+        let targets = this.getFinalTargets(skill, filteredTargets);
 
         let baseValue = this.getSkillValue(skill, source);
 
