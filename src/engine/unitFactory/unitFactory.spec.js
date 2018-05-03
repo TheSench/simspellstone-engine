@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createUnit } from './unitFactory';
+import { createUnit, defaultPassives } from './unitFactory';
 import * as skillFactory from './skillFactory';
 import states from './unitStates';
 
@@ -19,7 +19,7 @@ describe('unitFactory', () => {
       earlyActivation: [],
       onDeath: []
     },
-    passives: {}
+    passives: defaultPassives
   };
 
   beforeEach(() => {
@@ -80,7 +80,7 @@ describe('unitFactory', () => {
         let unit = createUnit(unitKey);
 
         expect(unit.skills, "unit.skills").to.equal(allSkills.skills);
-        expect(unit.passives, "unit.passives").to.equal(allSkills.passives);
+        expect(unit.passives, "unit.passives").to.deep.equal(allSkills.passives);
       });
     });
 

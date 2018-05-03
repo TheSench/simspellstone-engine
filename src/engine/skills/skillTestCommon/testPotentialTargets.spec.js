@@ -57,7 +57,7 @@ export const testPotentialTargets = (function () {
 
         it(`should target unit directly across from itself`, () => {
           source.position = 0;
-          let expectedTargets = [field.player2.units[0]];
+          let expectedTargets = [2.1];
 
           let actualTargets = skill.getPotentialTargets(source, field);
 
@@ -67,6 +67,35 @@ export const testPotentialTargets = (function () {
         it(`should target nothing if there is no opposing unit`, () => {
           source.position = 5;
           let expectedTargets = [];
+
+          let actualTargets = skill.getPotentialTargets(source, field);
+
+          expect(actualTargets).to.deep.equal(expectedTargets);
+        });
+
+        testFinalTargets(skill, 1, 1);
+      });
+    },
+    directlyOpposingOrCommander(skill) {
+      describe('potential targets', () => {
+        let source;
+
+        beforeEach(() => {
+          source = createTestUnit({ owner: 'player1', opponent: 'player2' });
+        });
+
+        it(`should target unit directly across from itself`, () => {
+          source.position = 0;
+          let expectedTargets = [2.1, 2];
+
+          let actualTargets = skill.getPotentialTargets(source, field);
+
+          expect(actualTargets).to.deep.equal(expectedTargets);
+        });
+
+        it(`should target opposing commander if there is no opposing unit`, () => {
+          source.position = 5;
+          let expectedTargets = [2];
 
           let actualTargets = skill.getPotentialTargets(source, field);
 

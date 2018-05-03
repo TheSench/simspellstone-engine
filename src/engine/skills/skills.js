@@ -1,3 +1,4 @@
+import Attack from './attack';
 import Barrage from './barrage';
 import Bolt from './bolt';
 import Empower from './empower';
@@ -20,6 +21,7 @@ import WeakenSelf from './weakenSelf';
 import WingWard from './wingWard';
 
 // maintain legacy skill names
+export const attack = Object.freeze(new Attack());
 export const barrage = Object.freeze(new Barrage());
 export const burn = Object.freeze(new Scorch());
 export const burnself = Object.freeze(new ScorchSelf());

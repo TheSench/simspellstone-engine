@@ -31,7 +31,7 @@ function _createUnit(unitKey, card) {
 
   let allSkills = createSkills(card.skill || []);
 
-  unit.passives = allSkills.passives;
+  Object.assign(unit.passives, defaultPassives, allSkills.passives);
   unit.skills = allSkills.skills;
 
   applyRune(unit, unitKey.runeId);
@@ -39,22 +39,27 @@ function _createUnit(unitKey, card) {
   return unit;
 }
 
-export function createTestUnit({ owner, opponent, state, status } = {}) {
+export function createTestUnit({ owner, opponent, state, status, passives } = {}) {
   let unit = Object.assign(
     _createUnit({}, { attack: 5, health: 10, cost: 5 }),
     {
       state: state || states.active,
-      passives: {},
       position: 0,
       owner: (owner || null),
       opponent: (opponent || null)
     }
   );
 
+  if (passives) Object.assign(unit.passives, passives);
   if (status) Object.assign(unit.status, status);
 
   return unit;
 }
+
+export const defaultPassives = {
+  armored: 0,
+  pierce: 0
+};
 
 const unitBase = (function createUnitBase() {
   var unitBase = {

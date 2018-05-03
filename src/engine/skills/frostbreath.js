@@ -2,12 +2,7 @@ import DamageSkill from './damageSkill';
 
 export default class Frostbreath extends DamageSkill{
     constructor() {
-        super({
-            hex: true,
-            ward: true,
-            protect: true,
-            armor: false
-        });
+        super();
     }
 
     getPotentialTargets(source, field) {

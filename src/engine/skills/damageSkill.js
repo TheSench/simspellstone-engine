@@ -2,25 +2,33 @@ import SkillBase from './skillBase';
 import R from 'ramda';
 
 const damageModifiers = {
-    hex: ([skill, source, target, damage]) => [skill, source, target, damage + target.status.hexed],
-    ward: ([skill, source, target, damage]) => [skill, source, target, target.applyWard(damage)],
-    protect: ([skill, source, target, damage]) => [skill, source, target, target.applyProtect(damage)],
-    armor: ([skill, source, target, damage]) => [skill, source, target, Math.max(damage - target.status.armored, 0)]
+    hexed: ([skill, source, target, damage]) => [skill, source, target, damage + target.status.hexed],
+    warded: ([skill, source, target, damage]) => [skill, source, target, target.applyWard(damage)],
+    protection: ([skill, source, target, damage]) => [skill, source, target, target.applyProtect(damage)],
+    armored: ([skill, source, target, damage]) => [skill, source, target, Math.max(damage - target.passives.armored, 0)]
 };
 
-const damageModifiersOrdered = ['hex', 'ward', 'protect', 'armor'];
+const damageModifiersOrdered = ['hexed', 'warded', 'protection', 'armored'];
+
+const configDefaults = {
+    negatedBy: 'invisible',
+    hexed: true,
+    warded: true,
+    protection: true,
+    armored: false
+};
 
 export default class DamageSkill extends SkillBase {
-    constructor(modifiedBy) {
-        super('invisible');
-        
-        if (modifiedBy) {
-            var modifiers = R.pipe(...damageModifiersOrdered.filter(key => modifiedBy[key]).map((key) => damageModifiers[key]));
+    constructor(configOverrides) {
+        let config = Object.assign({}, configDefaults, configOverrides);
 
-            if (modifiers.length) {
-                this.calculateDamage = function(skill, source, target, baseDamage) {
-                    return modifiers([skill, source, target, baseDamage])[3];
-                }
+        super(config.negatedBy);
+        
+        var modifiers = R.pipe(...damageModifiersOrdered.filter(key => config[key]).map((key) => damageModifiers[key]));
+
+        if (modifiers.length) {
+            this.calculateDamage = function(skill, source, target, baseDamage) {
+                return modifiers([skill, source, target, baseDamage])[3];
             }
         }
     }

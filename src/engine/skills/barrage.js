@@ -3,10 +3,7 @@ import DamageSkill from './damageSkill';
 export default class Barrage extends DamageSkill {
   constructor() {
     super({
-      hex: false,
-      ward: true,
-      protect: true,
-      armor: false
+      hexed: false
     });
   }
 
