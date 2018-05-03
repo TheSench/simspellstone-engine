@@ -1,4 +1,4 @@
-import { random } from './../../helpers/random';
+import { random } from './../../../helpers/random';
 import R from 'ramda';
 
 function checkNegation(negatedBy, self) {
@@ -14,7 +14,7 @@ function checkNegation(negatedBy, self) {
     }
 }
 
-export default class SkillBase {
+export default class ActivatedSkillBase {
     constructor(negatedBy) {
         if (negatedBy) {
             this.affectTarget = checkNegation(negatedBy, this);

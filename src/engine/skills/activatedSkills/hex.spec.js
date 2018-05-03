@@ -1,5 +1,5 @@
-import { enfeeble as hex } from './skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
+import { enfeeble as hex } from './../skills';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
 describe('hex', () => {
     testTargetting(hex);

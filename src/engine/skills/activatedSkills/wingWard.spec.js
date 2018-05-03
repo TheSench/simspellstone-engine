@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { evadebarrier as wingWard } from './skills';
-import { createTestUnit } from './../unitFactory/unitFactory';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
+import { evadebarrier as wingWard } from './../skills';
+import { createTestUnit } from './../../unitFactory/unitFactory';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
 describe('wingWard', () => {
     testTargetting(wingWard);

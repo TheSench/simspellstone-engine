@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { createTestUnit } from './../unitFactory/unitFactory';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
+import { createTestUnit } from './../../unitFactory/unitFactory';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
-import { burn as scorch, burnself as scorchSelf, scorchbreath } from './skills';
+import { burn as scorch, burnself as scorchSelf, scorchbreath } from './../skills';
 
 describe('scorch', () => {
     testScorchBase(scorch);

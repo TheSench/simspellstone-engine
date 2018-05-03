@@ -1,5 +1,5 @@
-import { legion } from './skills';
-import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './skillTestCommon/skillCommon.spec';
+import { legion } from './../skills';
+import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('legion', () => {
     testTargetting(legion, ['active', 'weakened']);

@@ -1,4 +1,4 @@
-import SkillBase from './skillBase';
+import ActivatedSkillBase from './activatedSkillBase';
 import R from 'ramda';
 
 const damageModifiers = {
@@ -18,7 +18,7 @@ const configDefaults = {
     armored: false
 };
 
-export default class DamageSkill extends SkillBase {
+export default class DamageSkill extends ActivatedSkillBase {
     constructor(configOverrides) {
         let config = Object.assign({}, configDefaults, configOverrides);
 

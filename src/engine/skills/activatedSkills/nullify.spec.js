@@ -1,5 +1,5 @@
-import { nullify } from './skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
+import { nullify } from './../skills';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
 describe('nullify', () => {
     testTargetting(nullify);

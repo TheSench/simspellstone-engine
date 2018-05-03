@@ -1,5 +1,5 @@
-import { weaken, weakenself as weakenSelf } from './skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
+import { weaken, weakenself as weakenSelf } from './../skills';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
 describe('weaken', () => {
     testWeakenBase(weaken);

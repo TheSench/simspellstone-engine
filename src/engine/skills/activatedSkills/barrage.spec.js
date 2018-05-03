@@ -1,5 +1,5 @@
-import { barrage } from './skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './skillTestCommon/skillCommon.spec';
+import { barrage } from './../skills';
+import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('barrage', () => {
     testTargetting(barrage, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']);

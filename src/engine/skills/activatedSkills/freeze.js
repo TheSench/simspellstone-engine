@@ -1,6 +1,6 @@
-import SkillBase from './skillBase';
+import ActivatedSkillBase from './activatedSkillBase';
 
-export default class Weaken extends SkillBase{
+export default class Weaken extends ActivatedSkillBase{
     constructor() {
         super('invisible');
     }

@@ -1,10 +1,10 @@
-import SkillBase from './skillBase';
+import ActivatedSkillBase from './activatedSkillBase';
 
 const defaultConfig = {
     negatedBy: 'invisible'
 };
 
-export default class DebuffSkill extends SkillBase{
+export default class DebuffSkill extends ActivatedSkillBase{
     constructor(overrides) {
         let config = Object.assign({}, defaultConfig, overrides);
 

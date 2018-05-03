@@ -1,5 +1,5 @@
-import { enlarge } from './skills';
-import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './skillTestCommon/skillCommon.spec';
+import { enlarge } from './../skills';
+import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('enlarge', () => {
     testTargetting(enlarge, ['active', 'weakened']);

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { jam as freeze, jamself as freezeSelf } from './skills';
-import states from './../unitFactory/unitStates';
-import { createTestUnit } from './../unitFactory/unitFactory';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './skillTestCommon/skillCommon.spec';
+import { jam as freeze, jamself as freezeSelf } from './../skills';
+import states from './../../unitFactory/unitStates';
+import { createTestUnit } from './../../unitFactory/unitFactory';
+import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
 describe('freeze', () => {
     testFreezeBase(freeze);

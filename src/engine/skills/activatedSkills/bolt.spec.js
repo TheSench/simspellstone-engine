@@ -1,5 +1,5 @@
-import { strike as bolt } from './skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './skillTestCommon/skillCommon.spec';
+import { strike as bolt } from './../skills';
+import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('bolt', () => {
     testTargetting(bolt, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']);

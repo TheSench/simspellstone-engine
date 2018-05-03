@@ -1,5 +1,5 @@
-import { attack } from './skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './skillTestCommon/skillCommon.spec';
+import { attack } from './../skills';
+import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('attack', () => {
     testTargetting(attack);

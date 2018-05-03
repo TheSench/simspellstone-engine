@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { createTestUnit } from './../unitFactory/unitFactory';
-import { poisonstrike as poisonBolt } from './skills';
-import { testTargetting, testDamage, testStatusApplication, testNegation, testPotentialTargets } from './skillTestCommon/skillCommon.spec';
+import { createTestUnit } from './../../unitFactory/unitFactory';
+import { poisonstrike as poisonBolt } from './../skills';
+import { testTargetting, testDamage, testStatusApplication, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('bolt', () => {
     testTargetting(poisonBolt, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']);
