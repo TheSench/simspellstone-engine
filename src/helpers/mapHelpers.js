@@ -1,6 +1,5 @@
 export function reverseMap(origEnum) {
-  return Object.keys(origEnum).reduce((mapping, name) => {
-    let value = origEnum[name];
+  return Object.entries(origEnum).reduce((mapping, [name, value]) => {
     mapping[value] = name;
     return mapping;
   }, {});

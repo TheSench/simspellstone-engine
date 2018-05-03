@@ -1,6 +1,4 @@
-import { reverseMap } from './../helpers/mapHelpers';
-
-export const fusions = {
+{
   "1000" : "11000",
   "1001" : "11001",
   "1002" : "11002",
@@ -1569,6 +1567,4 @@ export const fusions = {
   "9996" : "19996",
   "9998" : "19998",
   "9999" : "19999"
-};
-
-export const reverseFusions = reverseMap(fusions);
+}

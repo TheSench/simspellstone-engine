@@ -16,7 +16,7 @@
         "buildScripts/testSetup.js",
         "${workspaceFolder}/src/**/*.js"
       ],
-      "console": "integratedTerminal",
+      "console": "internalConsole",
       "internalConsoleOptions": "neverOpen"
     },
     {

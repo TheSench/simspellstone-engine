@@ -1,4 +1,4 @@
-export default {
+{
   "1": {
     "id": "1",
     "name": "Oda the Guardian",
@@ -219949,4 +219949,4 @@ export default {
     "skill": [],
     "upgrades": {}
   }
-};
+}
