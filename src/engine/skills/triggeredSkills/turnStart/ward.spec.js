@@ -5,6 +5,6 @@ describe('ward', () => {
     let ward = theSkill(absorb);
 
     describe('effects', () => {
-        ward.shouldOnlyAffectTheStatus("warded");
+        ward.shouldOnlyAffectTheStatus("warded").stackingWithCurrentValue();
     });
 });

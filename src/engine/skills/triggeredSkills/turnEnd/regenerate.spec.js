@@ -6,5 +6,6 @@ describe('regenerate', () => {
 
     describe('effects', () => {
         theRegenerateSkill.shouldHealDamage.equalToItsValue();
+        theRegenerateSkill.shouldNotAffectStatusesOtherThan('healthLeft');
     });
 });
