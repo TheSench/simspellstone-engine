@@ -5,6 +5,10 @@ export function createSkills(cardSkills) {
     skills: {
       activation: [],
       earlyActivation: [],
+      turnStart: [],
+      onAttack: [],
+      onDamaged: [],
+      turnEnd: [],
       onDeath: []
     },
     passives: {}
@@ -24,6 +28,10 @@ const skillAppliers = {
   activation: createActivationSkillApplier('activation'),
   earlyActivation: createActivationSkillApplier('earlyActivation'),
   onDeath: createActivationSkillApplier('onDeath'),
+  turnStart: createTriggeredSkillApplier('turnStart'),
+  onAttack: createTriggeredSkillApplier('onAttack'),
+  onDamaged: createTriggeredSkillApplier('onDamaged'),
+  turnEnd: createTriggeredSkillApplier('turnEnd'),
   passive: function addPassiveSkill(skill) {
     return function (allSkills) {
       allSkills.passives[skill.id] = skill.x;
@@ -42,6 +50,18 @@ function createActivationSkillApplier(skillSlot) {
         timer: (skill.c || 0),
         all: !!skill.y,
         skill: skill.s // TODO: Should this be renamed? It's the skill for enhance/imbue
+      });
+    }
+  }
+}
+
+function createTriggeredSkillApplier(skillSlot) {
+  return function TtiggeredSkillApplier(skill) {
+    return function applyTriggeredSkill(allSkills) {
+      // TODO: Check skill info for which fields are applicable
+      allSkills.skills[skillSlot].push({
+        id: skill.id,
+        value: skill.x
       });
     }
   }

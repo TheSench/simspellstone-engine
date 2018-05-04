@@ -1,12 +1,19 @@
-import { frost as frostbreath } from './../skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { frost } from './../skills';
 
 describe('frostbreath', () => {
-    testTargetting(frostbreath, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']);
-    testPotentialTargets.cone(frostbreath);
+    let frostbreath = theSkill(frost);
+
+    frostbreath.shouldTarget.opposingUnitsInACone();
+    frostbreath.shouldOnlyAffect.targetsThatAreAlive();
 
     describe('effects', () => {
-        testDamage(frostbreath);
-        testNegation(frostbreath, 'invisible');
+        frostbreath.shouldDealDamage
+            .equalToItsValue()
+            .modifiedBy('hexed', 'protection', 'warded');
+
+        frostbreath.shouldOnlyAffectTheStatus('healthLeft');
+
+        frostbreath.shouldBeNegatedBy.invisible();
     });
 });

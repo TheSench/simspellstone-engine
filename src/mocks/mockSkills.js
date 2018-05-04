@@ -17,6 +17,30 @@ export default {
 		icon: 'earlyActivation_icon',
 		desc: 'Mock early-activation skill.'
 	},
+	turnStartSkill : {
+		name: 'TurnStartSkill',
+		type: 'turnStart',
+		icon: 'turnStartcon',
+		desc: 'Mock turnStart skill'
+	},
+	onAttackSkill : {
+		name: 'OnAttackSkill',
+		type: 'onAttack',
+		icon: 'onAttackicon',
+		desc: 'Mock onAttack skill'
+	},
+	onDamagedSkill : {
+		name: 'OnDamagedSkill',
+		type: 'onDamaged',
+		icon: 'onDamagedcon',
+		desc: 'Mock onDamaged skill'
+	},
+	turnEndSkill : {
+		name: 'TurnEndSkill',
+		type: 'turnEnd',
+		icon: 'turnEnd_icon',
+		desc: 'Mock turnEnd skill'
+	},
 	onDeathSkill : {
 		name: 'OnDeathSkill',
 		type: 'onDeath',

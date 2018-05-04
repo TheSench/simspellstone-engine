@@ -1,8 +1,10 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { berserk } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
 describe('berserk', () => {
+    let theBerserkSkill = theSkill(berserk);
+
     describe('effects', () => {
-        testStatusApplication(berserk, 'attackBerserk', true);
+        theBerserkSkill.shouldOnlyAffectTheStatus('attackBerserk').stackingWithCurrentValue();
     });
 });

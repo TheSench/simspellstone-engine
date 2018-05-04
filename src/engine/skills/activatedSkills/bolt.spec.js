@@ -1,12 +1,16 @@
-import { strike as bolt } from './../skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { strike } from './../skills';
 
 describe('bolt', () => {
-    testTargetting(bolt, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']);
-    testPotentialTargets.allOpposing(bolt);
+    let bolt = theSkill(strike);
+    
+    bolt.shouldOnlyAffect.targetsThatAreAlive();
+    bolt.shouldTarget.allOpposingUnits();
 
     describe('effects', () => {
-        testDamage(bolt);
-        testNegation(bolt, 'invisible');
+        bolt.shouldDealDamage.equalToItsValue(),
+        bolt.shouldDealDamage.modifiedBy('hexed', 'protection', 'warded');
+        bolt.shouldOnlyAffectTheStatus('healthLeft'),
+        bolt.shouldBeNegatedBy.invisible();
     });
 });

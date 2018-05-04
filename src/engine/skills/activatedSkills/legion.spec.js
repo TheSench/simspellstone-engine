@@ -1,12 +1,14 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { legion } from './../skills';
-import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('legion', () => {
-    testTargetting(legion, ['active', 'weakened']);
-    testPotentialTargets.adjacentAllied(legion);
+    let theLegionSkill = theSkill(legion);
+
+    theLegionSkill.shouldOnlyAffect.targetsThatAreActive();
+    theLegionSkill.shouldTarget.adjacentAlliedUnits();
 
     describe('effects', () => {
-        testStatusApplication(legion, 'attackEmpower', true);
-        testNegation(legion, 'nullified');
+        theLegionSkill.shouldApplyTheStatus('attackEmpower').stackingWithCurrentValue();
+        theLegionSkill.shouldBeNegatedBy.nullified();
     });
 });

@@ -1,14 +1,21 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { barrage } from './../skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('barrage', () => {
-    testTargetting(barrage, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']);
-    testPotentialTargets.allOpposing(barrage);
+    let theBarrageSkill = theSkill(barrage);
+
+    theBarrageSkill.shouldOnlyAffect.targetsThatAreAlive();
+    theBarrageSkill.shouldTarget.allOpposingUnits();
 
     describe('effects', () => {
-        testDamage(barrage, {hexed: false});
-        testNegation(barrage, 'invisible');
+        theBarrageSkill.shouldDealDamage
+            .equalToItsValue()
+            .modifiedBy('protection', 'warded');
+
+        theBarrageSkill.shouldOnlyAffectTheStatus('healthLeft');
+        
+        theBarrageSkill.shouldBeNegatedBy.invisible();
     });
 
-    // TODO: Test Barrage firing multiple times
+    it('should fire X times where X is its value');
 });

@@ -1,8 +1,10 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { poison } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
 describe('poison', () => {
+    let thePoisonSkill = theSkill(poison);
+
     describe('effects', () => {
-        testStatusApplication(poison, 'poisoned', false);
+        thePoisonSkill.shouldOnlyAffectTheStatus('poisoned').keepingHighestValue();
     });
 });

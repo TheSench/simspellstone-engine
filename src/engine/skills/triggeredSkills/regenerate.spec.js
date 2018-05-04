@@ -1,8 +1,11 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { regenerate } from './../skills';
-import { testHealing } from './../skillTestCommon/skillCommon.spec';
 
 describe('regenerate', () => {
+    let theRegenerateSkill = theSkill(regenerate);
+
     describe('effects', () => {
-        testHealing(regenerate);
+        theRegenerateSkill.shouldHealDamage.equalToItsValue();
+        theRegenerateSkill.shouldNotAffectStatusesOtherThan('healthLeft');
     });
 });

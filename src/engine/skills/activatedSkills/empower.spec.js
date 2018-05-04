@@ -1,12 +1,14 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { rally as empower } from './../skills';
-import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('empower', () => {
-    testTargetting(empower, ['active', 'weakened']);
-    testPotentialTargets.allAllied(empower);
+    let theEmpowerSkill = theSkill(empower);
+    
+    theEmpowerSkill.shouldTarget.allAlliedUnits();
+    theEmpowerSkill.shouldOnlyAffect.targetsThatAreActive();
 
     describe('effects', () => {
-        testStatusApplication(empower, 'attackEmpower', true);
-        testNegation(empower, 'nullified');
+        theEmpowerSkill.shouldOnlyAffectTheStatus('attackEmpower').stackingWithCurrentValue();
+        theEmpowerSkill.shouldBeNegatedBy.nullified();
     });
 });

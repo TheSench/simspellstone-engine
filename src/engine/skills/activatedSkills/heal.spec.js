@@ -1,11 +1,13 @@
 import { expect } from 'chai';
-import { heal } from './../skills';
-import { testTargetting, testPotentialTargets, testHealing, testNegation } from './../skillTestCommon/skillCommon.spec';
 import { createTestUnit } from './../../unitFactory/unitFactory';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { heal } from './../skills';
 
 describe('heal', () => {
-  testTargetting(heal);
-  testPotentialTargets.allAllied(heal);
+  let theHealSkill = theSkill(heal);
+
+  theHealSkill.shouldTarget.allAlliedUnits();
+  theHealSkill.shouldOnlyAffect.targetsThatAreAlive();
 
   const units = {
     undamaged: createTestUnit(),
@@ -37,7 +39,8 @@ describe('heal', () => {
   });
 
   describe('effects', () => {
-    testHealing(heal);
-    testNegation(heal, 'nullified');
+    theHealSkill.shouldHealDamage.equalToItsValue();
+    theHealSkill.shouldNotAffectStatusesOtherThan('healthLeft');
+    theHealSkill.shouldBeNegatedBy.nullified();
   });
 });

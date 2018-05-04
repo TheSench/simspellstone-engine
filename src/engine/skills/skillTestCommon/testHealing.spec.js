@@ -1,51 +1,42 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { createTestUnit } from './../../unitFactory/unitFactory';
 
-export function testHealing(skill) {
+export function shouldHealDamageEqualToValue(skill) {
+  testHealing(skill);
+}
 
-  describe('basic healing', () => {
-    let target;
-    let origStatus;
-    let affected;
+export function shouldHealExactlyXDamage(skill, expectedDamage) {
+  testHealing(skill, expectedDamage);
+}
 
-    beforeEach(() => {
-      target = createTestUnit({ status: { healthLeft: 5 } });
-      origStatus = Object.assign({}, target.status);
-      affected = skill.affectTarget(null, null, target, 4);
-    });
+function testHealing(skill, flatHealing) {
 
-    it('should affect them', () => {
-      expect(affected).to.equal(true);
-    });
+  [1, 99].forEach((value) => {
+    let description = (flatHealing ? 'given any value' : `given a value of ${value}`);
+    let expectedHealing = (flatHealing || value);
 
-    it('should add health equal to its value', () => {
-      expect(target.status.healthLeft, "healthLeft").to.equal(9);
-    });
+    describe(description, () => {
+      let target;
 
-    it('should ONLY modify healthLeft', () => {
-      let expectedStatus = Object.assign({}, origStatus, { healthLeft: 9 });
+      beforeEach(() => {
+        target = createTestUnit({ status: { healthLeft: 5 } });
+        sinon.spy(target, "healDamage")
 
-      expect(target.status, "target.status").to.deep.equal(expectedStatus);
+        skill.affectTarget(null, null, target, value);
+      });
+
+      afterEach(() => {
+        target.healDamage.restore();
+      });
+
+      it('should heal 4 damage', () => {
+        expect(target.healDamage.calledWithExactly(expectedHealing), `healed ${expectedHealing} damage`).to.be.true;
+      });
+
+      it('should only heal damage once', () => {
+        expect(target.healDamage.callCount, "only healed damage once").to.equal(1);
+      });
     });
   });
-
-  describe('boundary cases', () => {
-    let target;
-
-    beforeEach(() => {
-      target = createTestUnit({ status: { healthLeft: 5 } });
-    });
-
-    it('should not heal negative health', () => {
-      skill.affectTarget(null, null, target, -6);
-
-      expect(target.status.healthLeft, "healthLeft").to.equal(5);
-    });
-
-    it('should not heal above starting health', () => {
-      skill.affectTarget(null, null, target, 6);
-
-      expect(target.status.healthLeft, "healthLeft").to.equal(10);
-    });
-  })
 }

@@ -1,12 +1,19 @@
-import { attack } from './../skills';
-import { testTargetting, testDamage, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { attack as skill } from './../skills';
 
 describe('attack', () => {
-    testTargetting(attack);
-    testPotentialTargets.directlyOpposingOrCommander(attack);
+    let attack = theSkill(skill);
+
+    attack.shouldTarget.theDirectlyOpposingUnitOrCommander();
+    attack.shouldOnlyAffect.targetsThatAreAlive();
 
     describe('effects', () => {
-        testDamage(attack, {warded: false, armored: true});
-        testNegation(attack, null);
+        attack.shouldDealDamage
+            .equalToItsValue()
+            .modifiedBy('hexed', 'protection', 'armored');
+
+        attack.shouldOnlyAffectTheStatus('healthLeft');
+        
+        attack.shouldBeNegatedBy.nothing();
     });
 });

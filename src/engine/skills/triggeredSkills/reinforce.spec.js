@@ -1,8 +1,10 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { reinforce } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
 describe('reinforce', () => {
+    let theReinforceSkill = theSkill(reinforce);
+
     describe('effects', () => {
-        testStatusApplication(reinforce, 'protection', true);
+        theReinforceSkill.shouldOnlyAffectTheStatus('protection').stackingWithCurrentValue();
     });
 });

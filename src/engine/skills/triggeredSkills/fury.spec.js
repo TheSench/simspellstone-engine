@@ -1,8 +1,12 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { fury } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
 describe('fury', () => {
+    let theFurySkill = theSkill(fury);
+
     describe('effects', () => {
-        testStatusApplication(fury, 'attackBerserk', true);
+        theFurySkill.shouldOnlyAffectTheStatus('attackBerserk').stackingWithCurrentValue();
+        
+        it('should damage the attacker');
     });
 });

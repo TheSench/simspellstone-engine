@@ -1,8 +1,10 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { absorb as ward } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
-describe('ward', () => {
+describe('invisibility', () => {
+    let theWardSkill = theSkill(ward);
+
     describe('effects', () => {
-        testStatusApplication(ward, 'warded', true);
+        theWardSkill.shouldOnlyAffectTheStatus('warded').stackingWithCurrentValue();
     });
 });

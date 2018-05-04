@@ -1,8 +1,10 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { nullify } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
 describe('nullify', () => {
+    let theNullifySkill = theSkill(nullify);
+
     describe('effects', () => {
-        testStatusApplication(nullify, 'nullified', true);
+        theNullifySkill.shouldOnlyAffectTheStatus('nullified').stackingWithCurrentValue();
     });
 });

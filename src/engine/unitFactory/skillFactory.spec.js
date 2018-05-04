@@ -1,15 +1,14 @@
 import { expect } from 'chai';
-import * as skillFactory from './skillFactory';
+import sinon from 'sinon';
 import * as gameData from './../../data/gameData';
 import { skills as mockSkills } from './../../mocks/mockGameData';
-import R from 'ramda';
-import sinon from 'sinon';
+import * as skillFactory from './skillFactory';
 
 var sandbox = sinon.createSandbox();
 
 describe('skillFactory', () => {
     beforeEach(() => {
-      sandbox.replace(gameData, 'skills', mockSkills);
+        sandbox.replace(gameData, 'skills', mockSkills);
     });
 
     it('should return an object with "skills" and "passives"', () => {
@@ -17,73 +16,21 @@ describe('skillFactory', () => {
 
         expect(createdSkills, "createdSkills.passives").to.haveOwnProperty('passives');
         expect(createdSkills, "createdSkills.skills").to.haveOwnProperty('skills');
-        
-        expect(createdSkills.skills, "createdSkills.skills.activation").to.haveOwnProperty('activation');
-        expect(createdSkills.skills, "createdSkills.skills.earlyActivation").to.haveOwnProperty('earlyActivation');
-        expect(createdSkills.skills, "createdSkills.skills.onDeath").to.haveOwnProperty('onDeath');
-    });
 
-    it('should add activation skills to correct array', () => {
-        let createdSkills = skillFactory.createSkills([
-            {
-                "id": "activationSkill",
-                "x": 1
-            }
-        ]);
-
-        assertSkillCounts(createdSkills, {
-            activation: 1,
-            earlyActivation: 0,
-            onDeath: 0,
-            passive: 0
+        ['activation', 'earlyActivation', 'onDeath', 'turnStart', 'onAttack', 'onDamaged', 'turnEnd'].forEach((skillType) => {
+            expect(createdSkills.skills, `createdSkills.skills.${skillType}`).to.haveOwnProperty(skillType);
         });
-
-        let skill = createdSkills.skills.activation[0];
-        expect(skill.id, "skill.id").to.equal('activationSkill');
-        expect(skill.value, "skill.value").to.equal(1);
     });
 
-    it('should add early-activation skills to correct array', () => {
-        let createdSkills = skillFactory.createSkills([
-            {
-                "id": "earlyActivationSkill",
-                "x": 1
-            }
-        ]);
+    itShouldAdd('activation').skills.toSkillArray('activation');
+    itShouldAdd('earlyActivation').skills.toSkillArray('earlyActivation');
+    itShouldAdd('turnStart').skills.toSkillArray('turnStart');
+    itShouldAdd('onAttack').skills.toSkillArray('onAttack');
+    itShouldAdd('onDamaged').skills.toSkillArray('onDamaged');
+    itShouldAdd('turnEnd').skills.toSkillArray('turnEnd');
+    itShouldAdd('onDeath').skills.toSkillArray('onDeath');
 
-        assertSkillCounts(createdSkills, {
-            activation: 0,
-            earlyActivation: 1,
-            onDeath: 0,
-            passive: 0
-        });
-
-        let skill = createdSkills.skills.earlyActivation[0];
-        expect(skill.id, "skill.id").to.equal('earlyActivationSkill');
-        expect(skill.value, "skill.value").to.equal(1);
-    });
-
-    it('should add on-death skills to correct array', () => {
-        let createdSkills = skillFactory.createSkills([
-            {
-                "id": "onDeathSkill",
-                "x": 1
-            }
-        ]);
-
-        assertSkillCounts(createdSkills, {
-            activation: 0,
-            earlyActivation: 0,
-            onDeath: 1,
-            passive: 0
-        });
-
-        let skill = createdSkills.skills.onDeath[0];
-        expect(skill.id, "skill.id").to.equal('onDeathSkill');
-        expect(skill.value, "skill.value").to.equal(1);
-    });
-
-    it('should add passive skills to correct array', () => {
+    it('should add passive skills to passives', () => {
         let createdSkills = skillFactory.createSkills([
             {
                 "id": "passiveSkill",
@@ -91,14 +38,9 @@ describe('skillFactory', () => {
             }
         ]);
 
-        assertSkillCounts(createdSkills, {
-            activation: 0,
-            earlyActivation: 0,
-            onDeath: 0,
-            passive: 1
-        });
+        assertSkillCounts(createdSkills, { passive: 1 });
 
-        let value = createdSkills.passives['passiveSkill'];
+        let value = createdSkills.passives.passiveSkill;
         expect(value, "skill.x").to.equal(1);
     });
 
@@ -106,14 +48,37 @@ describe('skillFactory', () => {
     });
 });
 
-function assertSkillCounts(allSkills, skillCounts) {
-    expect(allSkills.skills.activation.length, "activation count").to.equal(skillCounts.activation);
-    expect(allSkills.skills.earlyActivation.length, "earlyActivation count").to.equal(skillCounts.earlyActivation);
-    expect(allSkills.skills.onDeath.length, "onDeath count").to.equal(skillCounts.onDeath);
+function itShouldAdd(skillType) {
+    return {
+        skills: {
+            toSkillArray(arrayName) {
+                it(`should add ${skillType} skills to ${arrayName} array`, () => {
+                    let skillID = `${skillType}Skill`;
+                    let createdSkills = skillFactory.createSkills([
+                        {
+                            "id": skillID,
+                            "x": 1
+                        }
+                    ]);
 
-    let passiveCount = R.pipe(R.toPairs,
-        R.map(R.nth(1)),
-        R.filter(R.compose(R.not, R.equals(0)))
-    )(allSkills.passives);
-    expect(passiveCount.length, "passive count").to.equal(skillCounts.passive);
+                    assertSkillCounts(createdSkills, { [arrayName]: 1 });
+
+                    let skill = createdSkills.skills[skillType][0];
+                    expect(skill.id, "skill.id").to.equal(skillID);
+                    expect(skill.value, "skill.value").to.equal(1);
+                });
+            }
+        }
+    }
+}
+
+function assertSkillCounts(allSkills, skillCounts) {
+    Object.entries(allSkills.skills).forEach(([skillType, skills]) => {
+        expect(skills.length, `${skillType} skill count`).to.equal(skillCounts[skillType] || 0);
+    });
+
+    let passiveCount = Object.values(allSkills.passives)
+        .filter(v => v !== 0).length;
+
+    expect(passiveCount, "passive count").to.equal(skillCounts.passive || 0);
 }

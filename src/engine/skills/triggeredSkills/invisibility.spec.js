@@ -1,8 +1,10 @@
-import { evade as invisibility } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { evade } from './../skills';
 
 describe('invisibility', () => {
+    let invisibility = theSkill(evade);
+
     describe('effects', () => {
-        testStatusApplication(invisibility, 'invisible', true);
+        invisibility.shouldOnlyAffectTheStatus('invisible').stackingWithCurrentValue();
     });
 });

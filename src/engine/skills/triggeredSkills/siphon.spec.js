@@ -1,8 +1,11 @@
-import { leech as siphon } from './../skills';
-import { testHealing } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { leech } from './../skills';
 
 describe('siphon', () => {
+    let siphon = theSkill(leech);
+
     describe('effects', () => {
-        testHealing(siphon);
+        siphon.shouldHealDamage.equalToItsValue();
+        siphon.shouldNotAffectStatusesOtherThan('healthLeft');
     });
 });

@@ -1,8 +1,10 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { daze } from './../skills';
-import { testStatusApplication } from './../skillTestCommon/skillCommon.spec';
 
 describe('daze', () => {
+    let theDazeSkill = theSkill(daze);
+
     describe('effects', () => {
-        testStatusApplication(daze, 'attackWeaken', true);
+        theDazeSkill.shouldOnlyAffectTheStatus('attackWeaken').stackingWithCurrentValue();
     });
 });

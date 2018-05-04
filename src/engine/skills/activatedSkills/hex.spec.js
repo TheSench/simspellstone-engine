@@ -1,12 +1,14 @@
-import { enfeeble as hex } from './../skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { enfeeble } from './../skills';
 
 describe('hex', () => {
-    testTargetting(hex);
-    testPotentialTargets.allOpposing(hex);
+    let hex = theSkill(enfeeble);
+
+    hex.shouldTarget.allOpposingUnits();
+    hex.shouldOnlyAffect.targetsThatAreAlive();
 
     describe('effects', () => {
-        testStatusApplication(hex, 'hexed', true);
-        testNegation(hex, 'invisible');
+        hex.shouldApplyTheStatus('hexed').stackingWithCurrentValue();
+        hex.shouldBeNegatedBy.invisible();
     });
 });

@@ -32,6 +32,20 @@
       ],
       "console": "internalConsole",
       "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Mocha Current Directory",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--timeout", "999999",
+        "--colors",
+        "buildScripts/testSetup.js",
+        "${fileDirname}/*.js"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

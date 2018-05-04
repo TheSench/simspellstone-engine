@@ -1,12 +1,14 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { enrage } from './../skills';
-import { testTargetting, testStatusApplication, testNegation, testPotentialTargets } from './../skillTestCommon/skillCommon.spec';
 
 describe('enrage', () => {
-    testTargetting(enrage);
-    testPotentialTargets.allAllied(enrage);
+    let theEnrageSkill = theSkill(enrage);
+
+    theEnrageSkill.shouldOnlyAffect.targetsThatAreAlive();
+    theEnrageSkill.shouldTarget.allAlliedUnits();
 
     describe('effects', () => {
-        testStatusApplication(enrage, 'enraged', true);
-        testNegation(enrage, 'nullified');
+        theEnrageSkill.shouldOnlyAffectTheStatus('enraged').stackingWithCurrentValue(),
+        theEnrageSkill.shouldBeNegatedBy.nullified();
     });
 });

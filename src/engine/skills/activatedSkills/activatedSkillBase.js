@@ -1,11 +1,10 @@
-import { random } from './../../../helpers/random';
 import R from 'ramda';
+import { random } from './../../../helpers/random';
 
 function checkNegation(negatedBy, self) {
     return function (skill, source, target, baseValue) {
         if (target.status[negatedBy]) {
             target.status[negatedBy]--;
-            // TODO: Echo
             return false;
         } else {
             self.doAffectTarget(skill, source, target, baseValue);

@@ -1,12 +1,14 @@
+import { theSkill } from './../skillTestCommon/skillCommon.spec';
 import { protect } from './../skills';
-import { testTargetting, testPotentialTargets, testStatusApplication, testNegation } from './../skillTestCommon/skillCommon.spec';
 
 describe('protect', () => {
-    testTargetting(protect);
-    testPotentialTargets.allAllied(protect);
+    let barrier = theSkill(protect);
+
+    barrier.shouldTarget.allAlliedUnits();
+    barrier.shouldOnlyAffect.targetsThatAreAlive();
 
     describe('effects', () => {
-        testStatusApplication(protect, 'protection', true);
-        testNegation(protect, 'nullified');
+        barrier.shouldApplyTheStatus('protection').stackingWithCurrentValue();
+        barrier.shouldBeNegatedBy.nullified();
     });
 });
