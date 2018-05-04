@@ -1,5 +1,5 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
-import { corrosive } from './../skills';
+import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { corrosive } from './../../skills';
 
 describe('corrosive', () => {
     let theCorrosiveSkill = theSkill(corrosive);

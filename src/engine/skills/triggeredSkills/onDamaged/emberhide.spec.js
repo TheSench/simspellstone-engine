@@ -1,5 +1,5 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
-import { counterburn } from './../skills';
+import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { counterburn } from './../../skills';
 
 describe('emberhide', () => {
     let emberhide = theSkill(counterburn);

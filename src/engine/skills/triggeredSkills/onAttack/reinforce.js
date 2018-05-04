@@ -1,4 +1,4 @@
-import TriggeredSkillBase from "./triggeredSkillBase";
+import TriggeredSkillBase from "./../triggeredSkillBase";
 
 export default class Reinforce extends TriggeredSkillBase {
     // eslint-disable-next-line no-unused-vars

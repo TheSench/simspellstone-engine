@@ -1,5 +1,5 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
-import { evade } from './../skills';
+import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { evade } from './../../skills';
 
 describe('invisibility', () => {
     let invisibility = theSkill(evade);

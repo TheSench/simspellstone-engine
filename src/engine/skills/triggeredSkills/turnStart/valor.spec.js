@@ -1,5 +1,5 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
-import { valor } from './../skills';
+import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { valor } from './../../skills';
 
 describe('valor', () => {
     let theValorSkill = theSkill(valor);
