@@ -1,14 +1,15 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { counter } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('vengeance', () => {
-    let vengeance = theSkill(counter);
+  let vengeance = whenTriggered(counter);
 
-    describe('effects', () => {
-        vengeance.shouldDealDamage
-            .equalToItsValue()
-            .modifiedBy('protection', 'warded');
+  describe('effects', () => {
+    vengeance.shouldAffectTheAttacker
+      .dealingDamage.equalToItsValue()
+      //TODO: Add ModifiedBy
+      .and.affectNoOtherStatuses();
 
-        vengeance.shouldNotAffectStatusesOtherThan('healthLeft');
-    });
+    vengeance.shouldNotAffectTheDefender();
+  });
 });

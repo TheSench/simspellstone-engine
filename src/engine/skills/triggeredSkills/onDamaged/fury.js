@@ -2,7 +2,7 @@ import CombatSkillBase from "./../combatSkillBase";
 
 export default class Fury extends CombatSkillBase {
   // eslint-disable-next-line no-unused-vars
-  doPerformSkill(skill, defender, attacker, baseValue) {
+  doPerformSkill(skill, attacker, defender, baseValue) {
         defender.status.attackBerserk += baseValue;
 
         let totalDamage = baseValue;

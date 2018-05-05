@@ -1,10 +1,14 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { reinforce } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('reinforce', () => {
-    let theReinforceSkill = theSkill(reinforce);
+  let theReinforceSkill = whenTriggered(reinforce);
 
-    describe('effects', () => {
-        theReinforceSkill.shouldOnlyAffectTheStatus('protection').stackingWithCurrentValue();
-    });
+  describe('effects', () => {
+    theReinforceSkill.shouldAffectTheAttacker
+      .applyingTheStatus('protection').stackingWithCurrentValue()
+      .and.affectNoOtherStatuses();
+
+    theReinforceSkill.shouldNotAffectTheDefender();
+  });
 });

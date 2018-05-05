@@ -1,4 +1,3 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { poison } from './../../skills';
 import { whenTriggered } from '../testCombatSkill.spec';
 

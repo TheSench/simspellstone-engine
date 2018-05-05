@@ -1,12 +1,15 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { counterburn } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('emberhide', () => {
-    let emberhide = theSkill(counterburn);
+  let emberhide = whenTriggered(counterburn);
 
-    describe('effects', () => {
-        emberhide.shouldApplyTheStatus('scorched').stackingWithCurrentValue();
-        emberhide.shouldApplyTheStatus('scorchTimer').replacingCurrentValueWith(2);
-        emberhide.shouldNotAffectStatusesOtherThan('scorched', 'scorchTimer');
-    });
+  describe('effects', () => {
+    emberhide.shouldAffectTheAttacker
+      .applyingTheStatus('scorched').stackingWithCurrentValue()
+      .and.applyingTheStatus('scorchTimer').replacingCurrentValueWith(2)
+      .and.affectNoOtherStatuses();
+
+    emberhide.shouldNotAffectTheDefender();
+  });
 });

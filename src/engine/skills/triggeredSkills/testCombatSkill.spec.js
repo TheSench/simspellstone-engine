@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { createTestUnit } from "../../unitFactory/unitFactory";
 import { orListFromArray } from './../../../helpers/orListFromArray';
 
@@ -33,14 +34,39 @@ function getCombatSkillHelpers(skill, target, affectedStatuses) {
         replacingCurrentValueWith: (value) => doTestApplyStatus(affectedStatuses, skill, status, target, value)
       }
     },
+    get healingDamage() {
+      return dealOrHealDamageHelper(skill, target, affectedStatuses, 'heal');
+    },
+    get dealingDamage() {
+      return dealOrHealDamageHelper(skill, target, affectedStatuses, 'deal');
+    },
     affectNoOtherStatuses() {
       return affectNoOtherStatuses(skill, affectedStatuses, target);
     }
   }
 }
 
+function dealOrHealDamageHelper(skill, target, affectedStatuses, dealOrHeal) {
+  affectedStatuses.push('healthLeft');
+
+  return {
+    equalToItsValue() {
+      shouldDealOrHealDamageEqualToValue(skill, target, dealOrHeal);
+      return getContinuation(skill, target, affectedStatuses);
+    },
+    exactlyXDamage(x) {
+      shouldDealOrHealExactlyXDamage(skill, target, dealOrHeal, x);
+      return getContinuation(skill, target, affectedStatuses);
+    }
+  }
+}
+
 function doTestApplyStatus(affectedStatuses, skill, status, target, applicationType) {
   shouldApplyStatusTo(skill, status, target, applicationType);
+  return getContinuation(skill, target, affectedStatuses);
+}
+
+function getContinuation(skill, target, affectedStatuses) {
   return {
     get and() {
       return getCombatSkillHelpers(skill, target, affectedStatuses);
@@ -115,8 +141,8 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
 function affectNoOtherStatuses(skill, affectedStatuses, target) {
   describe(`No other modifications to ${target}.status`, () => {
     let description = (affectedStatuses.length
-                    ? `should only modify ${orListFromArray(affectedStatuses)}`
-                  : 'should NOT modify any statuses')
+      ? `should only modify ${orListFromArray(affectedStatuses)}`
+      : 'should NOT modify any statuses')
     it(description, () => {
       let
         attacker = createTestUnit(),
@@ -128,6 +154,53 @@ function affectNoOtherStatuses(skill, affectedStatuses, target) {
       affectedStatuses.forEach((status) => expectedStatus[status] = targetUnit.status[status]);
 
       expect(targetUnit.status, "target.status").to.deep.equal(expectedStatus);
+    });
+  });
+}
+
+export function shouldDealOrHealDamageEqualToValue(skill, target, dealOrHeal) {
+  testDamage(skill, target, dealOrHeal);
+}
+
+export function shouldDealOrHealExactlyXDamage(skill, target, dealOrHeal, x) {
+  testDamage(skill, target, dealOrHeal, x);
+}
+
+function testDamage(skill, target, dealOrHeal, flatValue) {
+
+  [1, 99].forEach((value) => {
+    let description = (flatValue ? 'given any value' : `given a value of ${value}`);
+    let expectedValue = (flatValue || value);
+    let dealtOrHealed = (dealOrHeal === 'deal' ? 'dealt' : 'healed');
+    let damageFnName = `${dealOrHeal}Damage`;
+
+    describe(description, () => {
+      let targetUnit,
+        attacker,
+        defender,
+        skillInstance;
+
+      beforeEach(() => {
+        skillInstance = { value: 5 };
+        attacker = createTestUnit({ status: { healthLeft: 5 } });
+        defender = createTestUnit({ status: { healthLeft: 5 } });
+        targetUnit = (target === 'attacker' ? attacker : defender);
+        sinon.spy(targetUnit, damageFnName)
+
+        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+      });
+
+      afterEach(() => {
+        targetUnit.healDamage.restore();
+      });
+
+      it(`should ${dealOrHeal} ${expectedValue} damage`, () => {
+        expect(targetUnit.healDamage.calledWithExactly(expectedValue), `${dealtOrHealed} ${expectedValue} damage`).to.be.true;
+      });
+
+      it(`should only ${dealOrHeal} damage once`, () => {
+        expect(targetUnit.healDamage.callCount, `only ${dealtOrHealed} damage once`).to.equal(1);
+      });
     });
   });
 }

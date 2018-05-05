@@ -1,11 +1,13 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { leech } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('siphon', () => {
-    let siphon = theSkill(leech);
-    
+    let siphon = whenTriggered(leech);
+
     describe('effects', () => {
-        siphon.shouldHealDamage.equalToItsValue();
-        siphon.shouldNotAffectStatusesOtherThan('healthLeft');
+        siphon.shouldAffectTheAttacker.healingDamage.equalToItsValue()
+          .and.affectNoOtherStatuses();
+
+        siphon.shouldNotAffectTheDefender();
     });
 });
