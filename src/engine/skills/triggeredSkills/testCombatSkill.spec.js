@@ -191,15 +191,15 @@ function testDamage(skill, target, dealOrHeal, flatValue) {
       });
 
       afterEach(() => {
-        targetUnit.healDamage.restore();
+        targetUnit[damageFnName].restore();
       });
 
       it(`should ${dealOrHeal} ${expectedValue} damage`, () => {
-        expect(targetUnit.healDamage.calledWithExactly(expectedValue), `${dealtOrHealed} ${expectedValue} damage`).to.be.true;
+        expect(targetUnit[damageFnName].calledWithExactly(expectedValue), `${dealtOrHealed} ${expectedValue} damage`).to.be.true;
       });
 
       it(`should only ${dealOrHeal} damage once`, () => {
-        expect(targetUnit.healDamage.callCount, `only ${dealtOrHealed} damage once`).to.equal(1);
+        expect(targetUnit[damageFnName].callCount, `only ${dealtOrHealed} damage once`).to.equal(1);
       });
     });
   });
