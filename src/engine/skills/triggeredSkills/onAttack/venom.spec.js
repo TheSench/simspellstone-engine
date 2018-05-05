@@ -1,11 +1,13 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { venom } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('venom', () => {
-    let theVenomSkill = theSkill(venom);
-    describe('effects', () => {
-        theVenomSkill.shouldApplyTheStatus('envenomed').keepingHighestValue();
-        theVenomSkill.shouldApplyTheStatus('hexed').stackingWithCurrentValue();
-        theVenomSkill.shouldNotAffectStatusesOtherThan('envenomed', 'hexed');
-    });
+  let theVenomSkill = whenTriggered(venom);
+
+  theVenomSkill.shouldAffectTheDefender
+    .applyingTheStatus('envenomed').keepingHighestValue()
+    .and.applyingTheStatus('hexed').stackingWithCurrentValue()
+    .and.affectNoOtherStatuses();
+
+  theVenomSkill.shouldNotAffectTheAttacker();
 });

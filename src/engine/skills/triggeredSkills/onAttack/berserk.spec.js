@@ -1,10 +1,14 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { berserk } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('berserk', () => {
-    let theBerserkSkill = theSkill(berserk);
+  let theBerserkSkill = whenTriggered(berserk);
 
-    describe('effects', () => {
-        theBerserkSkill.shouldOnlyAffectTheStatus('attackBerserk').stackingWithCurrentValue();
-    });
+  describe('effects', () => {
+    theBerserkSkill.shouldAffectTheAttacker
+      .applyingTheStatus('attackBerserk').stackingWithCurrentValue()
+      .and.affectNoOtherStatuses();
+
+    theBerserkSkill.shouldNotAffectTheDefender();
+  });
 });

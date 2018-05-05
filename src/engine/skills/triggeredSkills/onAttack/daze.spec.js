@@ -1,10 +1,14 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { daze } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('daze', () => {
-    let theDazeSkill = theSkill(daze);
+  let theDazeSkill = whenTriggered(daze);
 
-    describe('effects', () => {
-        theDazeSkill.shouldOnlyAffectTheStatus('attackWeaken').stackingWithCurrentValue();
-    });
+  describe('effects', () => {
+    theDazeSkill.shouldAffectTheDefender
+      .applyingTheStatus('attackWeaken').stackingWithCurrentValue()
+      .and.affectNoOtherStatuses();
+
+    theDazeSkill.shouldNotAffectTheAttacker();
+  });
 });

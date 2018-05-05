@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from './../combatSkillBase';
 
-export default class Daze extends TriggeredSkillBase {
+export default class Daze extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.status.attackWeaken += baseValue;
+    doPerformSkill(skill, attacker, defender, baseValue) {
+      defender.status.attackWeaken += baseValue;
     }
 }

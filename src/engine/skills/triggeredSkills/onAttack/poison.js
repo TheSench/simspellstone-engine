@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from './../combatSkillBase';
 
-export default class Poison extends TriggeredSkillBase {
+export default class Poison extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.applyPoison(baseValue);
+    doPerformSkill(skill, attacker, defender, baseValue) {
+      defender.applyPoison(baseValue);
     }
 }

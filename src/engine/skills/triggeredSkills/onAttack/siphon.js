@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from './../combatSkillBase';
 
-export default class Siphon extends TriggeredSkillBase {
+export default class Siphon extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.healDamage(baseValue);
+    doPerformSkill(skill, attacker, defender, baseValue) {
+      attacker.healDamage(baseValue);
     }
 }

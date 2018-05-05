@@ -1,10 +1,10 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from "./../combatSkillBase";
 
-export default class Corrosive extends TriggeredSkillBase {
+export default class Corrosive extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.status.attackCorroded += baseValue;
-        target.status.corroded += baseValue;
-        target.status.corrodedTimer = 2;
+    doPerformSkill(skill, defender, attacker, baseValue) {
+        attacker.status.attackCorroded += baseValue;
+        attacker.status.corroded += baseValue;
+        attacker.status.corrodedTimer = 2;
     }
 }

@@ -1,10 +1,14 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { nullify } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('nullify', () => {
-    let theNullifySkill = theSkill(nullify);
+  let theNullifySkill = whenTriggered(nullify);
 
-    describe('effects', () => {
-        theNullifySkill.shouldOnlyAffectTheStatus('nullified').stackingWithCurrentValue();
-    });
+  describe('effects', () => {
+    theNullifySkill.shouldAffectTheDefender
+      .applyingTheStatus('nullified').stackingWithCurrentValue()
+      .and.affectNoOtherStatuses();
+
+    theNullifySkill.shouldNotAffectTheAttacker();
+  });
 });

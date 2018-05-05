@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import TurnSkillBase from "./../turnSkillBase";
 
-export default class Invisibility extends TriggeredSkillBase {
-    // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.status.invisible += baseValue;
-    }
+export default class Invisibility extends TurnSkillBase {
+  // eslint-disable-next-line no-unused-vars
+  doPerformSkill(skill, source, field, baseValue) {
+    source.status.invisible += baseValue;
+  }
 }
