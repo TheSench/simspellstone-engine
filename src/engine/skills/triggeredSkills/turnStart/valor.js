@@ -11,7 +11,12 @@ export default class Valor extends TurnSkillBase {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   checkOpponent(source, field) {
+    return true;
+
+    // TODO: Where to put this logic
+    /*
     let opponent = field.slice(source.position, 1);
     // TODO: Check adjusted attack
     if(opponent.state.alive && opponent.status.attack > source.attack) {
@@ -19,5 +24,6 @@ export default class Valor extends TurnSkillBase {
     } else {
       return false;
     }
+    */
   }
 }

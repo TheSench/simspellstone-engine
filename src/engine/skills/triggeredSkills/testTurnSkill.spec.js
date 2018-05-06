@@ -5,17 +5,8 @@ import { orListFromArray } from './../../../helpers/orListFromArray';
 
 export function whenTriggered(skill) {
   return {
-    get shouldAffectTheAttacker() {
-      return getCombatSkillHelpers(skill, 'attacker')
-    },
-    get shouldAffectTheDefender() {
-      return getCombatSkillHelpers(skill, 'defender')
-    },
-    shouldNotAffectTheAttacker() {
-      return getCombatSkillHelpers(skill, 'attacker').affectNoOtherStatuses();
-    },
-    shouldNotAffectTheDefender() {
-      return getCombatSkillHelpers(skill, 'defender').affectNoOtherStatuses();
+    get shouldAffectItself() {
+      return getCombatSkillHelpers(skill, 'source')
     }
   }
 }
@@ -82,15 +73,16 @@ const applicationTypes = {
 
 function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
   describe(`effect on ${target}.status.${affectedStatus}`, () => {
-    let attacker = null,
-      defender = null,
+    let source = null,
+      field = null,
       targetUnit,
       skillInstance;
 
     beforeEach(() => {
-      attacker = createTestUnit();
-      defender = createTestUnit();
-      targetUnit = (target === 'attacker' ? attacker : defender);
+      debugger;
+      source = createTestUnit();
+      field = null; // TODO: Set up field
+      targetUnit = (target === 'source' ? source : null);
       skillInstance = { value: 5 };
     });
 
@@ -99,7 +91,7 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         it(`should replace lower values of ${affectedStatus}`, () => {
           targetUnit.status[affectedStatus] = 3;
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
 
           expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(5);
         });
@@ -107,7 +99,7 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         it(`should NOT replace higher values of ${affectedStatus}`, () => {
           targetUnit.status[affectedStatus] = 99;
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
 
           expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(99);
         });
@@ -116,19 +108,21 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         it(`should stack with previous ${affectedStatus}`, () => {
           targetUnit.status[affectedStatus] = 3;
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
 
           expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(8);
         });
         break;
       default:
         [1, 99].forEach(function replaceStatus(flatValue) {
-          it(`should always set value of ${affectedStatus} to skill value`, () => {
+          debugger;
+          let expectedDescription = (applicationType !== applicationTypes.replace ? applicationType : 'skill value');
+          it(`should always set value of ${affectedStatus} to ${expectedDescription}`, () => {
             let expectedValue = (applicationType !== applicationTypes.replace ? applicationType : skillInstance.value);
 
             targetUnit.status[affectedStatus] = flatValue;
 
-            skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+            skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
 
             expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(expectedValue);
           });
@@ -145,12 +139,13 @@ function affectNoOtherStatuses(skill, affectedStatuses, target) {
       : 'should NOT modify any statuses')
     it(description, () => {
       let
-        attacker = createTestUnit(),
-        defender = createTestUnit(),
-        targetUnit = (target === 'attacker' ? attacker : defender),
-        expectedStatus = Object.assign({}, targetUnit.status);
+        source = createTestUnit(),
+        field = null, // TODO: Set yp field
+        targetUnit = (target === 'source' ? source : null),
+        expectedStatus = Object.assign({}, targetUnit.status),
+        skillInstance = { value: 5 };
 
-      skill.doPerformSkill({ value: 5 }, attacker, defender, 5);
+      skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
       affectedStatuses.forEach((status) => expectedStatus[status] = targetUnit.status[status]);
 
       expect(targetUnit.status, "target.status").to.deep.equal(expectedStatus);
@@ -172,22 +167,22 @@ function testDamage(skill, target, dealOrHeal, flatValue) {
     let description = (flatValue ? 'given any value' : `given a value of ${value}`);
     let expectedValue = (flatValue || value);
     let dealtOrHealed = (dealOrHeal === 'deal' ? 'dealt' : 'healed');
-    let damageFnName = `${dealOrHeal === 'deal' ? 'take' : 'heal'}Damage`;
+    let damageFnName = `${dealOrHeal}Damage`;
 
     describe(description, () => {
       let targetUnit,
-        attacker,
-        defender,
+        source,
+        field,
         skillInstance;
 
       beforeEach(() => {
         skillInstance = { value };
-        attacker = createTestUnit({ status: { healthLeft: 5 } });
-        defender = createTestUnit({ status: { healthLeft: 5 } });
-        targetUnit = (target === 'attacker' ? attacker : defender);
-        sinon.spy(targetUnit, damageFnName)
+        source = createTestUnit({ status: { healthLeft: 5 } });
+        field = null; // TODO: Set up field
+        targetUnit = (target === 'source' ? source : null),
+        sinon.spy(source, damageFnName);
 
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+        skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
       });
 
       afterEach(() => {
