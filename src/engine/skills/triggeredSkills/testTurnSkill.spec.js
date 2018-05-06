@@ -79,7 +79,6 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
       skillInstance;
 
     beforeEach(() => {
-      debugger;
       source = createTestUnit();
       field = null; // TODO: Set up field
       targetUnit = (target === 'source' ? source : null);
@@ -115,7 +114,6 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         break;
       default:
         [1, 99].forEach(function replaceStatus(flatValue) {
-          debugger;
           let expectedDescription = (applicationType !== applicationTypes.replace ? applicationType : 'skill value');
           it(`should always set value of ${affectedStatus} to ${expectedDescription}`, () => {
             let expectedValue = (applicationType !== applicationTypes.replace ? applicationType : skillInstance.value);
