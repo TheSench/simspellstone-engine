@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from './../combatSkillBase';
 
-export default class Nullify extends TriggeredSkillBase {
+export default class Nullify extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.status.nullified += baseValue;
+    doPerformSkill(skill, attacker, defender, baseValue) {
+      defender.status.nullified += baseValue;
     }
 }

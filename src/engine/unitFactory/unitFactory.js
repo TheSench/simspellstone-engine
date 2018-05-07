@@ -1,6 +1,6 @@
 import { cards as cardDatabase, runes as runeDatabase } from './../../data/gameData';
-import states from './unitStates';
 import { createSkills } from './skillFactory';
+import states from './unitStates';
 //import R from 'ramda';
 
 export function createUnit(unitKey) {
@@ -186,7 +186,6 @@ export function createStatus(stats) {
     warded: 0,
     // Boolean-Status
     silenced: false,
-    valorTriggered: false,
     dualstrikeTriggered: false,
     onDeathTriggered: false,
     reanimated: false

@@ -1,10 +1,12 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { whenTriggered } from '../testTurnSkill.spec';
 import { evade } from './../../skills';
 
 describe('invisibility', () => {
-    let invisibility = theSkill(evade);
+  let invisibility = whenTriggered(evade);
 
-    describe('effects', () => {
-        invisibility.shouldOnlyAffectTheStatus('invisible').stackingWithCurrentValue();
-    });
+  describe('effects', () => {
+    invisibility.shouldAffectItself
+      .applyingTheStatus('invisible').stackingWithCurrentValue()
+      .and.affectNoOtherStatuses();
+  });
 });

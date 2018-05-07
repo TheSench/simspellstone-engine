@@ -2,8 +2,6 @@ import { shouldDealDamageEqualToValue, shouldDealExactlyXDamage, testDamageModif
 import { shouldHealDamageEqualToValue, shouldHealExactlyXDamage } from './testHealing.spec';
 import { testNegation } from './testNegation.spec';
 import { testPotentialTargets } from './testPotentialTargets.spec';
-import { changeSkillTo } from './testSkillChanges.spec';
-import { testSkillDoesNothing } from './testSkillDoesNothing.spec';
 import { shouldApplyStatus, shouldChangeStateTo, shouldNotApplyStatusesOtherThan } from './testStatusApplication.spec';
 import { testTargetting } from './testTargetting.spec';
 
@@ -62,8 +60,6 @@ export function theSkill(skill) {
             }
         },
         shouldNotAffectStatusesOtherThan: (...statuses) => shouldNotApplyStatusesOtherThan(skill, statuses),
-        shouldChangeStateOfTargetTo: (state) => shouldChangeStateTo(skill, state),
-        shouldDoNothing: () => testSkillDoesNothing(skill),
-        shouldChangeItselfTo: (newSkillID) => changeSkillTo(skill, newSkillID)
+        shouldChangeStateOfTargetTo: (state) => shouldChangeStateTo(skill, state)
     }
 }

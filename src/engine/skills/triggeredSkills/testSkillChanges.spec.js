@@ -5,10 +5,10 @@ export function changeSkillTo(skill, newSkillID) {
     describe('effects on skill instance', () => {
         it('', () => {
             let source = createTestUnit();
-            let target = createTestUnit();
+            let field = null;
             let skillInstance = { id: 'theSkill', value: null };
 
-            skill.affectTarget(skillInstance, source, target, skillInstance.value);
+            skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
 
             expect(skillInstance.id).to.equal(newSkillID);
         });

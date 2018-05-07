@@ -1,16 +1,16 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { whenTriggered } from '../testTurnSkill.spec';
 import { valor } from './../../skills';
 
 describe('valor', () => {
-    let theValorSkill = theSkill(valor);
+  let theValorSkill = whenTriggered(valor);
 
-    describe('effects', () => {
-        theValorSkill.shouldApplyTheStatus('attackValor').replacingCurrentValue();
-        theValorSkill.shouldApplyTheStatus('valorTriggered').replacingCurrentValueWith(true);
-        theValorSkill.shouldNotAffectStatusesOtherThan('attackValor', 'valorTriggered');
+  describe('effects', () => {
+    theValorSkill.shouldAffectItself
+      .applyingTheStatus('attackValor').replacingCurrentValue()
+      .and.affectNoOtherStatuses();
 
-        it('should mark itself as triggered once it fires', () => {
-            theValorSkill.shouldChangeItselfTo('valorTriggered');
-        });
+    it('should mark itself as triggered once it fires', () => {
+      theValorSkill.shouldChangeItselfTo('valorTriggered');
     });
+  });
 });

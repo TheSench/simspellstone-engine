@@ -1,13 +1,16 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
 import { corrosive } from './../../skills';
+import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('corrosive', () => {
-    let theCorrosiveSkill = theSkill(corrosive);
+  let theCorrosiveSkill = whenTriggered(corrosive);
 
-    describe('effects', () => {
-        theCorrosiveSkill.shouldApplyTheStatus('attackCorroded').stackingWithCurrentValue();
-        theCorrosiveSkill.shouldApplyTheStatus('corroded').stackingWithCurrentValue();
-        theCorrosiveSkill.shouldApplyTheStatus('corrodedTimer').replacingCurrentValueWith(2);
-        theCorrosiveSkill.shouldNotAffectStatusesOtherThan('attackCorroded', 'corroded', 'corrodedTimer');
-    });
+  describe('effects', () => {
+    theCorrosiveSkill.shouldAffectTheAttacker
+      .applyingTheStatus('attackCorroded').stackingWithCurrentValue()
+      .and.applyingTheStatus('corroded').stackingWithCurrentValue()
+      .and.applyingTheStatus('corrodedTimer').replacingCurrentValueWith(2)
+      .and.affectNoOtherStatuses();
+
+    theCorrosiveSkill.shouldNotAffectTheDefender();
+  });
 });

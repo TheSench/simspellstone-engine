@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from "./../combatSkillBase";
 
-export default class Emberhide extends TriggeredSkillBase {
-    // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.applyScorch(baseValue);
-    }
+export default class Emberhide extends CombatSkillBase {
+  // eslint-disable-next-line no-unused-vars
+  doPerformSkill(skill, attacker, defender, baseValue) {
+    attacker.applyScorch(baseValue);
+  }
 }

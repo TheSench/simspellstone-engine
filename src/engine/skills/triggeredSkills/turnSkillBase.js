@@ -1,4 +1,4 @@
-export default class TriggeredSkillBase {
+export default class TurnSkillBase {
     getSkillValue(skill, source) {
         let value = skill.value;
         let enhanced = source.getEnhancement(skill.id);
@@ -10,14 +10,12 @@ export default class TriggeredSkillBase {
         }
     }
 
-    performSkill(skill, source, target) {
+    performSkill(skill, source, field) {
         let baseValue = this.getSkillValue(skill, source);
-        this.affectTarget(skill, source, target, baseValue);
+        this.doPerformSkill(skill, source, field, baseValue);
     }
 
     // eslint-disable-next-line no-unused-vars
-    affectTarget(skill, source, target, baseValue) {
-        this.doAffectTarget(skill, source, target, baseValue);
-        return true;
+    doPerformSkill(skill, source, field, baseValue) {
     }
 }

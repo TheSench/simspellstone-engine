@@ -1,10 +1,12 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { whenTriggered } from '../testTurnSkill.spec';
 import { absorb } from './../../skills';
 
 describe('ward', () => {
-    let ward = theSkill(absorb);
+  let ward = whenTriggered(absorb);
 
-    describe('effects', () => {
-        ward.shouldOnlyAffectTheStatus("warded").stackingWithCurrentValue();
-    });
+  describe('effects', () => {
+    ward.shouldAffectItself
+      .applyingTheStatus('warded').stackingWithCurrentValue()
+      .and.affectNoOtherStatuses();
+  });
 });

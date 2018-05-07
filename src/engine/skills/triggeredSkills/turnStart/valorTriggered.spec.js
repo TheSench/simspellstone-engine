@@ -1,8 +1,8 @@
-import { theSkill } from './../../skillTestCommon/skillCommon.spec';
+import { whenTriggered } from '../testTurnSkill.spec';
 import { valorTriggered } from './../../skills';
 
 describe('valor', () => {
     describe('effects', () => {
-        theSkill(valorTriggered).shouldDoNothing();
+        whenTriggered(valorTriggered).shouldDoNothing();
     });
 });

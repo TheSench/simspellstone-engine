@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from './../combatSkillBase';
 
-export default class Reinforce extends TriggeredSkillBase {
+export default class Reinforce extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.status.protection += baseValue;
+    doPerformSkill(skill, attacker, defender, baseValue) {
+      attacker.status.protection += baseValue;
     }
 }

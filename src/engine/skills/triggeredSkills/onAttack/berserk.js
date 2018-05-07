@@ -1,8 +1,8 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from "./../combatSkillBase";
 
-export default class Berserk extends TriggeredSkillBase {
+export default class Berserk extends CombatSkillBase {
     // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.status.attackBerserk += baseValue;
+    doPerformSkill(skill, attacker, defender, baseValue) {
+      attacker.status.attackBerserk += baseValue;
     }
 }

@@ -1,9 +1,9 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from './../combatSkillBase';
 
-export default class Venom extends TriggeredSkillBase {
-    // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
-        target.applyVenom(baseValue);
-        target.status.hexed += baseValue;
-    }
+export default class Venom extends CombatSkillBase {
+  // eslint-disable-next-line no-unused-vars
+  doPerformSkill(skill, attacker, defender, baseValue) {
+    defender.applyVenom(baseValue);
+    defender.status.hexed += baseValue;
+  }
 }

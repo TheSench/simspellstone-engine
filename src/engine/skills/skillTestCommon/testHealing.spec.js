@@ -30,7 +30,7 @@ function testHealing(skill, flatHealing) {
         target.healDamage.restore();
       });
 
-      it('should heal 4 damage', () => {
+      it(`should heal ${expectedHealing} damage`, () => {
         expect(target.healDamage.calledWithExactly(expectedHealing), `healed ${expectedHealing} damage`).to.be.true;
       });
 

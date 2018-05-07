@@ -1,12 +1,12 @@
-import TriggeredSkillBase from "./../triggeredSkillBase";
+import CombatSkillBase from "./../combatSkillBase";
 
-export default class Vengeance extends TriggeredSkillBase {
-    // eslint-disable-next-line no-unused-vars
-    doAffectTarget(skill, source, target, baseValue) {
+export default class Vengeance extends CombatSkillBase {
+  // eslint-disable-next-line no-unused-vars
+  doPerformSkill(skill, attacker, defender, baseValue) {
         let totalDamage = baseValue;
-        totalDamage = target.applyWard(totalDamage);
-        totalDamage = target.applyProtect(totalDamage);
-        
-        target.takeDamage(totalDamage);
+        totalDamage = attacker.applyWard(totalDamage);
+        totalDamage = attacker.applyProtect(totalDamage);
+
+        attacker.takeDamage(totalDamage);
     }
 }

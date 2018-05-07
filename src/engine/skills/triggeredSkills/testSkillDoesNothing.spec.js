@@ -4,17 +4,17 @@ import sinon from 'sinon';
 export function testSkillDoesNothing(skill) {
     describe('basic effects', () => {
         beforeEach(function setupTest() {
-            sinon.spy(skill, "affectTarget");
+            sinon.spy(skill, "doPerformSkill");
         });
 
         afterEach(function tearDownTest() {
-            skill.affectTarget.restore();
+            skill.doPerformSkill.restore();
         });
 
         it('should do nothing', () => {
             skill.performSkill(null, null, null);
 
-            expect(skill.affectTarget.notCalled, "skill.affectTarget.notCalled").to.be.true;
+            expect(skill.doPerformSkill.notCalled, "skill.doPerformSkill.notCalled").to.be.true;
         });
     });
 }
