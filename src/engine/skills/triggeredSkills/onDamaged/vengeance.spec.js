@@ -1,5 +1,5 @@
-import { counter } from './../../skills';
 import { whenTriggered } from '../testCombatSkill.spec';
+import { counter } from './../../skills';
 
 describe('vengeance', () => {
   let vengeance = whenTriggered(counter);
@@ -7,7 +7,7 @@ describe('vengeance', () => {
   describe('effects', () => {
     vengeance.shouldAffectTheAttacker
       .dealingDamage.equalToItsValue()
-      //TODO: Add ModifiedBy
+      .modifiedBy('protection', 'warded')
       .and.affectNoOtherStatuses();
 
     vengeance.shouldNotAffectTheDefender();

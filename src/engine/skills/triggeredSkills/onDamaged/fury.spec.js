@@ -1,5 +1,5 @@
-import { fury } from './../../skills';
 import { whenTriggered } from '../testCombatSkill.spec';
+import { fury } from './../../skills';
 
 describe('fury', () => {
   let theFurySkill = whenTriggered(fury);
@@ -7,7 +7,7 @@ describe('fury', () => {
   describe('effects', () => {
     theFurySkill.shouldAffectTheAttacker
       .dealingDamage.equalToItsValue()
-      //TODO: Add ModifiedBy
+      .modifiedBy('protection', 'warded')
       .and.affectNoOtherStatuses();
 
     theFurySkill.shouldAffectTheDefender

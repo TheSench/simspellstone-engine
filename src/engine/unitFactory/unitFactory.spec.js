@@ -1,14 +1,14 @@
 import { expect } from 'chai';
-import { createUnit, defaultPassives } from './unitFactory';
-import * as skillFactory from './skillFactory';
-import states from './unitStates';
-
-import * as gameData from './../../data/gameData';
-import { cards as mockCards } from './../../mockData/mockGameData';
-import { ids as rarities } from './../../constants/rarities';
+import sinon from 'sinon';
 import { ids as cardTypes } from './../../constants/cardTypes';
 import { ids as factions } from './../../constants/factions';
-import sinon from 'sinon';
+import { ids as rarities } from './../../constants/rarities';
+import * as gameData from './../../data/gameData';
+import { cards as mockCards } from './../../mockData/mockGameData';
+import * as skillFactory from './skillFactory';
+import { createUnit, defaultPassives } from './unitFactory';
+import states from './unitStates';
+
 
 var sandbox = sinon.createSandbox();
 
@@ -139,7 +139,18 @@ describe('unitFactory', () => {
       })
     });
 
-    // TODO: damage/healing functions
+    describe('takeDamage', () => {
+      it("should reduce the unit's health");
+      it('should not allow negative damage');
+      it('should mark the unit as dead when healthLeft <= 0');
+    });
+
+    describe('healDamage', () => {
+      it("should decrease the unit's health");
+      it('should not allow negative healing');
+      it('should not allow the unit to be healed above its max health');
+      it('should mark the unit as dead when healthLeft <= 0');
+    });
     // TODO: ward/protect
   });
 });
