@@ -5,5 +5,7 @@ export default class Valor extends TriggeredSkillBase {
     doAffectTarget(skill, source, target, baseValue) {
         target.status.attackValor = baseValue;
         target.status.valorTriggered = true;
+
+        skill.id = 'valorTriggered';
     }
 }

@@ -1,38 +1,39 @@
 import Attack from './activatedSkills/attack';
 import Barrage from './activatedSkills/barrage';
-import Berserk from './triggeredSkills/onAttack/berserk';
 import Bolt from './activatedSkills/bolt';
-import Corrosive from './triggeredSkills/onDamaged/corrosive';
-import Daze from './triggeredSkills/onAttack/daze';
-import Emberhide from './triggeredSkills/onDamaged/emberhide';
 import Empower from './activatedSkills/empower';
 import Enlarge from './activatedSkills/enlarge';
 import Enrage from './activatedSkills/enrage';
 import Freeze from './activatedSkills/freeze';
 import FreezeSelf from './activatedSkills/freezeSelf';
 import Frostbreath from './activatedSkills/frostbreath';
-import Fury from './triggeredSkills/onDamaged/fury';
 import Heal from './activatedSkills/heal';
 import Hex from './activatedSkills/hex';
-import Invisibility from './triggeredSkills/turnStart/invisibility';
 import Legion from './activatedSkills/legion';
-import Nullify from './triggeredSkills/onAttack/nullify';
-import Poison from './triggeredSkills/onAttack/poison';
 import PoisonBolt from './activatedSkills/poisonBolt';
 import Protect from './activatedSkills/protect';
-import Regenerate from './triggeredSkills/turnEnd/regenerate';
-import Reinforce from './triggeredSkills/onAttack/reinforce';
-import Siphon from './triggeredSkills/onAttack/siphon';
 import Scorch from './activatedSkills/scorch';
 import ScorchSelf from './activatedSkills/scorchSelf';
 import Scorchbreath from './activatedSkills/scorchbreath';
-import Valor from './triggeredSkills/turnStart/valor';
-import Vengeance from './triggeredSkills/onDamaged/vengeance';
-import Venom from './triggeredSkills/onAttack/venom';
-import Ward from './triggeredSkills/turnStart/ward';
 import Weaken from './activatedSkills/weaken';
 import WeakenSelf from './activatedSkills/weakenSelf';
 import WingWard from './activatedSkills/wingWard';
+import Berserk from './triggeredSkills/onAttack/berserk';
+import Daze from './triggeredSkills/onAttack/daze';
+import Nullify from './triggeredSkills/onAttack/nullify';
+import Poison from './triggeredSkills/onAttack/poison';
+import Reinforce from './triggeredSkills/onAttack/reinforce';
+import Siphon from './triggeredSkills/onAttack/siphon';
+import Venom from './triggeredSkills/onAttack/venom';
+import Corrosive from './triggeredSkills/onDamaged/corrosive';
+import Emberhide from './triggeredSkills/onDamaged/emberhide';
+import Fury from './triggeredSkills/onDamaged/fury';
+import Vengeance from './triggeredSkills/onDamaged/vengeance';
+import Regenerate from './triggeredSkills/turnEnd/regenerate';
+import Invisibility from './triggeredSkills/turnStart/invisibility';
+import Valor from './triggeredSkills/turnStart/valor';
+import ValorTriggered from './triggeredSkills/turnStart/valorTriggered';
+import Ward from './triggeredSkills/turnStart/ward';
 
 // maintain legacy skill names
 export const absorb = getInstance(Ward);
@@ -67,10 +68,11 @@ export const reinforce = getInstance(Reinforce);
 export const scorchbreath = getInstance(Scorchbreath);
 export const strike = getInstance(Bolt);
 export const valor = getInstance(Valor);
+export const valorTriggered = getInstance(ValorTriggered);
 export const venom = getInstance(Venom);
 export const weaken = getInstance(Weaken);
 export const weakenself = getInstance(WeakenSelf);
 
 function getInstance(Constructor) {
-    return Object.freeze(new Constructor());
+    return new Constructor();
 }

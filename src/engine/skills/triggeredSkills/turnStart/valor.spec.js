@@ -9,6 +9,8 @@ describe('valor', () => {
         theValorSkill.shouldApplyTheStatus('valorTriggered').replacingCurrentValueWith(true);
         theValorSkill.shouldNotAffectStatusesOtherThan('attackValor', 'valorTriggered');
 
-        it('should only trigger once');
+        it('should mark itself as triggered once it fires', () => {
+            theValorSkill.shouldChangeItselfTo('valorTriggered');
+        });
     });
 });
