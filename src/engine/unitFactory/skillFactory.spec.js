@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as gameData from './../../data/gameData';
-import { skills as mockSkills } from './../../mocks/mockGameData';
+import { skills as mockSkills } from './../../mockData/mockGameData';
 import * as skillFactory from './skillFactory';
 
 var sandbox = sinon.createSandbox();

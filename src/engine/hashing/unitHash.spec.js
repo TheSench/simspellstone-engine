@@ -3,7 +3,7 @@ import { base64ToUnitKey, unitKeyToBase64 } from './unitHash';
 import R from 'ramda';
 
 import * as gameData from './../../data/gameData';
-import { fusions as mockFusions } from './../../mocks/mockFusions';
+import { fusions as mockFusions } from './../../mockData/mockFusions';
 import sinon from 'sinon';
 
 var sandbox = sinon.createSandbox();

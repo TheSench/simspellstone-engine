@@ -4,7 +4,7 @@ import * as skillFactory from './skillFactory';
 import states from './unitStates';
 
 import * as gameData from './../../data/gameData';
-import { cards as mockCards } from './../../mocks/mockGameData';
+import { cards as mockCards } from './../../mockData/mockGameData';
 import { ids as rarities } from './../../constants/rarities';
 import { ids as cardTypes } from './../../constants/cardTypes';
 import { ids as factions } from './../../constants/factions';
