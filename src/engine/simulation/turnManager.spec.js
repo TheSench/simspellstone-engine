@@ -45,12 +45,12 @@ describe('turnManager', () => {
     let turnPhases;
 
     beforeEach(() => {
-      sinon.spy(turnManager, "upkeep");
-      sinon.spy(turnManager, "startTurn");
-      sinon.spy(turnManager, "drawCard");
-      sinon.spy(turnManager, "playCard");
-      sinon.spy(turnManager, "activations");
-      sinon.spy(turnManager, "endTurn");
+      sinon.stub(turnManager, "upkeep");
+      sinon.stub(turnManager, "startTurn");
+      sinon.stub(turnManager, "drawCard");
+      sinon.stub(turnManager, "playCard");
+      sinon.stub(turnManager, "activations");
+      sinon.stub(turnManager, "endTurn");
       turnPhases = [
         turnManager.upkeep,
         turnManager.startTurn,
