@@ -142,6 +142,11 @@ const unitBase = (function createUnitBase() {
           this.state = this.state.activate();
           break;
       }
+    },
+    removeSkill(skillType, skillToRemove) {
+      this.skills[skillType] = this.skills[skillType].filter((skill) => {
+        skill !== skillToRemove;
+      })
     }
   };
 

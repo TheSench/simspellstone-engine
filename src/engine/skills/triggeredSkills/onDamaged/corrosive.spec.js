@@ -8,7 +8,7 @@ describe('corrosive', () => {
     theCorrosiveSkill.shouldAffectTheAttacker
       .applyingTheStatus('attackWeaken').stackingWithCurrentValue()
       .and.applyingTheStatus('corroded').stackingWithCurrentValue()
-      .and.applyingTheStatus('corrodedTimer').replacingCurrentValueWith(2)
+      .and.applyingTheStatus('corrosionTimer').replacingCurrentValueWith(2)
       .and.affectNoOtherStatuses();
 
     theCorrosiveSkill.shouldNotAffectTheDefender();

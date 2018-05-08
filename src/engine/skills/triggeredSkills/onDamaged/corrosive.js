@@ -5,6 +5,6 @@ export default class Corrosive extends CombatSkillBase {
     doPerformSkill(skill, attacker, defender, baseValue) {
         attacker.status.attackWeaken += baseValue;
         attacker.status.corroded += baseValue;
-        attacker.status.corrodedTimer = 2;
+        attacker.status.corrosionTimer = 2;
     }
 }

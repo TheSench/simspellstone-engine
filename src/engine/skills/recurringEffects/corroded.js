@@ -1,11 +1,9 @@
 export default class Corroded {
   apply(corroded, unit) {
-    unit.status.attackWeaken += corroded.value;
-    unit.status.corrodedTimer--;
-
-    if (!unit.status.corrodedTimer) {
-      unit.corroded = 0;
-      //unit.skills.turnEnd.find
+    unit.status.attackWeaken += unit.status.corroded;
+    if (!--unit.status.corrosionTimer) {
+      unit.status.corroded = 0;
+      unit.removeSkill("turnEnd", corroded);
     }
   }
 }

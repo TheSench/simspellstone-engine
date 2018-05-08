@@ -175,11 +175,11 @@ function affectNoOtherStatuses(skill, affectedStatuses, target) {
   });
 }
 
-export function shouldDealOrHealDamageEqualToValue(skill, target, dealOrHeal) {
+function shouldDealOrHealDamageEqualToValue(skill, target, dealOrHeal) {
   testDamage(skill, target, dealOrHeal);
 }
 
-export function shouldDealOrHealExactlyXDamage(skill, target, dealOrHeal, x) {
+function shouldDealOrHealExactlyXDamage(skill, target, dealOrHeal, x) {
   testDamage(skill, target, dealOrHeal, x);
 }
 
@@ -222,7 +222,7 @@ function testDamage(skill, target, dealOrHeal, flatValue) {
   });
 }
 
-export function testDamageModifiers(skill, target, damageModifierList) {
+function testDamageModifiers(skill, target, damageModifierList) {
   const damageModifierTypes = {
     armored: {
       effect: -1,
