@@ -22,9 +22,10 @@ describe('skillFactory', () => {
         });
     });
 
+    itShouldAdd('upkeep').skills.toSkillArray('upkeep');
+    itShouldAdd('turnStart').skills.toSkillArray('turnStart');
     itShouldAdd('activation').skills.toSkillArray('activation');
     itShouldAdd('earlyActivation').skills.toSkillArray('earlyActivation');
-    itShouldAdd('turnStart').skills.toSkillArray('turnStart');
     itShouldAdd('onAttack').skills.toSkillArray('onAttack');
     itShouldAdd('onDamaged').skills.toSkillArray('onDamaged');
     itShouldAdd('turnEnd').skills.toSkillArray('turnEnd');

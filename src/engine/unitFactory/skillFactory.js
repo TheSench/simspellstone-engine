@@ -3,9 +3,10 @@ import { skills as skillDatabase } from './../../data/gameData';
 export function createSkills(cardSkills) {
   let allSkills = {
     skills: {
+      upkeep: [],
+      turnStart: [],
       activation: [],
       earlyActivation: [],
-      turnStart: [],
       onAttack: [],
       onDamaged: [],
       turnEnd: [],
@@ -25,10 +26,11 @@ export function createSkills(cardSkills) {
 }
 
 const skillAppliers = {
+  upkeep: createTriggeredSkillApplier('upkeep'),
+  turnStart: createTriggeredSkillApplier('turnStart'),
   activation: createActivationSkillApplier('activation'),
   earlyActivation: createActivationSkillApplier('earlyActivation'),
   onDeath: createActivationSkillApplier('onDeath'),
-  turnStart: createTriggeredSkillApplier('turnStart'),
   onAttack: createTriggeredSkillApplier('onAttack'),
   onDamaged: createTriggeredSkillApplier('onDamaged'),
   turnEnd: createTriggeredSkillApplier('turnEnd'),

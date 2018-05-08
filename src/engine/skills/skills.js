@@ -31,8 +31,8 @@ import Fury from './triggeredSkills/onDamaged/fury';
 import Vengeance from './triggeredSkills/onDamaged/vengeance';
 import Regenerate from './triggeredSkills/turnEnd/regenerate';
 import Invisibility from './triggeredSkills/turnStart/invisibility';
-import Valor from './triggeredSkills/turnStart/valor';
-import ValorTriggered from './triggeredSkills/turnStart/valorTriggered';
+import Valor from './triggeredSkills/upkeep/valor';
+import ValorTriggered from './triggeredSkills/upkeep/valorTriggered';
 import Ward from './triggeredSkills/turnStart/ward';
 
 // maintain legacy skill names
