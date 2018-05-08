@@ -10,27 +10,35 @@ describe('turnManager', () => {
   });
 
   describe('Upkeep', () => {
-
+    it('should clear statuses that end at beginning of turn');
   });
 
   describe('StartTurn', () => {
-
+    it('should trigger startTurn skills');
   });
 
   describe('DrawCard', () => {
-
+    it("should draw the top card from player's deck");
   });
 
   describe('PlayCard', () => {
-
+    it("should play a card from player's hand");
   });
 
   describe('Activations', () => {
+    it('should trigger earlyActivation skills');
 
+    it('should trigger activation skills');
   });
 
   describe('EndTurn', () => {
+    it('should clear statuses that end at end of turn');
 
+    it("should apply recurring status effects such as DoT's");
+
+    it('should remove dead units');
+
+    it('should trigger endTurn skills');
   });
 
   describe('Process Turn', () => {
