@@ -1,5 +1,5 @@
-import { counterburn } from './../../skills';
 import { whenTriggered } from '../testCombatSkill.spec';
+import { counterburn } from './../../skills';
 
 describe('emberhide', () => {
   let emberhide = whenTriggered(counterburn);
@@ -9,6 +9,8 @@ describe('emberhide', () => {
       .applyingTheStatus('scorched').stackingWithCurrentValue()
       .and.applyingTheStatus('scorchTimer').replacingCurrentValueWith(2)
       .and.affectNoOtherStatuses();
+
+    it('adds scorched to the attacker');
 
     emberhide.shouldNotAffectTheDefender();
   });
