@@ -4,6 +4,10 @@ export class TurnManager {
   }
 
   processTurn() {
+    if(this.turn > 100) {
+      return false;
+    }
+
     this.upkeep();
     this.startTurn();
     this.drawCard();
@@ -12,6 +16,8 @@ export class TurnManager {
     this.endTurn();
 
     this.turn++;
+
+    return true;
   }
 
   upkeep() {

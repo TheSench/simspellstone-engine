@@ -61,10 +61,12 @@ describe('turnManager', () => {
         turnManager.endTurn
       ]);
     });
+    it('should start at turn 1', () => {
+      expect(turnManager.turn, "turn").to.equal(1);
+    });
+
 
     it('should increment the turn each time it runs', () => {
-      expect(turnManager.turn, "turn").to.equal(1);
-
       turnManager.processTurn();
       expect(turnManager.turn, "turn").to.equal(2);
 
@@ -72,9 +74,25 @@ describe('turnManager', () => {
       expect(turnManager.turn, "turn").to.equal(3);
     });
 
-    it('should return false if less than 100 turns have transpired');
+    [1, 99, 100].forEach((turn) => {
+      it('should return true if less than 100 turns have transpired', () => {
+        turnManager.turn = turn;
 
-    it('should return false after turn 100');
+        var result = turnManager.processTurn();
+        expect(result).to.be.true;
+      });
+    });
+
+    [101, 102].forEach((turn) => {
+      it('should return false after turn 100', () => {
+        turnManager.turn = turn;
+
+        var result = turnManager.processTurn();
+        expect(result).to.be.false;
+      });
+    });
+
+    it('should do nothing after turn 100');
   });
 });
 
