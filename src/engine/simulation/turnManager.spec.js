@@ -42,25 +42,32 @@ describe('turnManager', () => {
   });
 
   describe('Process Turn', () => {
-    it('should call the turn phases in the correct order', () => {
+    let turnPhases;
+
+    beforeEach(() => {
       sinon.spy(turnManager, "upkeep");
       sinon.spy(turnManager, "startTurn");
       sinon.spy(turnManager, "drawCard");
       sinon.spy(turnManager, "playCard");
       sinon.spy(turnManager, "activations");
       sinon.spy(turnManager, "endTurn");
-
-      turnManager.processTurn();
-
-      verifyCallOrder([
+      turnPhases = [
         turnManager.upkeep,
         turnManager.startTurn,
         turnManager.drawCard,
         turnManager.playCard,
         turnManager.activations,
         turnManager.endTurn
-      ]);
+      ];
     });
+
+    it('should call the turn phases in the correct order', () => {
+      turnManager.processTurn();
+
+      verifyCallOrder(turnPhases);
+      verifyCallCounts(1, turnPhases);
+    });
+
     it('should start at turn 1', () => {
       expect(turnManager.turn, "turn").to.equal(1);
     });
@@ -81,6 +88,13 @@ describe('turnManager', () => {
         var result = turnManager.processTurn();
         expect(result).to.be.true;
       });
+
+      it('should process turn phases if less than 100 turns have transpired', () => {
+        turnManager.turn = turn;
+
+        turnManager.processTurn();
+        verifyCallCounts(1, turnPhases)
+      });
     });
 
     [101, 102].forEach((turn) => {
@@ -90,9 +104,15 @@ describe('turnManager', () => {
         var result = turnManager.processTurn();
         expect(result).to.be.false;
       });
-    });
 
-    it('should do nothing after turn 100');
+      it('should do nothing after turn 100', () => {
+        turnManager.turn = turn;
+
+        turnManager.processTurn();
+
+        verifyCallCounts(0, turnPhases);
+      });
+    });
   });
 });
 
@@ -102,4 +122,10 @@ function verifyCallOrder(spies) {
   }
   var lastSpy = spies.length - 1;
   expect(spies[lastSpy].calledImmediatelyAfter(spies[lastSpy - 1]), `step ${lastSpy} called after ${lastSpy - 1}`).to.be.true;
+}
+
+function verifyCallCounts(expectedCount, spies) {
+  spies.forEach((spy) => {
+    expect(spy.callCount).to.equal(expectedCount);
+  });
 }
