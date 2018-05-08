@@ -34,7 +34,7 @@ describe('turnManager', () => {
   });
 
   describe('Process Turn', () => {
-    it('processes the turn phases in the correct order', () => {
+    it('should call the turn phases in the correct order', () => {
       sinon.spy(turnManager, "upkeep");
       sinon.spy(turnManager, "startTurn");
       sinon.spy(turnManager, "drawCard");
@@ -54,7 +54,7 @@ describe('turnManager', () => {
       ]);
     });
 
-    it('increments the turn each time it runs', () => {
+    it('should increment the turn each time it runs', () => {
       expect(turnManager.turn, "turn").to.equal(1);
 
       turnManager.processTurn();
@@ -63,6 +63,10 @@ describe('turnManager', () => {
       turnManager.processTurn();
       expect(turnManager.turn, "turn").to.equal(3);
     });
+
+    it('should return false if less than 100 turns have transpired');
+
+    it('should return false after turn 100');
   });
 });
 
