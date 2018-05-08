@@ -6,7 +6,7 @@ import { ids as rarities } from './../../constants/rarities';
 import * as gameData from './../../data/gameData';
 import { cards as mockCards } from './../../mockData/mockGameData';
 import * as skillFactory from './skillFactory';
-import { createUnit, defaultPassives } from './unitFactory';
+import { createUnit, defaultPassives, createTestUnit } from './unitFactory';
 import states from './unitStates';
 
 
@@ -15,8 +15,13 @@ var sandbox = sinon.createSandbox();
 describe('unitFactory', () => {
   const allSkills = {
     skills: {
-      activation: [],
+      upkeep: [],
+      turnStart: [],
       earlyActivation: [],
+      activation: [],
+      onAttack: [],
+      onDamaged: [],
+      turnEnd: [],
       onDeath: []
     },
     passives: defaultPassives
@@ -140,16 +145,66 @@ describe('unitFactory', () => {
     });
 
     describe('takeDamage', () => {
-      it("should reduce the unit's health");
-      it('should not allow negative damage');
-      it('should mark the unit as dead when healthLeft <= 0');
+      let unit;
+      beforeEach(() => {
+        unit = createTestUnit();
+        unit.stats.health = 10;
+      });
+
+      it("should reduce the unit's health", () => {
+        unit.status.healthLeft = 10;
+        unit.takeDamage(5);
+
+        expect(unit.status.healthLeft, 'healthLeft').to.equal(5);
+      });
+
+      it('should not allow negative damage', () => {
+        unit.status.healthLeft = 5;
+
+        unit.takeDamage(-5);
+
+        expect(unit.status.healthLeft, 'healthLeft').to.equal(5);
+      });
+
+      [10, 11].forEach((damage) => {
+        it('should mark the unit as dead when healthLeft <= 0', () => {
+          unit.status.healthLeft = 10;
+          unit.takeDamage(damage);
+
+          expect(unit.state.alive, 'isAlive').to.be.false;
+        });
+      });
     });
 
     describe('healDamage', () => {
-      it("should decrease the unit's health");
-      it('should not allow negative healing');
-      it('should not allow the unit to be healed above its max health');
-      it('should mark the unit as dead when healthLeft <= 0');
+      let unit;
+      beforeEach(() => {
+        unit = createTestUnit();
+        unit.stats.health = 10;
+      });
+
+      it("should increase the unit's health", () => {
+        unit.status.healthLeft = 1;
+        unit.healDamage(5);
+
+        expect(unit.status.healthLeft, 'healthLeft').to.equal(6);
+      });
+
+      it('should not allow negative healing', () => {
+        unit.status.healthLeft = 1;
+        unit.healDamage(-1);
+
+        expect(unit.status.healthLeft, 'healthLeft').to.equal(1);
+      });
+
+      [1, 10].forEach((healthLeft) => {
+        it('should not allow the unit to be healed above its max health', () => {
+          unit.status.healthLeft = healthLeft;
+          unit.healDamage(10);
+
+          expect(unit.status.healthLeft, 'healthLeft').to.equal(10);
+        });
+      });
     });
     // TODO: ward/protect
   });

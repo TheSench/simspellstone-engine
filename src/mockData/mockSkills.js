@@ -5,6 +5,18 @@ export default {
 		icon: 'passive_icon',
 		desc: 'Mock passive skill.'
 	},
+	upkeepSkill : {
+		name: 'upkeepSkill',
+		type: 'upkeep',
+		icon: 'upkeep_icon',
+		desc: 'Mock upkeep skill'
+	},
+	turnStartSkill : {
+		name: 'TurnStartSkill',
+		type: 'turnStart',
+		icon: 'turnStart_icon',
+		desc: 'Mock turnStart skill'
+	},
 	activationSkill : {
 		name: 'ActivationSkill',
 		type: 'activation',
@@ -15,24 +27,18 @@ export default {
 		name: 'EarlyActivationSkill',
 		type: 'earlyActivation',
 		icon: 'earlyActivation_icon',
-		desc: 'Mock early-activation skill.'
-	},
-	turnStartSkill : {
-		name: 'TurnStartSkill',
-		type: 'turnStart',
-		icon: 'turnStartcon',
-		desc: 'Mock turnStart skill'
+		desc: 'Mock earlyActivation skill.'
 	},
 	onAttackSkill : {
 		name: 'OnAttackSkill',
 		type: 'onAttack',
-		icon: 'onAttackicon',
+		icon: 'onAttack_iicon',
 		desc: 'Mock onAttack skill'
 	},
 	onDamagedSkill : {
 		name: 'OnDamagedSkill',
 		type: 'onDamaged',
-		icon: 'onDamagedcon',
+		icon: 'onDamaged_icon',
 		desc: 'Mock onDamaged skill'
 	},
 	turnEndSkill : {
