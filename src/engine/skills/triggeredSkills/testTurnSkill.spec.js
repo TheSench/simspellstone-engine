@@ -1,5 +1,5 @@
 import { testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
-import { shouldAffectNoOtherStatuses, shouldApplyStatusTo } from '../skillTestsConsolidated/statusEffects.spec';
+import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from '../skillTestsConsolidated/statusEffects.spec';
 import { changeSkillTo } from './testSkillChanges.spec';
 import { testSkillDoesNothing } from './testSkillDoesNothing.spec';
 
@@ -64,12 +64,6 @@ function getContinuation(testState) {
     }
   };
 }
-
-const applicationTypes = {
-  stack: 'applicationType.stack',
-  max: 'applicationType.max',
-  replace: 'applicationType.replace'
-};
 
 function makeSkillTestState(skill, target) {
   function executeSkill(skillInstance, source) {
