@@ -1,92 +1,90 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createTestUnit } from "../../unitFactory/unitFactory";
+import { testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
 import { orListFromArray } from './../../../helpers/orListFromArray';
 
 export function whenTriggered(skill) {
   return {
     get shouldAffectTheAttacker() {
-      return getCombatSkillHelpers(skill, 'attacker')
+      return getCombatSkillHelpers(makeSkillTestState(skill, 'attacker'))
     },
     get shouldAffectTheDefender() {
-      return getCombatSkillHelpers(skill, 'defender')
+      return getCombatSkillHelpers(makeSkillTestState(skill, 'defender'))
     },
     shouldNotAffectTheAttacker() {
-      return getCombatSkillHelpers(skill, 'attacker').affectNoOtherStatuses();
+      return getCombatSkillHelpers(makeSkillTestState(skill, 'attacker')).affectNoOtherStatuses();
     },
     shouldNotAffectTheDefender() {
-      return getCombatSkillHelpers(skill, 'defender').affectNoOtherStatuses();
+      return getCombatSkillHelpers(makeSkillTestState(skill, 'defender')).affectNoOtherStatuses();
     }
   }
 }
 
-function getCombatSkillHelpers(skill, target, affectedStatuses) {
-  affectedStatuses = (affectedStatuses || []);
-
+function getCombatSkillHelpers(testState) {
   return {
     applyingTheStatus(status) {
-      affectedStatuses.push(status);
+      testState.affectedStatuses.push(status);
 
       return {
-        stackingWithCurrentValue: () => doTestApplyStatus(affectedStatuses, skill, status, target, applicationTypes.stack),
-        keepingHighestValue: () => doTestApplyStatus(affectedStatuses, skill, status, target, applicationTypes.max),
-        replacingCurrentValue: () => doTestApplyStatus(affectedStatuses, skill, status, target, applicationTypes.replace),
-        replacingCurrentValueWith: (value) => doTestApplyStatus(affectedStatuses, skill, status, target, value)
+        stackingWithCurrentValue: () => doTestApplyStatus(testState, status,  applicationTypes.stack),
+        keepingHighestValue: () => doTestApplyStatus(testState, status, applicationTypes.max),
+        replacingCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.replace),
+        replacingCurrentValueWith: (value) => doTestApplyStatus(testState, status, value)
       }
     },
     get healingDamage() {
-      return dealOrHealDamageHelper(skill, target, affectedStatuses, 'heal');
+      return dealOrHealDamageHelper(testState, 'heal');
     },
     get dealingDamage() {
-      return dealOrHealDamageHelper(skill, target, affectedStatuses, 'deal');
+      return dealOrHealDamageHelper(testState, 'deal');
     },
     affectNoOtherStatuses() {
-      return affectNoOtherStatuses(skill, affectedStatuses, target);
+      return affectNoOtherStatuses(testState);
     }
   }
 }
 
-function dealOrHealDamageHelper(skill, target, affectedStatuses, dealOrHeal) {
-  affectedStatuses.push('healthLeft');
+function dealOrHealDamageHelper(testState, dealOrHeal) {
+  testState.affectedStatuses.push('healthLeft');
 
   return {
     equalToItsValue() {
-      shouldDealOrHealDamageEqualToValue(skill, target, dealOrHeal);
-      return getDamageContinuation(skill, target, affectedStatuses);
+      testHealingOrDamage(testState.executeSkill, dealOrHeal);
+      return getDamageContinuation(testState);
     },
     exactlyXDamage(x) {
-      shouldDealOrHealExactlyXDamage(skill, target, dealOrHeal, x);
-      return getDamageContinuation(skill, target, affectedStatuses);
+      testHealingOrDamage(testState.executeSkill, dealOrHeal, { flatValue: x });
+      return getDamageContinuation(testState);
     }
   }
 }
 
-function doTestApplyStatus(affectedStatuses, skill, status, target, applicationType) {
-  shouldApplyStatusTo(skill, status, target, applicationType);
-  return getContinuation(skill, target, affectedStatuses);
+function doTestApplyStatus(testState, status, applicationType) {
+  shouldApplyStatusTo(testState, status, applicationType);
+  return getContinuation(testState);
 }
 
-function getDamageContinuation(skill, target, affectedStatuses) {
+function getDamageContinuation(testState) {
   return {
     get and() {
-      return getCombatSkillHelpers(skill, target, affectedStatuses);
+      return getCombatSkillHelpers(testState);
     },
     modifiedBy(...modifiers) {
-      modifiers.forEach((modifier) => affectedStatuses.push(modifier));
-      testDamageModifiers(skill, target, modifiers);
-      return getDamageContinuation(skill, target, affectedStatuses);
+      modifiers.forEach((modifier) => testState.affectedStatuses.push(modifier));
+      testDamageModifiers(testState, modifiers);
+      return getDamageContinuation(testState);
     },
     modifiedByNothing() {
-      testDamageModifiers(skill, target, []);
-      return getDamageContinuation(skill, target, affectedStatuses);
+      testDamageModifiers(testState, []);
+      return getDamageContinuation(testState);
     }
   };
 }
 
-function getContinuation(skill, target, affectedStatuses) {
+function getContinuation(testState) {
   return {
     get and() {
-      return getCombatSkillHelpers(skill, target, affectedStatuses);
+      return getCombatSkillHelpers(testState);
     }
   };
 }
@@ -97,17 +95,13 @@ const applicationTypes = {
   replace: 'applicationType.replace'
 };
 
-function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
+function shouldApplyStatusTo({executeSkill, target}, affectedStatus, applicationType) {
   describe(`effect on ${target}.status.${affectedStatus}`, () => {
-    let attacker = null,
-      defender = null,
-      targetUnit,
+    let targetUnit,
       skillInstance;
 
     beforeEach(() => {
-      attacker = createTestUnit();
-      defender = createTestUnit();
-      targetUnit = (target === 'attacker' ? attacker : defender);
+      targetUnit = createTestUnit();
       skillInstance = { value: 5 };
     });
 
@@ -116,7 +110,7 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         it(`should replace lower values of ${affectedStatus}`, () => {
           targetUnit.status[affectedStatus] = 3;
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          executeSkill(skillInstance, targetUnit);
 
           expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(5);
         });
@@ -124,7 +118,7 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         it(`should NOT replace higher values of ${affectedStatus}`, () => {
           targetUnit.status[affectedStatus] = 99;
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          executeSkill(skillInstance, targetUnit);
 
           expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(99);
         });
@@ -133,7 +127,7 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
         it(`should stack with previous ${affectedStatus}`, () => {
           targetUnit.status[affectedStatus] = 3;
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          executeSkill(skillInstance, targetUnit);
 
           expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(8);
         });
@@ -145,7 +139,7 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
 
             targetUnit.status[affectedStatus] = flatValue;
 
-            skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+            executeSkill(skillInstance, targetUnit);
 
             expect(targetUnit.status[affectedStatus], affectedStatus).to.equal(expectedValue);
           });
@@ -155,19 +149,16 @@ function shouldApplyStatusTo(skill, affectedStatus, target, applicationType) {
   });
 }
 
-function affectNoOtherStatuses(skill, affectedStatuses, target) {
+function affectNoOtherStatuses({executeSkill, affectedStatuses, target}) {
   describe(`No other modifications to ${target}.status`, () => {
     let description = (affectedStatuses.length
       ? `should only modify ${orListFromArray(affectedStatuses)}`
       : 'should NOT modify any statuses')
     it(description, () => {
-      let
-        attacker = createTestUnit(),
-        defender = createTestUnit(),
-        targetUnit = (target === 'attacker' ? attacker : defender),
+      let targetUnit = createTestUnit(),
         expectedStatus = Object.assign({}, targetUnit.status);
 
-      skill.doPerformSkill({ value: 5 }, attacker, defender, 5);
+      executeSkill({ value: 5 }, targetUnit);
       affectedStatuses.forEach((status) => expectedStatus[status] = targetUnit.status[status]);
 
       expect(targetUnit.status, "target.status").to.deep.equal(expectedStatus);
@@ -175,54 +166,7 @@ function affectNoOtherStatuses(skill, affectedStatuses, target) {
   });
 }
 
-function shouldDealOrHealDamageEqualToValue(skill, target, dealOrHeal) {
-  testDamage(skill, target, dealOrHeal);
-}
-
-function shouldDealOrHealExactlyXDamage(skill, target, dealOrHeal, x) {
-  testDamage(skill, target, dealOrHeal, x);
-}
-
-function testDamage(skill, target, dealOrHeal, flatValue) {
-
-  [1, 99].forEach((value) => {
-    let description = (flatValue ? 'given any value' : `given a value of ${value}`);
-    let expectedValue = (flatValue || value);
-    let dealtOrHealed = (dealOrHeal === 'deal' ? 'dealt' : 'healed');
-    let damageFnName = `${dealOrHeal === 'deal' ? 'take' : 'heal'}Damage`;
-
-    describe(description, () => {
-      let targetUnit,
-        attacker,
-        defender,
-        skillInstance;
-
-      beforeEach(() => {
-        skillInstance = { value };
-        attacker = createTestUnit({ status: { healthLeft: 5 } });
-        defender = createTestUnit({ status: { healthLeft: 5 } });
-        targetUnit = (target === 'attacker' ? attacker : defender);
-        sinon.spy(targetUnit, damageFnName)
-
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
-      });
-
-      afterEach(() => {
-        targetUnit[damageFnName].restore();
-      });
-
-      it(`should ${dealOrHeal} ${expectedValue} damage`, () => {
-        expect(targetUnit[damageFnName].calledWithExactly(expectedValue), `${dealtOrHealed} ${expectedValue} damage`).to.be.true;
-      });
-
-      it(`should only ${dealOrHeal} damage once`, () => {
-        expect(targetUnit[damageFnName].callCount, `only ${dealtOrHealed} damage once`).to.equal(1);
-      });
-    });
-  });
-}
-
-function testDamageModifiers(skill, target, damageModifierList) {
+function testDamageModifiers({executeSkill}, damageModifierList) {
   const damageModifierTypes = {
     armored: {
       effect: -1,
@@ -259,15 +203,11 @@ function testDamageModifiers(skill, target, damageModifierList) {
       });
 
     let skillInstance,
-      attacker,
-      defender,
       targetUnit;
 
     beforeEach(() => {
       skillInstance = { value: 5 };
-      attacker = createTestUnit({ status: { healthLeft: 8 } });
-      defender = createTestUnit({ status: { healthLeft: 8 } });
-      targetUnit = (target === 'attacker' ? attacker : defender);
+      targetUnit = createTestUnit({ status: { healthLeft: 8 } });
     });
 
     Object.entries(damageModifierTypes).forEach(([modifierName, { effect, loc }]) => {
@@ -279,7 +219,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
         Object.assign(targetUnit[loc], { [modifierName]: 1 });
         let expectedHelth = 3 - (damageModifiers[modifierName] ? effect : 0);
 
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+        executeSkill(skillInstance, targetUnit);
 
         expect(targetUnit.status.healthLeft, "healthLeft").to.equal(expectedHelth);
       });
@@ -292,7 +232,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
         it(`should never deal negative damage due to ${modifierName}`, () => {
           Object.assign(targetUnit[loc], { [modifierName]: 6 });
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          executeSkill(skillInstance, targetUnit);
 
           expect(targetUnit.status.healthLeft, "healthLeft").to.equal(8);
         });
@@ -307,7 +247,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
           Object.assign(targetUnit[loc], { [modifierName]: 6 });
           let expectedValue = (reduced ? 1 : 6);
 
-          skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+          executeSkill(skillInstance, targetUnit);
 
           expect(targetUnit[loc][modifierName], modifierName).to.equal(expectedValue);
         });
@@ -316,7 +256,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
           it(`should never reduce ${modifierName} below 0`, () => {
             Object.assign(targetUnit[loc], { [modifierName]: 2 });
 
-            skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+            executeSkill(skillInstance, targetUnit);
 
             expect(targetUnit[loc][modifierName], modifierName).to.equal(0);
           });
@@ -327,7 +267,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
       it(`should reduce warded before protection`, () => {
         Object.assign(targetUnit.status, { warded: 4, protection: 4 });
 
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+        executeSkill(skillInstance, targetUnit);
 
         expect(targetUnit.status.warded, "warded").to.equal(0);
         expect(targetUnit.status.protection, "protection").to.equal(3);
@@ -336,7 +276,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
       it(`should have damage reduced by both warded and protection`, () => {
         Object.assign(targetUnit.status, { warded: 1, protection: 1 });
 
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+        executeSkill(skillInstance, targetUnit);
 
         expect(targetUnit.status.healthLeft, "healthLeft").to.equal(5);
       });
@@ -347,7 +287,7 @@ function testDamageModifiers(skill, target, damageModifierList) {
         Object.assign(targetUnit.status, { protection: 4 });
         Object.assign(targetUnit.passives, { armored: 4 });
 
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+        executeSkill(skillInstance, targetUnit);
 
         expect(targetUnit.status.protection, "protection").to.equal(0);
         expect(targetUnit.passives.armored, "armored").to.equal(4);
@@ -357,10 +297,33 @@ function testDamageModifiers(skill, target, damageModifierList) {
         Object.assign(targetUnit.status, { protection: 1 });
         Object.assign(targetUnit.passives, { armored: 1 });
 
-        skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+        executeSkill(skillInstance, targetUnit);
 
         expect(targetUnit.status.healthLeft, "healthLeft").to.equal(5);
       });
     }
   });
+}
+
+function makeSkillTestState(skill, target) {
+  function executeSkill(skillInstance, unit) {
+    let attacker, defender;
+    let dummy = createTestUnit({ status: { healthLeft: 5 } });
+    if (target === 'attacker') {
+      attacker = unit;
+      defender = dummy;
+    } else {
+      attacker = dummy;
+      defender = unit;
+    }
+
+    return skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+  }
+
+  return {
+    skill,
+    target,
+    executeSkill,
+    affectedStatuses: []
+  }
 }
