@@ -1,5 +1,5 @@
 import { createTestUnit } from '../../unitFactory/unitFactory';
-import { testDamageModifiers, testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
+import { testDamageModifiers, testHealingOrDamage } from './damageTests.spec';
 import { testNegation } from './testNegation.spec';
 import { testPotentialTargets } from './testPotentialTargets.spec';
 import { shouldApplyStatus, shouldChangeStateTo, shouldNotApplyStatusesOtherThan } from './testStatusApplication.spec';

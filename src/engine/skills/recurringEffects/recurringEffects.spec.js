@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { createTestUnit } from "../../unitFactory/unitFactory";
-import { testDamageModifiers, testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
-import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from '../skillTestsConsolidated/statusEffects.spec';
+import { testDamageModifiers, testHealingOrDamage } from '../skillTestCommon/damageTests.spec';
+import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from '../skillTestCommon/statusEffects.spec';
 
 export const whenTriggered = {
   duringUpkeep: (effect) => whenTriggeredHelper(effect, 'upkeep'),

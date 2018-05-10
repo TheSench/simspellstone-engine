@@ -1,6 +1,6 @@
 import { createTestUnit } from "../../unitFactory/unitFactory";
-import { testDamageModifiers, testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
-import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from '../skillTestsConsolidated/statusEffects.spec';
+import { testDamageModifiers, testHealingOrDamage } from './damageTests.spec';
+import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from './statusEffects.spec';
 import { changeSkillTo } from "./testSkillChanges.spec";
 import { testSkillDoesNothing } from "./testSkillDoesNothing.spec";
 
@@ -23,7 +23,7 @@ export function theCombatSkill(skill) {
 
 export function theTurnSkill(skill) {
   return {
-    get shouldAffectItself() {
+    get shouldAffectTheUnit() {
       return getTriggeredSkillHelpers(makeTurnSkillTestState(skill, 'source'));
     },
     shouldDoNothing: () => testSkillDoesNothing(skill),

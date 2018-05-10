@@ -1,11 +1,11 @@
-import { theTurnSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
+import { theTurnSkill } from '../../skillTestCommon/triggeredSkillBase.spec';
 import { valor } from './../../skills';
 
 describe('valor', () => {
   let theValorSkill = theTurnSkill(valor);
 
   describe('effects', () => {
-    theValorSkill.shouldAffectItself
+    theValorSkill.shouldAffectTheUnit
       .applyingTheStatus('attackValor').replacingCurrentValue()
       .and.affectNoOtherStatuses();
 
