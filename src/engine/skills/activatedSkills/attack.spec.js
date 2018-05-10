@@ -1,19 +1,16 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { attack as skill } from './../skills';
 
 describe('attack', () => {
-    let attack = theSkill(skill);
+  let attack = theActivationSkill(skill);
 
-    attack.shouldTarget.theDirectlyOpposingUnitOrCommander();
-    attack.shouldOnlyAffect.targetsThatAreAlive();
+  attack.shouldTarget.theDirectlyOpposingUnitOrCommander()
+    .onlyAffecting.targetsThatAreAlive()
+    .andNeverBeNegated();
 
-    describe('effects', () => {
-        attack.shouldDealDamage
-            .equalToItsValue()
-            .modifiedBy('hexed', 'protection', 'armored');
-
-        attack.shouldOnlyAffectTheStatus('healthLeft');
-        
-        attack.shouldBeNegatedBy.nothing();
-    });
+  describe('effects', () => {
+    attack.whenAffectingTargets
+      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'armored')
+      .and.shouldAffectNoOtherStatuses();
+  });
 });

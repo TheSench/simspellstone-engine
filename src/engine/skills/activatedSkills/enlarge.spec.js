@@ -1,14 +1,15 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { enlarge } from './../skills';
 
 describe('enlarge', () => {
-    let theEnlargeSkill = theSkill(enlarge);
-    
-    theEnlargeSkill.shouldTarget.allAlliedUnits();
-    theEnlargeSkill.shouldOnlyAffect.targetsThatAreActive();
+  let theEnlargeSkill = theActivationSkill(enlarge);
 
-    describe('effects', () => {
-        theEnlargeSkill.shouldOnlyAffectTheStatus('attackEmpower').stackingWithCurrentValue();
-        theEnlargeSkill.shouldBeNegatedBy.nothing();
-    });
+  theEnlargeSkill.shouldTarget.allAlliedUnits()
+    .onlyAffecting.targetsThatAreActive()
+    .andNeverBeNegated();
+
+  describe('effects', () => {
+    theEnlargeSkill.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('attackEmpower').stackingWithCurrentValue();
+  });
 });

@@ -1,14 +1,15 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { enfeeble } from './../skills';
 
 describe('hex', () => {
-    let hex = theSkill(enfeeble);
+  let hex = theActivationSkill(enfeeble);
 
-    hex.shouldTarget.allOpposingUnits();
-    hex.shouldOnlyAffect.targetsThatAreAlive();
+  hex.shouldTarget.allOpposingUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.invisible();
 
-    describe('effects', () => {
-        hex.shouldApplyTheStatus('hexed').stackingWithCurrentValue();
-        hex.shouldBeNegatedBy.invisible();
-    });
+  describe('effects', () => {
+    hex.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('hexed').stackingWithCurrentValue();
+  });
 });

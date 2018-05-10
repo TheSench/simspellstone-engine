@@ -1,16 +1,16 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { strike } from './../skills';
 
 describe('bolt', () => {
-    let bolt = theSkill(strike);
-    
-    bolt.shouldOnlyAffect.targetsThatAreAlive();
-    bolt.shouldTarget.allOpposingUnits();
+  let bolt = theActivationSkill(strike);
 
-    describe('effects', () => {
-        bolt.shouldDealDamage.equalToItsValue(),
-        bolt.shouldDealDamage.modifiedBy('hexed', 'protection', 'warded');
-        bolt.shouldOnlyAffectTheStatus('healthLeft'),
-        bolt.shouldBeNegatedBy.invisible();
-    });
+  bolt.shouldTarget.allOpposingUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.invisible();
+
+  describe('effects', () => {
+    bolt.whenAffectingTargets
+      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded')
+      .and.shouldAffectNoOtherStatuses();
+  });
 });

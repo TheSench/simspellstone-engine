@@ -1,14 +1,15 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { protect } from './../skills';
 
 describe('protect', () => {
-    let barrier = theSkill(protect);
+  let barrier = theActivationSkill(protect);
 
-    barrier.shouldTarget.allAlliedUnits();
-    barrier.shouldOnlyAffect.targetsThatAreAlive();
+  barrier.shouldTarget.allAlliedUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.nullified();
 
-    describe('effects', () => {
-        barrier.shouldApplyTheStatus('protection').stackingWithCurrentValue();
-        barrier.shouldBeNegatedBy.nullified();
-    });
+  describe('effects', () => {
+    barrier.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('protection').stackingWithCurrentValue();
+  });
 });

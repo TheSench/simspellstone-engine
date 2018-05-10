@@ -1,17 +1,17 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { evadebarrier } from './../skills';
 
 describe('wingWard', () => {
-    let wingWard = theSkill(evadebarrier);
+  let wingWard = theActivationSkill(evadebarrier);
 
-    wingWard.shouldTarget.allAlliedUnits();
-    wingWard.shouldOnlyAffect.targetsThatAreAlive();
+  wingWard.shouldTarget.allAlliedUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.nullified();
 
-    describe('effects', () => {
-        wingWard.shouldApplyTheStatus('protection').stackingWithCurrentValue();
-        wingWard.shouldApplyTheStatus('invisible').stackingWithCurrentValue();
-        wingWard.shouldNotAffectStatusesOtherThan('protection', 'invisible');
-
-        wingWard.shouldBeNegatedBy.nullified();
-    });
+  describe('effects', () => {
+    wingWard.whenAffectingTargets
+      .shouldAffectTheStatus('protection').stackingWithCurrentValue()
+      .and.shouldAffectTheStatus('invisible').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
+  });
 });

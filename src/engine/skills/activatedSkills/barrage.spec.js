@@ -1,21 +1,18 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { barrage } from './../skills';
 
 describe('barrage', () => {
-    let theBarrageSkill = theSkill(barrage);
+  let theBarrageSkill = theActivationSkill(barrage);
 
-    theBarrageSkill.shouldOnlyAffect.targetsThatAreAlive();
-    theBarrageSkill.shouldTarget.allOpposingUnits();
+  theBarrageSkill.shouldTarget.allOpposingUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.invisible();
 
-    describe('effects', () => {
-        theBarrageSkill.shouldDealDamage
-            .equalToItsValue()
-            .modifiedBy('protection', 'warded');
+  describe('effects', () => {
+    theBarrageSkill.whenAffectingTargets
+      .shouldDealDamage.equalToItsValue().modifiedBy('protection', 'warded')
+      .and.shouldAffectNoOtherStatuses();
+  });
 
-        theBarrageSkill.shouldOnlyAffectTheStatus('healthLeft');
-        
-        theBarrageSkill.shouldBeNegatedBy.invisible();
-    });
-
-    it('should fire X times where X is its value');
+  it('should fire X times where X is its value');
 });

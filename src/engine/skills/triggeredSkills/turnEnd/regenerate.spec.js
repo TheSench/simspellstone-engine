@@ -1,4 +1,4 @@
-import { theTurnSkill } from '../../skillTestCommon/triggeredSkillBase.spec';
+import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { regenerate } from './../../skills';
 
 describe('regenerate', () => {

@@ -1,14 +1,15 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { rally as empower } from './../skills';
 
 describe('empower', () => {
-    let theEmpowerSkill = theSkill(empower);
-    
-    theEmpowerSkill.shouldTarget.allAlliedUnits();
-    theEmpowerSkill.shouldOnlyAffect.targetsThatAreActive();
+  let theEmpowerSkill = theActivationSkill(empower);
 
-    describe('effects', () => {
-        theEmpowerSkill.shouldOnlyAffectTheStatus('attackEmpower').stackingWithCurrentValue();
-        theEmpowerSkill.shouldBeNegatedBy.nullified();
-    });
+  theEmpowerSkill.shouldTarget.allAlliedUnits()
+    .onlyAffecting.targetsThatAreActive()
+    .unlessTheyAre.nullified();
+
+  describe('effects', () => {
+    theEmpowerSkill.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('attackEmpower').stackingWithCurrentValue();
+  });
 });

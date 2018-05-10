@@ -1,14 +1,15 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { legion } from './../skills';
 
 describe('legion', () => {
-    let theLegionSkill = theSkill(legion);
+  let theLegionSkill = theActivationSkill(legion);
 
-    theLegionSkill.shouldOnlyAffect.targetsThatAreActive();
-    theLegionSkill.shouldTarget.adjacentAlliedUnits();
+  theLegionSkill.shouldTarget.adjacentAlliedUnits()
+    .onlyAffecting.targetsThatAreActive()
+    .unlessTheyAre.nullified();
 
-    describe('effects', () => {
-        theLegionSkill.shouldApplyTheStatus('attackEmpower').stackingWithCurrentValue();
-        theLegionSkill.shouldBeNegatedBy.nullified();
-    });
+  describe('effects', () => {
+    theLegionSkill.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('attackEmpower').stackingWithCurrentValue();
+  });
 });

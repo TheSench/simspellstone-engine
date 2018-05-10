@@ -1,14 +1,15 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { enrage } from './../skills';
 
 describe('enrage', () => {
-    let theEnrageSkill = theSkill(enrage);
+  let theEnrageSkill = theActivationSkill(enrage);
 
-    theEnrageSkill.shouldOnlyAffect.targetsThatAreAlive();
-    theEnrageSkill.shouldTarget.allAlliedUnits();
+  theEnrageSkill.shouldTarget.allAlliedUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.nullified();
 
-    describe('effects', () => {
-        theEnrageSkill.shouldOnlyAffectTheStatus('enraged').stackingWithCurrentValue(),
-        theEnrageSkill.shouldBeNegatedBy.nullified();
-    });
+  describe('effects', () => {
+    theEnrageSkill.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('enraged').stackingWithCurrentValue();
+  });
 });

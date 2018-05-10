@@ -1,21 +1,17 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { poisonstrike as poisonBolt } from './../skills';
 
 describe('bolt', () => {
-  let thePoisonBoltSkill = theSkill(poisonBolt);
+  let thePoisonBoltSkill = theActivationSkill(poisonBolt);
 
-  thePoisonBoltSkill.shouldTarget.allOpposingUnits();
-  thePoisonBoltSkill.shouldOnlyAffect.targetsThatAreAlive();
+  thePoisonBoltSkill.shouldTarget.allOpposingUnits()
+    .onlyAffecting.targetsThatAreAlive()
+    .unlessTheyAre.invisible();
 
   describe('effects', () => {
-    thePoisonBoltSkill.shouldDealDamage
-      .equalToItsValue()
-      .modifiedBy('hexed', 'protection', 'warded');
-
-    it('adds scorched to the target');
-
-    thePoisonBoltSkill.shouldApplyTheStatus('poisoned').replacingTheCurrentValueIfHigher();
-    thePoisonBoltSkill.shouldNotAffectStatusesOtherThan('poisoned', 'healthLeft');
-    thePoisonBoltSkill.shouldBeNegatedBy.invisible();
+    thePoisonBoltSkill.whenAffectingTargets
+      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded')
+      .and.shouldAffectTheStatus('poisoned').replacingTheCurrentValueIfHigher()
+      .and.shouldAffectNoOtherStatuses();
   });
 });

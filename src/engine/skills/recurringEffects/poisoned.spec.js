@@ -1,4 +1,4 @@
-import { theRecurringEffect } from '../skillTestCommon/triggeredSkillBase.spec';
+import { theRecurringEffect } from '../skillTestCommon/skillTestBase.spec';
 import { poisoned } from './../skills';
 
 describe('poisoned', () => {

@@ -1,22 +1,22 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { weaken, weakenself as weakenSelf } from './../skills';
 
 describe('weaken', () => {
-    testWeakenBase(weaken);
-    theSkill(weaken).shouldTarget.allOpposingUnits();
+  testWeakenBase(weaken, 'allOpposingUnits');
 });
 describe('weakenSelf', () => {
-    testWeakenBase(weakenSelf);
-    theSkill(weakenSelf).shouldTarget.itself();
+  testWeakenBase(weakenSelf, 'itself');
 });
 
-function testWeakenBase(weakenSkill) {
-    let weaken = theSkill(weakenSkill);
+function testWeakenBase(weakenSkill, targetShape) {
+  let weaken = theActivationSkill(weakenSkill);
 
-    weaken.shouldOnlyAffect.targetsThatWillAttack();
+  weaken.shouldTarget[targetShape]()
+    .onlyAffecting.targetsThatWillAttack()
+    .unlessTheyAre.invisible();
 
-    describe('effects', () => {
-        weaken.shouldOnlyAffectTheStatus('attackWeaken').stackingWithCurrentValue();
-        weaken.shouldBeNegatedBy.invisible();
-    });
+  describe('effects', () => {
+    weaken.whenAffectingTargets
+      .shouldOnlyAffectTheStatus('attackWeaken').stackingWithCurrentValue();
+  });
 }

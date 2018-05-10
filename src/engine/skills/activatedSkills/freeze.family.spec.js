@@ -1,24 +1,25 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { jam as freeze, jamself as freezeSelf } from './../skills';
 
 describe('freeze', () => {
-    testFreezeBase(freeze);
-    theSkill(freeze).shouldTarget.allOpposingUnits();
+  testFreezeBase(freeze, 'allOpposingUnits');
 });
 
 describe('freezeSelf', () => {
-    testFreezeBase(freezeSelf);
-    theSkill(freezeSelf).shouldTarget.itself();
+  testFreezeBase(freezeSelf, 'itself');
 });
 
-function testFreezeBase(freezeSkill) {
-    let freeze = theSkill(freezeSkill);
+function testFreezeBase(freezeSkill, targetShape) {
+  let freeze = theActivationSkill(freezeSkill);
 
-    freeze.shouldOnlyAffect.targetsThatWillBeActive();
+  freeze.shouldTarget[targetShape]()
+    .onlyAffecting.targetsThatWillBeActive()
+    .unlessTheyAre.invisible();
 
-    describe('effects', () => {
-        freeze.shouldNotApplyAnyStatuses();
-        freeze.shouldChangeStateOfTargetTo('frozen');
-        freeze.shouldBeNegatedBy.invisible();
-    });
+  describe('effects', () => {
+    freeze.whenAffectingTargets
+      .shouldNotAffectAnyStatuses();
+
+    freeze.shouldChangeStateOfTargetTo('frozen');
+  });
 }

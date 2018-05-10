@@ -1,4 +1,4 @@
-import { theCombatSkill } from '../../skillTestCommon/triggeredSkillBase.spec';
+import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { corrosive } from './../../skills';
 
 describe('corrosive', () => {

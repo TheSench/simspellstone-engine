@@ -1,30 +1,32 @@
-import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
+import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { burn as scorch, burnself as scorchSelf, scorchbreath } from './../skills';
 
 
 describe('scorch', () => {
-  testScorchBase(scorch);
-  theSkill(scorch).shouldTarget.theDirectlyOpposingUnit();
+  testScorchBase(scorch, 'theDirectlyOpposingUnit');
 });
 
 describe('scorchbreath', () => {
-  testScorchBase(scorchbreath);
-  theSkill(scorchbreath).shouldTarget.opposingUnitsInACone();
+  testScorchBase(scorchbreath, 'opposingUnitsInACone');
 });
 
 describe('scorchSelf', () => {
-  testScorchBase(scorchSelf);
-  theSkill(scorchSelf).shouldTarget.itself();
+  testScorchBase(scorchSelf, 'itself');
 });
 
+function testScorchBase(scorchSkill, targetShape) {
+  let scorch = theActivationSkill(scorchSkill);
 
-function testScorchBase(scorchSkill) {
-  let scorch = theSkill(scorchSkill);
+  scorch.shouldTarget[targetShape]()
+    .onlyAffecting.targetsThatAreAlive()
+    .andNeverBeNegated();
+    
+  describe('effects', () => {
+    scorch.whenAffectingTargets
+      .shouldAffectTheStatus('scorched').stackingWithCurrentValue()
+      .and.shouldAffectTheStatus('scorchTimer').replacingCurrentValueWith(2)
+      .and.shouldAffectNoOtherStatuses();
 
-  scorch.shouldOnlyAffect.targetsThatAreAlive();
-  scorch.shouldApplyTheStatus('scorched').stackingWithCurrentValue();
-  scorch.shouldApplyTheStatus('scorchTimer').replacingCurrentValueWith(2);
-  scorch.shouldNotAffectStatusesOtherThan('scorched', 'scorchTimer');
-
-  it('adds scorched to the attacker');
+    it('adds scorched to the attacker');
+  });
 }

@@ -1,5 +1,5 @@
 
-import { theTurnSkill } from '../../skillTestCommon/triggeredSkillBase.spec';
+import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { valorTriggered } from './../../skills';
 describe('valor', () => {
     describe('effects', () => {

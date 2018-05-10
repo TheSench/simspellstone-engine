@@ -1,9 +1,71 @@
 import { createTestUnit } from "../../unitFactory/unitFactory";
 import { testDamageModifiers, testHealingOrDamage } from './helpers/testDamageAndHealing.spec';
 import { clearStatusesWhenTimer, shouldNeverWearOff, shouldWearOffWhenTimer } from "./helpers/testEffectWearsOff.spec";
+import { testNegation } from "./helpers/testNegation.spec";
+import { testPotentialTargets } from "./helpers/testPotentialTargets.spec";
 import { changeSkillTo } from "./helpers/testSkillChanges.spec";
 import { testSkillDoesNothing } from "./helpers/testSkillDoesNothing.spec";
+import { shouldChangeStateTo } from "./helpers/testStatusApplication.spec";
 import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from './helpers/testStatusEffects.spec';
+import { testTargetting } from "./helpers/testTargetting.spec";
+
+export function theActivationSkill(skill) {
+  var testState = makeActivationSkillTestState(skill);
+  return {
+    shouldTarget: {
+      allOpposingUnits: () => targettingContinuation(testState, testPotentialTargets.allOpposingUnits),
+      theDirectlyOpposingUnit: () => targettingContinuation(testState, testPotentialTargets.theDirectlyOpposingUnit),
+      theDirectlyOpposingUnitOrCommander: () => targettingContinuation(testState, testPotentialTargets.theDirectlyOpposingUnitOrCommander),
+      opposingUnitsInACone: () => targettingContinuation(testState, testPotentialTargets.opposingUnitsInACone),
+      allAlliedUnits: () => targettingContinuation(testState, testPotentialTargets.allAlliedUnits),
+      adjacentAlliedUnits: () => targettingContinuation(testState, testPotentialTargets.adjacentAlliedUnits),
+      itself: () => targettingContinuation(testState, testPotentialTargets.itself)
+    },
+    shouldChangeStateOfTargetTo: (state) => shouldChangeStateTo(testState, state),
+    get whenAffectingTargets() {
+      return getSkillHelper(testState)
+    }
+  }
+}
+
+function targettingContinuation(testState, targetFn) {
+  targetFn(testState);
+  return {
+    onlyAffecting: {
+      targetsThatAreAlive: () => affectingHelper(testState, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']),
+      targetsThatAreActive: () => affectingHelper(testState, ['active', 'weakened']),
+      targetsThatWillBeActive: () => affectingHelper(testState, ['active', 'activeNextTurn', 'weakened']),
+      targetsThatWillAttack: () => affectingHelper(testState, ['active', 'activeNextTurn'])
+    }
+  }
+}
+
+function affectingHelper(testState, affectedStates) {
+  testTargetting(testState, affectedStates);
+  return {
+    unlessTheyAre: {
+      invisible: () => testNegation(testState, 'invisible'),
+      nullified: () => testNegation(testState, 'nullified'),
+    },
+    andNeverBeNegated: () => testNegation(testState, null)
+  }
+}
+
+function makeActivationSkillTestState(skill) {
+  function executeSkill(skillInstance, target) {
+    let dummySource = createTestUnit();
+
+    return skill.affectTarget(skillInstance, dummySource, target, skillInstance.value);
+  }
+
+  return {
+    skill,
+    target: 'target',
+    executeSkill,
+    affectedStatuses: []
+  }
+}
+
 
 export function theCombatSkill(skill) {
   return {
@@ -34,9 +96,9 @@ export function theTurnSkill(skill) {
 
 export function theRecurringEffect(effect) {
   return {
-      triggeredDuringUpkeep: () => getRecurringEffectSkillHelper(effect, 'upkeep'),
-      triggeredAtTurnStart: () => getRecurringEffectSkillHelper(effect, 'turnStart'),
-      triggeredAtTurnEnd: () => getRecurringEffectSkillHelper(effect, 'turnEnd')
+    triggeredDuringUpkeep: () => getRecurringEffectSkillHelper(effect, 'upkeep'),
+    triggeredAtTurnStart: () => getRecurringEffectSkillHelper(effect, 'turnStart'),
+    triggeredAtTurnEnd: () => getRecurringEffectSkillHelper(effect, 'turnEnd')
   };
 }
 
@@ -63,7 +125,7 @@ function getSkillHelper(testState) {
       return {
         incrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "+" + value),
         decrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "-" + value),
-        stackingWithCurrentValue: () => doTestApplyStatus(testState, status,  applicationTypes.stack),
+        stackingWithCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.stack),
         replacingTheCurrentValueIfHigher: () => doTestApplyStatus(testState, status, applicationTypes.max),
         replacingCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.replace),
         replacingCurrentValueWith: (value) => doTestApplyStatus(testState, status, value),
@@ -76,11 +138,19 @@ function getSkillHelper(testState) {
         }
       }
     },
+    shouldOnlyAffectTheStatus(status) {
+      var continuation = this.shouldAffectTheStatus(status);
+      this.shouldAffectNoOtherStatuses(testState);
+      return continuation;
+    },
     get shouldHealDamage() {
       return dealOrHealDamageHelper(testState, 'heal');
     },
     get shouldDealDamage() {
       return dealOrHealDamageHelper(testState, 'deal');
+    },
+    shouldNotAffectAnyStatuses() {
+      return shouldAffectNoOtherStatuses(testState);
     },
     shouldAffectNoOtherStatuses() {
       return shouldAffectNoOtherStatuses(testState);
@@ -130,7 +200,7 @@ function getDamageContinuation(testState) {
       return getSkillHelper(testState);
     },
     modifiedBy(...modifiers) {
-      modifiers.forEach((modifier) => testState.affectedStatuses.push(modifier));
+      modifiers.filter(modifier => modifier !== 'armored').forEach((modifier) => testState.affectedStatuses.push(modifier));
       testDamageModifiers(testState, modifiers);
       return getDamageContinuation(testState);
     },
