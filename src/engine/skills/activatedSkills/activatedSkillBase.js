@@ -10,7 +10,7 @@ function checkNegation(negatedBy, self) {
             self.doAffectTarget(skill, source, target, baseValue);
             return true;
         }
-    }
+    };
 }
 
 export default class ActivatedSkillBase {
@@ -21,7 +21,7 @@ export default class ActivatedSkillBase {
             this.affectTarget = function (skill, source, target, baseValue) {
                 this.doAffectTarget(skill, source, target, baseValue);
                 return true;
-            }
+            };
         }
     }
 
@@ -74,7 +74,7 @@ export default class ActivatedSkillBase {
     performSkill(skill, source, field) {
         let potentialTargets = this.getPotentialTargets(source, field);
 
-        let filteredTargets = this.getFilteredTargets(skill, potentialTargets)
+        let filteredTargets = this.getFilteredTargets(skill, potentialTargets);
 
         let targets = this.getFinalTargets(skill, filteredTargets);
 

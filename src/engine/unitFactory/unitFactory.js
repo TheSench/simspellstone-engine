@@ -146,7 +146,7 @@ const unitBase = (function createUnitBase() {
     removeSkill(skillType, skillToRemove) {
       this.skills[skillType] = this.skills[skillType].filter((skill) => {
         skill !== skillToRemove;
-      })
+      });
     }
   };
 
@@ -154,7 +154,7 @@ const unitBase = (function createUnitBase() {
   ['activate', 'activateNextTurn', 'die', 'empower', 'freeze', 'revive', 'unfreeze', 'weaken'].map((stateChange) => {
     unitBase[stateChange] = function () {
       this.state = this.state[stateChange](this.status.timer);
-    }
+    };
   });
 
   return unitBase;
@@ -227,5 +227,5 @@ function createBaseInfo(card) {
     faction: parseInt(card.type),
     subFactions: (card.sub_type || []).map(sf => parseInt(sf)),
     maxLevel: parseInt(card.maxLevel)
-  }
+  };
 }

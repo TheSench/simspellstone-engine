@@ -1,5 +1,5 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { TurnManager } from './turnManager';
 
 describe('turnManager', () => {
@@ -93,7 +93,7 @@ describe('turnManager', () => {
         turnManager.turn = turn;
 
         turnManager.processTurn();
-        verifyCallCounts(1, turnPhases)
+        verifyCallCounts(1, turnPhases);
       });
     });
 

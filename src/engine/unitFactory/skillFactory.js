@@ -37,7 +37,7 @@ const skillAppliers = {
   passive: function addPassiveSkill(skill) {
     return function (allSkills) {
       allSkills.passives[skill.id] = skill.x;
-    }
+    };
   }
 };
 
@@ -53,8 +53,8 @@ function createActivationSkillApplier(skillSlot) {
         all: !!skill.y,
         skill: skill.s // TODO: Should this be renamed? It's the skill for enhance/imbue
       });
-    }
-  }
+    };
+  };
 }
 
 function createTriggeredSkillApplier(skillSlot) {
@@ -65,6 +65,6 @@ function createTriggeredSkillApplier(skillSlot) {
         id: skill.id,
         value: skill.x
       });
-    }
-  }
+    };
+  };
 }

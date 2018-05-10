@@ -1,5 +1,5 @@
-import ActivatedSkillBase from './activatedSkillBase';
 import R from 'ramda';
+import ActivatedSkillBase from './activatedSkillBase';
 
 const damageModifiers = {
     hexed: ([skill, source, target, damage]) => [skill, source, target, damage + target.status.hexed],
@@ -29,7 +29,7 @@ export default class DamageSkill extends ActivatedSkillBase {
         if (modifiers.length) {
             this.calculateDamage = function(skill, source, target, baseDamage) {
                 return modifiers([skill, source, target, baseDamage])[3];
-            }
+            };
         }
     }
 

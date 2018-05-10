@@ -11,7 +11,7 @@ export const testPotentialTargets = (function () {
       commander: 2,
       units: [2.1, 2.2, 2.3, 2.4, 2.5]
     }
-  }
+  };
 
 
   function testFinalTargets(skill, allCount, singleCount) {
@@ -158,7 +158,7 @@ export const testPotentialTargets = (function () {
           let source = createTestUnit({ owner: 'player1', opponent: 'player2' });
           let expectedTargets = field.player1.units;
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -178,7 +178,7 @@ export const testPotentialTargets = (function () {
           source.position = 2;
           let expectedTargets = [1.2, 1.4];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -187,7 +187,7 @@ export const testPotentialTargets = (function () {
           source.position = 4;
           let expectedTargets = [1.4];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -196,7 +196,7 @@ export const testPotentialTargets = (function () {
           source.position = 0;
           let expectedTargets = [1.2];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -215,7 +215,7 @@ export const testPotentialTargets = (function () {
         it(`should target itself, regardless of the field`, () => {
           let expectedTargets = [source];
 
-          let actualTargets = skill.getPotentialTargets(source, field)
+          let actualTargets = skill.getPotentialTargets(source, field);
 
           expect(actualTargets).to.deep.equal(expectedTargets);
         });
@@ -223,5 +223,5 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 1, 1);
       });
     }
-  }
+  };
 })();

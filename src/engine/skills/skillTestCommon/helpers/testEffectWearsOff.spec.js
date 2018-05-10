@@ -97,5 +97,5 @@ export function makeSkillTestState(effect, effectType) {
         effectType,
         executeSkill,
         affectedStatuses: []
-    }
+    };
 }

@@ -16,4 +16,4 @@ export default {
     "skill": [],
     "upgrades": {}
   }
-}
+};

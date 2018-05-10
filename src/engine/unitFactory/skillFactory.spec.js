@@ -70,7 +70,7 @@ function itShouldAdd(skillType) {
                 });
             }
         }
-    }
+    };
 }
 
 function assertSkillCounts(allSkills, skillCounts) {

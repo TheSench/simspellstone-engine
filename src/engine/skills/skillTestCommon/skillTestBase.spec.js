@@ -23,9 +23,9 @@ export function theActivationSkill(skill) {
     },
     shouldChangeStateOfTargetTo: (state) => shouldChangeStateTo(testState, state),
     get whenAffectingTargets() {
-      return getSkillHelper(testState)
+      return getSkillHelper(testState);
     }
-  }
+  };
 }
 
 function targettingContinuation(testState, targetFn) {
@@ -37,7 +37,7 @@ function targettingContinuation(testState, targetFn) {
       targetsThatWillBeActive: () => affectingHelper(testState, ['active', 'activeNextTurn', 'weakened']),
       targetsThatWillAttack: () => affectingHelper(testState, ['active', 'activeNextTurn'])
     }
-  }
+  };
 }
 
 function affectingHelper(testState, affectedStates) {
@@ -48,7 +48,7 @@ function affectingHelper(testState, affectedStates) {
       nullified: () => testNegation(testState, 'nullified'),
     },
     andNeverBeNegated: () => testNegation(testState, null)
-  }
+  };
 }
 
 function makeActivationSkillTestState(skill) {
@@ -63,7 +63,7 @@ function makeActivationSkillTestState(skill) {
     target: 'target',
     executeSkill,
     affectedStatuses: []
-  }
+  };
 }
 
 
@@ -81,7 +81,7 @@ export function theCombatSkill(skill) {
     shouldNotAffectTheDefender() {
       return combatSkillHelper(skill, 'defender').shouldAffectNoOtherStatuses();
     }
-  }
+  };
 }
 
 export function theTurnSkill(skill) {
@@ -91,7 +91,7 @@ export function theTurnSkill(skill) {
     },
     shouldDoNothing: () => testSkillDoesNothing(skill),
     shouldChangeItselfTo: (newSkillID) => changeSkillTo(skill, newSkillID)
-  }
+  };
 }
 
 export function theRecurringEffect(effect) {
@@ -136,7 +136,7 @@ function getSkillHelper(testState) {
             }
           };
         }
-      }
+      };
     },
     shouldOnlyAffectTheStatus(status) {
       var continuation = this.shouldAffectTheStatus(status);
@@ -167,7 +167,7 @@ function getSkillHelper(testState) {
       }
     },
     shouldNeverWearOff: () => shouldNeverWearOff(testState)
-  }
+  };
 }
 
 function dealOrHealDamageHelper(testState, dealOrHeal) {
@@ -186,7 +186,7 @@ function dealOrHealDamageHelper(testState, dealOrHeal) {
       testHealingOrDamage(testState, dealOrHeal, { sourceStatus: sourceStatus });
       return getDamageContinuation(testState);
     }
-  }
+  };
 }
 
 function doTestApplyStatus(testState, status, applicationType, valueStatus) {
@@ -253,7 +253,7 @@ function makeCombatSkillTestState(skill, target) {
     target,
     executeSkill,
     affectedStatuses: []
-  }
+  };
 }
 
 function makeTurnSkillTestState(skill, target) {
@@ -268,7 +268,7 @@ function makeTurnSkillTestState(skill, target) {
     target,
     executeSkill,
     affectedStatuses: []
-  }
+  };
 }
 
 
@@ -284,5 +284,5 @@ function makeRecurringEffectTestState(effect, effectType) {
     effectType,
     executeSkill,
     affectedStatuses: []
-  }
+  };
 }

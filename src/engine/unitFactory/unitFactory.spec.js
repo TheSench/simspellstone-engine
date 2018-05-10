@@ -6,7 +6,7 @@ import { ids as rarities } from './../../constants/rarities';
 import * as gameData from './../../data/gameData';
 import { cards as mockCards } from './../../mockData/mockGameData';
 import * as skillFactory from './skillFactory';
-import { createUnit, defaultPassives, createTestUnit } from './unitFactory';
+import { createTestUnit, createUnit, defaultPassives } from './unitFactory';
 import states from './unitStates';
 
 
@@ -141,7 +141,7 @@ describe('unitFactory', () => {
             expect(unit.state).to.equal(states[expectedState]);
           });
         });
-      })
+      });
     });
 
     describe('takeDamage', () => {

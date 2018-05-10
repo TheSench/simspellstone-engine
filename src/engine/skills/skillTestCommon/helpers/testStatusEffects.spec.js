@@ -67,7 +67,7 @@ export function shouldApplyStatusTo({executeSkill, target}, affectedStatus, appl
           });
         } else {
           [1, 99].forEach(function replaceStatus(flatValue) {
-            let valueSource = (applicationValueSource ? `${applicationValueSource} status` : 'effect')
+            let valueSource = (applicationValueSource ? `${applicationValueSource} status` : 'effect');
             it(`should always set value of ${affectedStatus} to ${valueSource} value`, () => {
               let expectedValue = (applicationType !== applicationTypes.replace ? applicationType : skillInstance.value);
 
@@ -125,7 +125,7 @@ export function shouldAffectNoOtherStatuses({executeSkill, affectedStatuses, tar
   describe(`No other modifications to ${target}.status`, () => {
     let description = (affectedStatuses.length
       ? `should only modify ${orListFromArray(affectedStatuses)}`
-      : 'should NOT modify any statuses')
+      : 'should NOT modify any statuses');
     it(description, () => {
       let targetUnit = createTestUnit(),
         expectedStatus = Object.assign({}, targetUnit.status);
