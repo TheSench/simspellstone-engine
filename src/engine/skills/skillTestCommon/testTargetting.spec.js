@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import states from './../../unitFactory/unitStates';
 import { createTestUnit } from './../../unitFactory/unitFactory';
+import states from './../../unitFactory/unitStates';
 
 // TODO: Break this monstrosity down into smaller modules
 
-export function testTargetting(skill, targeting) {
+export function testTargetting({ skill }, targeting) {
   const units = {
     active: createTestUnit({ state: states.active, status: { healthLeft: 5 } }),
     activeNextTurn: createTestUnit({ state: states.activeNextTurn, status: { healthLeft: 5 } }),

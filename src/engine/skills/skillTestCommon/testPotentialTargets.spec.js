@@ -33,7 +33,7 @@ export const testPotentialTargets = (function () {
   }
 
   return {
-    allOpposingUnits(skill) {
+    allOpposingUnits({skill}) {
       describe('potential targets', () => {
         it(`should target opposing units`, () => {
           let source = createTestUnit({ owner: 'player1', opponent: 'player2' });
@@ -47,7 +47,7 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 5, 1);
       });
     },
-    theDirectlyOpposingUnit(skill) {
+    theDirectlyOpposingUnit({skill}) {
       describe('potential targets', () => {
         let source;
 
@@ -76,7 +76,7 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 1, 1);
       });
     },
-    theDirectlyOpposingUnitOrCommander(skill) {
+    theDirectlyOpposingUnitOrCommander({skill}) {
       describe('potential targets', () => {
         let source;
 
@@ -105,7 +105,7 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 1, 1);
       });
     },
-    opposingUnitsInACone(skill) {
+    opposingUnitsInACone({skill}) {
       describe('potential targets', () => {
         let source;
 
@@ -152,7 +152,7 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 5, 5);
       });
     },
-    allAlliedUnits(skill) {
+    allAlliedUnits({skill}) {
       describe('potential targets', () => {
         it(`should target allied units`, () => {
           let source = createTestUnit({ owner: 'player1', opponent: 'player2' });
@@ -166,7 +166,7 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 5, 1);
       });
     },
-    adjacentAlliedUnits(skill) {
+    adjacentAlliedUnits({skill}) {
       describe('potential targets', () => {
         let source;
 
@@ -204,7 +204,7 @@ export const testPotentialTargets = (function () {
         testFinalTargets(skill, 5, 5);
       });
     },
-    itself(skill) {
+    itself({skill}) {
       describe('potential targets', () => {
         let source;
 

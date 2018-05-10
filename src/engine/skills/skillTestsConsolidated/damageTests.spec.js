@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createTestUnit } from '../../unitFactory/unitFactory';
 
-export function testHealingOrDamage(executeSkill, dealOrHeal, { sourceStatus, flatValue } = {}) {
+export function testHealingOrDamage({ executeSkill }, dealOrHeal, { sourceStatus, flatValue } = {}) {
   [1, 99].forEach((value) => {
     let description = (flatValue ? 'given any value' : `given a value of ${value}`);
     let expectedValue = (flatValue || value);
@@ -45,7 +45,7 @@ export function testHealingOrDamage(executeSkill, dealOrHeal, { sourceStatus, fl
   });
 }
 
-export function testDamageModifiers({executeSkill}, damageModifierList) {
+export function testDamageModifiers({ executeSkill }, damageModifierList) {
   const damageModifierTypes = {
     armored: {
       effect: -1,

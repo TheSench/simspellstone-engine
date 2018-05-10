@@ -1,23 +1,25 @@
 import { expect } from 'chai';
 import { createTestUnit } from './../../unitFactory/unitFactory';
 
-export function testNegation(skill, negator) {
+export function testNegation({ executeSkill }, negator) {
   if (negator) {
     describe(`when targetting units that are ${negator}`, () => {
-      let target;
+      let target,
+        skillInstance;
 
       beforeEach(() => {
         target = createTestUnit({ status: { invisible: 5, nullified: 5 } });
+        skillInstance = { value: 5 };
       });
 
       it('should NOT affect them', () => {
-        let affected = skill.affectTarget(null, null, target, 5);
+        let affected = executeSkill(skillInstance, target);
 
         expect(affected).to.be.false;
       });
 
       it(`should decrement ${negator}`, () => {
-        skill.affectTarget(null, null, target, 5);
+        executeSkill(skillInstance, target);
 
         expect(target.status[negator], negator).to.equal(4);
       });
@@ -26,7 +28,7 @@ export function testNegation(skill, negator) {
         let expectedStatus = Object.assign({}, target.status);
         expectedStatus[negator] = 4;
 
-        skill.affectTarget(null, null, target, 5);
+        executeSkill(skillInstance, target);
 
         expect(target.status, "target.status").to.deep.equal(expectedStatus);
       });
@@ -34,7 +36,7 @@ export function testNegation(skill, negator) {
       it(`should NOT modify the state`, () => {
         let originalState = target.state;
 
-        skill.affectTarget(null, null, target, 5);
+        executeSkill(skillInstance, target);
 
         expect(target.state, "target.state").to.equal(originalState);
       });
@@ -46,7 +48,9 @@ export function testNegation(skill, negator) {
     describe(`when targetting units that are ${status}`, () => {
       it('should affect them', () => {
         let target = createTestUnit({ status: { [status]: 5 } });
-        let affected = skill.affectTarget(null, null, target, 5);
+        let skillInstance = { value: 5 };
+
+        let affected = executeSkill(skillInstance, target);
 
         expect(affected).to.be.true;
       });

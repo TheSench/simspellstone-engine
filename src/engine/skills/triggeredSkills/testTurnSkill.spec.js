@@ -42,11 +42,11 @@ function dealOrHealDamageHelper(testState, dealOrHeal) {
 
   return {
     equalToItsValue() {
-      testHealingOrDamage(testState.executeSkill, dealOrHeal);
+      testHealingOrDamage(testState, dealOrHeal);
       return getContinuation(testState);
     },
     exactlyXDamage(x) {
-      testHealingOrDamage(testState.executeSkill, dealOrHeal, x);
+      testHealingOrDamage(testState, dealOrHeal, x);
       return getContinuation(testState);
     }
   }

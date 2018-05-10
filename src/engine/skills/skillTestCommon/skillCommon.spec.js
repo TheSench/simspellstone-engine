@@ -1,5 +1,5 @@
-import { shouldDealDamageEqualToValue, shouldDealExactlyXDamage, testDamageModifiers } from './testDamage.spec';
-import { shouldHealDamageEqualToValue, shouldHealExactlyXDamage } from './testHealing.spec';
+import { createTestUnit } from '../../unitFactory/unitFactory';
+import { testDamageModifiers, testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
 import { testNegation } from './testNegation.spec';
 import { testPotentialTargets } from './testPotentialTargets.spec';
 import { shouldApplyStatus, shouldChangeStateTo, shouldNotApplyStatusesOtherThan } from './testStatusApplication.spec';
@@ -7,59 +7,75 @@ import { testTargetting } from './testTargetting.spec';
 
 
 export function theSkill(skill) {
-    return {
-        shouldTarget: {
-            allOpposingUnits: () => testPotentialTargets.allOpposingUnits(skill),
-            theDirectlyOpposingUnit: () => testPotentialTargets.theDirectlyOpposingUnit(skill),
-            theDirectlyOpposingUnitOrCommander: () => testPotentialTargets.theDirectlyOpposingUnitOrCommander(skill),
-            opposingUnitsInACone: () => testPotentialTargets.opposingUnitsInACone(skill),
-            allAlliedUnits: () => testPotentialTargets.allAlliedUnits(skill),
-            adjacentAlliedUnits: () => testPotentialTargets.adjacentAlliedUnits(skill),
-            itself: () => testPotentialTargets.itself(skill)
-        },
-        shouldOnlyAffect: {
-            targetsThatAreAlive: () => testTargetting(skill, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']),
-            targetsThatAreActive: () => testTargetting(skill, ['active', 'weakened']),
-            targetsThatWillBeActive: () => testTargetting(skill, ['active', 'activeNextTurn', 'weakened']),
-            targetsThatWillAttack: () => testTargetting(skill, ['active', 'activeNextTurn'])
-        },
-        shouldBeNegatedBy: {
-            invisible: () => testNegation(skill, 'invisible'),
-            nullified: () => testNegation(skill, 'nullified'),
-            nothing: () => testNegation(skill, null),
-        },
-        shouldDealDamage: {
-            equalToItsValue() {
-                shouldDealDamageEqualToValue(skill);
-                return this;
-            },
-            equalTo(damage) {
-                shouldDealExactlyXDamage(skill, damage);
-                return this;
-            },
-            modifiedBy(...modifiers) {
-                testDamageModifiers(skill, modifiers);
-                return this;
-            }
-        },
-        shouldHealDamage: {
-            equalToItsValue: () => shouldHealDamageEqualToValue(skill),
-            equalTo: (damage) => shouldHealExactlyXDamage(skill, damage)
-        },
-        shouldNotApplyAnyStatuses: () => shouldApplyStatus(skill),
-        shouldOnlyAffectTheStatus(status) {
-            shouldNotApplyStatusesOtherThan(skill, [status]);
-            return this.shouldApplyTheStatus(status);
-        },
-        shouldApplyTheStatus(status) {
-            return {
-                stackingWithCurrentValue: () => shouldApplyStatus(skill, status, true),
-                keepingHighestValue: () => shouldApplyStatus(skill, status, false),
-                replacingCurrentValue: () => shouldApplyStatus(skill, status, 'replace'),
-                replacingCurrentValueWith: (value) => shouldApplyStatus(skill, status, false, value)
-            }
-        },
-        shouldNotAffectStatusesOtherThan: (...statuses) => shouldNotApplyStatusesOtherThan(skill, statuses),
-        shouldChangeStateOfTargetTo: (state) => shouldChangeStateTo(skill, state)
-    }
+  var testState = makeSkillTestState(skill);
+  return {
+    shouldTarget: {
+      allOpposingUnits: () => testPotentialTargets.allOpposingUnits(testState),
+      theDirectlyOpposingUnit: () => testPotentialTargets.theDirectlyOpposingUnit(testState),
+      theDirectlyOpposingUnitOrCommander: () => testPotentialTargets.theDirectlyOpposingUnitOrCommander(testState),
+      opposingUnitsInACone: () => testPotentialTargets.opposingUnitsInACone(testState),
+      allAlliedUnits: () => testPotentialTargets.allAlliedUnits(testState),
+      adjacentAlliedUnits: () => testPotentialTargets.adjacentAlliedUnits(testState),
+      itself: () => testPotentialTargets.itself(testState)
+    },
+    shouldOnlyAffect: {
+      targetsThatAreAlive: () => testTargetting(testState, ['active', 'activeNextTurn', 'inactive', 'frozen', 'weakened']),
+      targetsThatAreActive: () => testTargetting(testState, ['active', 'weakened']),
+      targetsThatWillBeActive: () => testTargetting(testState, ['active', 'activeNextTurn', 'weakened']),
+      targetsThatWillAttack: () => testTargetting(testState, ['active', 'activeNextTurn'])
+    },
+    shouldBeNegatedBy: {
+      invisible: () => testNegation(testState, 'invisible'),
+      nullified: () => testNegation(testState, 'nullified'),
+      nothing: () => testNegation(testState, null),
+    },
+    shouldDealDamage: {
+      equalToItsValue() {
+        testHealingOrDamage(testState, 'deal');
+        return this;
+      },
+      equalTo(damage) {
+        testHealingOrDamage(testState, 'deal', damage);
+        return this;
+      },
+      modifiedBy(...modifiers) {
+        testDamageModifiers(testState, modifiers);
+        return this;
+      }
+    },
+    shouldHealDamage: {
+      equalToItsValue: () => testHealingOrDamage(testState, 'heal'),
+      equalTo: (damage) => testHealingOrDamage(testState, 'heal', damage)
+    },
+    shouldNotApplyAnyStatuses: () => shouldApplyStatus(testState),
+    shouldOnlyAffectTheStatus(status) {
+      shouldNotApplyStatusesOtherThan(testState, [status]);
+      return this.shouldApplyTheStatus(status);
+    },
+    shouldApplyTheStatus(status) {
+      return {
+        stackingWithCurrentValue: () => shouldApplyStatus(testState, status, true),
+        keepingHighestValue: () => shouldApplyStatus(testState, status, false),
+        replacingCurrentValue: () => shouldApplyStatus(testState, status, 'replace'),
+        replacingCurrentValueWith: (value) => shouldApplyStatus(testState, status, false, value)
+      }
+    },
+    shouldNotAffectStatusesOtherThan: (...statuses) => shouldNotApplyStatusesOtherThan(testState, statuses),
+    shouldChangeStateOfTargetTo: (state) => shouldChangeStateTo(testState, state)
+  }
+}
+
+
+function makeSkillTestState(skill) {
+  function executeSkill(skillInstance, target) {
+    let dummySource = createTestUnit();
+
+    return skill.affectTarget(skillInstance, dummySource, target, skillInstance.value);
+  }
+
+  return {
+    skill,
+    executeSkill,
+    affectedStatuses: []
+  }
 }
