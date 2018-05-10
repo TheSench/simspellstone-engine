@@ -13,5 +13,7 @@ describe('bolt', () => {
       .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded')
       .and.shouldAffectTheStatus('poisoned').replacingTheCurrentValueIfHigher()
       .and.shouldAffectNoOtherStatuses();
+
+      it('adds poisoned to the attacker');
   });
 });
