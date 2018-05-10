@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testCombatSkill.spec';
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { counterburn } from './../../skills';
 
 describe('emberhide', () => {
-  let emberhide = whenTriggered(counterburn);
+  let emberhide = theCombatSkill(counterburn);
 
   describe('effects', () => {
     emberhide.shouldAffectTheAttacker

@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testTurnSkill.spec';
+import { theTurnSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { absorb } from './../../skills';
 
 describe('ward', () => {
-  let ward = whenTriggered(absorb);
+  let ward = theTurnSkill(absorb);
 
   describe('effects', () => {
     ward.shouldAffectItself

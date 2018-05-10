@@ -1,8 +1,8 @@
+import { theTurnSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { regenerate } from './../../skills';
-import { whenTriggered } from '../testTurnSkill.spec';
 
 describe('regenerate', () => {
-    let theRegenerateSkill = whenTriggered(regenerate);
+    let theRegenerateSkill = theTurnSkill(regenerate);
 
     describe('effects', () => {
         theRegenerateSkill.shouldAffectItself

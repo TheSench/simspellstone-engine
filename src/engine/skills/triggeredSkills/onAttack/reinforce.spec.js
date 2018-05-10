@@ -1,8 +1,8 @@
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { reinforce } from './../../skills';
-import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('reinforce', () => {
-  let theReinforceSkill = whenTriggered(reinforce);
+  let theReinforceSkill = theCombatSkill(reinforce);
 
   describe('effects', () => {
     theReinforceSkill.shouldAffectTheAttacker

@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testCombatSkill.spec';
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { corrosive } from './../../skills';
 
 describe('corrosive', () => {
-  let theCorrosiveSkill = whenTriggered(corrosive);
+  let theCorrosiveSkill = theCombatSkill(corrosive);
 
   describe('effects', () => {
     theCorrosiveSkill.shouldAffectTheAttacker

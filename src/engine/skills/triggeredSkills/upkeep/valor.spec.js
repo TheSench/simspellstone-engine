@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testTurnSkill.spec';
+import { theTurnSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { valor } from './../../skills';
 
 describe('valor', () => {
-  let theValorSkill = whenTriggered(valor);
+  let theValorSkill = theTurnSkill(valor);
 
   describe('effects', () => {
     theValorSkill.shouldAffectItself

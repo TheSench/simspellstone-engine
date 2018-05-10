@@ -1,8 +1,8 @@
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { nullify } from './../../skills';
-import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('nullify', () => {
-  let theNullifySkill = whenTriggered(nullify);
+  let theNullifySkill = theCombatSkill(nullify);
 
   describe('effects', () => {
     theNullifySkill.shouldAffectTheDefender

@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testCombatSkill.spec';
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { fury } from './../../skills';
 
 describe('fury', () => {
-  let theFurySkill = whenTriggered(fury);
+  let theFurySkill = theCombatSkill(fury);
 
   describe('effects', () => {
     theFurySkill.shouldAffectTheAttacker

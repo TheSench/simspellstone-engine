@@ -1,25 +1,37 @@
 import { createTestUnit } from "../../unitFactory/unitFactory";
 import { testDamageModifiers, testHealingOrDamage } from '../skillTestsConsolidated/damageTests.spec';
 import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from '../skillTestsConsolidated/statusEffects.spec';
+import { changeSkillTo } from "./testSkillChanges.spec";
+import { testSkillDoesNothing } from "./testSkillDoesNothing.spec";
 
-export function whenTriggered(skill) {
+export function theCombatSkill(skill) {
   return {
     get shouldAffectTheAttacker() {
-      return getCombatSkillHelpers(makeSkillTestState(skill, 'attacker'))
+      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'attacker'))
     },
     get shouldAffectTheDefender() {
-      return getCombatSkillHelpers(makeSkillTestState(skill, 'defender'))
+      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'defender'))
     },
     shouldNotAffectTheAttacker() {
-      return getCombatSkillHelpers(makeSkillTestState(skill, 'attacker')).affectNoOtherStatuses();
+      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'attacker')).affectNoOtherStatuses();
     },
     shouldNotAffectTheDefender() {
-      return getCombatSkillHelpers(makeSkillTestState(skill, 'defender')).affectNoOtherStatuses();
+      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'defender')).affectNoOtherStatuses();
     }
   }
 }
 
-function getCombatSkillHelpers(testState) {
+export function theTurnSkill(skill) {
+  return {
+    get shouldAffectItself() {
+      return getTriggeredSkillHelpers(makeTurnSkillTestState(skill, 'source'));
+    },
+    shouldDoNothing: () => testSkillDoesNothing(skill),
+    shouldChangeItselfTo: (newSkillID) => changeSkillTo(skill, newSkillID)
+  }
+}
+
+function getTriggeredSkillHelpers(testState) {
   return {
     applyingTheStatus(status) {
       testState.affectedStatuses.push(status);
@@ -66,7 +78,7 @@ function doTestApplyStatus(testState, status, applicationType) {
 function getDamageContinuation(testState) {
   return {
     get and() {
-      return getCombatSkillHelpers(testState);
+      return getTriggeredSkillHelpers(testState);
     },
     modifiedBy(...modifiers) {
       modifiers.forEach((modifier) => testState.affectedStatuses.push(modifier));
@@ -83,12 +95,12 @@ function getDamageContinuation(testState) {
 function getContinuation(testState) {
   return {
     get and() {
-      return getCombatSkillHelpers(testState);
+      return getTriggeredSkillHelpers(testState);
     }
   };
 }
 
-function makeSkillTestState(skill, target) {
+function makeCombatSkillTestState(skill, target) {
   function executeSkill(skillInstance, unit) {
     let attacker, defender;
     let dummy = createTestUnit({ status: { healthLeft: 5 } });
@@ -101,6 +113,21 @@ function makeSkillTestState(skill, target) {
     }
 
     return skill.doPerformSkill(skillInstance, attacker, defender, skillInstance.value);
+  }
+
+  return {
+    skill,
+    target,
+    executeSkill,
+    affectedStatuses: []
+  }
+}
+
+function makeTurnSkillTestState(skill, target) {
+  function executeSkill(skillInstance, source) {
+    let field = null; // TODO: Set up field
+
+    skill.doPerformSkill(skillInstance, source, field, skillInstance.value);
   }
 
   return {

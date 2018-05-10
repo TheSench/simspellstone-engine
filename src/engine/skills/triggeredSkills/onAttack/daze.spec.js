@@ -1,8 +1,8 @@
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { daze } from './../../skills';
-import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('daze', () => {
-  let theDazeSkill = whenTriggered(daze);
+  let theDazeSkill = theCombatSkill(daze);
 
   describe('effects', () => {
     theDazeSkill.shouldAffectTheDefender

@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testCombatSkill.spec';
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { venom } from './../../skills';
 
 describe('venom', () => {
-  let theVenomSkill = whenTriggered(venom);
+  let theVenomSkill = theCombatSkill(venom);
 
   theVenomSkill.shouldAffectTheDefender
     .applyingTheStatus('envenomed').keepingHighestValue()

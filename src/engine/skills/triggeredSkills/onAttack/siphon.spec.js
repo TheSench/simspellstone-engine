@@ -1,8 +1,8 @@
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { leech } from './../../skills';
-import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('siphon', () => {
-    let siphon = whenTriggered(leech);
+    let siphon = theCombatSkill(leech);
 
     describe('effects', () => {
         siphon.shouldAffectTheAttacker.healingDamage.equalToItsValue()

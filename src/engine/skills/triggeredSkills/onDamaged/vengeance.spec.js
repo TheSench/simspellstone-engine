@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testCombatSkill.spec';
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { counter } from './../../skills';
 
 describe('vengeance', () => {
-  let vengeance = whenTriggered(counter);
+  let vengeance = theCombatSkill(counter);
 
   describe('effects', () => {
     vengeance.shouldAffectTheAttacker

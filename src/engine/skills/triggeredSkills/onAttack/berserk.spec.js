@@ -1,8 +1,8 @@
+import { theCombatSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { berserk } from './../../skills';
-import { whenTriggered } from '../testCombatSkill.spec';
 
 describe('berserk', () => {
-  let theBerserkSkill = whenTriggered(berserk);
+  let theBerserkSkill = theCombatSkill(berserk);
 
   describe('effects', () => {
     theBerserkSkill.shouldAffectTheAttacker

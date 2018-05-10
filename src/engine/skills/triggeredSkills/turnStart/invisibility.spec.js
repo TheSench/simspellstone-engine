@@ -1,8 +1,8 @@
-import { whenTriggered } from '../testTurnSkill.spec';
+import { theTurnSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { evade } from './../../skills';
 
 describe('invisibility', () => {
-  let invisibility = whenTriggered(evade);
+  let invisibility = theTurnSkill(evade);
 
   describe('effects', () => {
     invisibility.shouldAffectItself

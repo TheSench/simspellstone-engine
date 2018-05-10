@@ -1,8 +1,9 @@
-import { whenTriggered } from '../testTurnSkill.spec';
+
+import { theTurnSkill } from '../../skillTestsConsolidated/triggeredSkillBase.spec';
 import { valorTriggered } from './../../skills';
 
 describe('valor', () => {
     describe('effects', () => {
-        whenTriggered(valorTriggered).shouldDoNothing();
+        theTurnSkill(valorTriggered).shouldDoNothing();
     });
 });
