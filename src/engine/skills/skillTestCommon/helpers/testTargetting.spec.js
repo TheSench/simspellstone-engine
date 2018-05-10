@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { createTestUnit } from './../../unitFactory/unitFactory';
-import states from './../../unitFactory/unitStates';
+import { createTestUnit } from './../../../unitFactory/unitFactory';
+import states from './../../../unitFactory/unitStates';
 
 // TODO: Break this monstrosity down into smaller modules
 

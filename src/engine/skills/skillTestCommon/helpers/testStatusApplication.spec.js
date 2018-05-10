@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { orListFromArray } from '../../../helpers/orListFromArray';
-import { createTestUnit } from './../../unitFactory/unitFactory';
-import states from './../../unitFactory/unitStates';
+import { orListFromArray } from '../../../../helpers/orListFromArray';
+import { createTestUnit } from './../../../unitFactory/unitFactory';
+import states from './../../../unitFactory/unitStates';
 
 export function testStatusApplication({ executeSkill }, affectedStatus, stacks, setsOtherStatuses) {
   describe('basic effects', () => {

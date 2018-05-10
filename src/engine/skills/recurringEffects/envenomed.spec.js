@@ -1,5 +1,5 @@
 import { envenomedHex, envenomedPoison } from './../skills';
-import { whenTriggered } from './recurringEffects.spec';
+import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
 
 describe('envenom', () => {
   // Hex at start of turn

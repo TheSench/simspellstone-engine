@@ -1,8 +1,8 @@
 import { createTestUnit } from "../../unitFactory/unitFactory";
-import { testDamageModifiers, testHealingOrDamage } from './damageTests.spec';
-import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from './statusEffects.spec';
-import { changeSkillTo } from "./testSkillChanges.spec";
-import { testSkillDoesNothing } from "./testSkillDoesNothing.spec";
+import { testDamageModifiers, testHealingOrDamage } from './helpers/testDamageAndHealing.spec';
+import { changeSkillTo } from "./helpers/testSkillChanges.spec";
+import { testSkillDoesNothing } from "./helpers/testSkillDoesNothing.spec";
+import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from './helpers/testStatusEffects.spec';
 
 export function theCombatSkill(skill) {
   return {

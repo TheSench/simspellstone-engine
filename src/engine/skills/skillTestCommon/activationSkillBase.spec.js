@@ -1,9 +1,9 @@
 import { createTestUnit } from '../../unitFactory/unitFactory';
-import { testDamageModifiers, testHealingOrDamage } from './damageTests.spec';
-import { testNegation } from './testNegation.spec';
-import { testPotentialTargets } from './testPotentialTargets.spec';
-import { shouldApplyStatus, shouldChangeStateTo, shouldNotApplyStatusesOtherThan } from './testStatusApplication.spec';
-import { testTargetting } from './testTargetting.spec';
+import { testDamageModifiers, testHealingOrDamage } from './helpers/testDamageAndHealing.spec';
+import { testNegation } from './helpers/testNegation.spec';
+import { testPotentialTargets } from './helpers/testPotentialTargets.spec';
+import { shouldApplyStatus, shouldChangeStateTo, shouldNotApplyStatusesOtherThan } from './helpers/testStatusApplication.spec';
+import { testTargetting } from './helpers/testTargetting.spec';
 
 
 export function theSkill(skill) {

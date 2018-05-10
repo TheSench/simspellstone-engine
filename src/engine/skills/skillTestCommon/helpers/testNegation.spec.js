@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createTestUnit } from './../../unitFactory/unitFactory';
+import { createTestUnit } from './../../../unitFactory/unitFactory';
 
 export function testNegation({ executeSkill }, negator) {
   if (negator) {

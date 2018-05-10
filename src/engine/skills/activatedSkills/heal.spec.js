@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { createTestUnit } from './../../unitFactory/unitFactory';
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
 import { heal } from './../skills';
 
 describe('heal', () => {

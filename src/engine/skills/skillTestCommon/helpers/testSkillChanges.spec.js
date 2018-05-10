@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createTestUnit } from '../../unitFactory/unitFactory';
+import { createTestUnit } from '../../../unitFactory/unitFactory';
 
 export function changeSkillTo(skill, newSkillID) {
     describe('effects on skill instance', () => {

@@ -1,5 +1,5 @@
+import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
 import { scorched } from './../skills';
-import { whenTriggered } from './recurringEffects.spec';
 
 describe('scorched', () => {
   whenTriggered.atTurnEnd(scorched)

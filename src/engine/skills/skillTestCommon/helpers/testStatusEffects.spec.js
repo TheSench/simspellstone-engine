@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { orListFromArray } from '../../../helpers/orListFromArray';
-import { createTestUnit } from "../../unitFactory/unitFactory";
+import { orListFromArray } from '../../../../helpers/orListFromArray';
+import { createTestUnit } from "../../../unitFactory/unitFactory";
 
 export const applicationTypes = {
   stack: 'applicationType.stack',

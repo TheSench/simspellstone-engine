@@ -1,5 +1,5 @@
 import { corroded } from './../skills';
-import { whenTriggered } from './recurringEffects.spec';
+import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
 
 describe('corroded', () => {
   whenTriggered.atTurnEnd(corroded)

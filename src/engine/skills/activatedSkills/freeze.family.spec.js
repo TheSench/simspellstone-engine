@@ -1,4 +1,4 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
 import { jam as freeze, jamself as freezeSelf } from './../skills';
 
 describe('freeze', () => {

@@ -1,4 +1,4 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
 import { weaken, weakenself as weakenSelf } from './../skills';
 
 describe('weaken', () => {

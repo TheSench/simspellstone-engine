@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createTestUnit } from '../../unitFactory/unitFactory';
+import { createTestUnit } from '../../../unitFactory/unitFactory';
 
 export function testHealingOrDamage({ executeSkill }, dealOrHeal, { sourceStatus, flatValue } = {}) {
   [1, 99].forEach((value) => {

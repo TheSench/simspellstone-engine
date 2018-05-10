@@ -1,4 +1,4 @@
-import { theSkill } from './../skillTestCommon/skillCommon.spec';
+import { theSkill } from './../skillTestCommon/activationSkillBase.spec';
 import { poisonstrike as poisonBolt } from './../skills';
 
 describe('bolt', () => {
