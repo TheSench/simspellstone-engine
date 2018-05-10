@@ -5,9 +5,9 @@ describe('nullify', () => {
   let theNullifySkill = theCombatSkill(nullify);
 
   describe('effects', () => {
-    theNullifySkill.shouldAffectTheDefender
-      .applyingTheStatus('nullified').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+    theNullifySkill.givenTheDefender
+      .shouldAffectTheStatus('nullified').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
 
     theNullifySkill.shouldNotAffectTheAttacker();
   });

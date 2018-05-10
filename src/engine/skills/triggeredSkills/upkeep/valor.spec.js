@@ -6,8 +6,8 @@ describe('valor', () => {
 
   describe('effects', () => {
     theValorSkill.shouldAffectTheUnit
-      .applyingTheStatus('attackValor').replacingCurrentValue()
-      .and.affectNoOtherStatuses();
+      .shouldAffectTheStatus('attackValor').replacingCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
 
     it('should mark itself as triggered once it fires', () => {
       theValorSkill.shouldChangeItselfTo('valorTriggered');

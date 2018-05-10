@@ -5,11 +5,11 @@ describe('corrosive', () => {
   let theCorrosiveSkill = theCombatSkill(corrosive);
 
   describe('effects', () => {
-    theCorrosiveSkill.shouldAffectTheAttacker
-      .applyingTheStatus('attackWeaken').stackingWithCurrentValue()
-      .and.applyingTheStatus('corroded').stackingWithCurrentValue()
-      .and.applyingTheStatus('corrosionTimer').replacingCurrentValueWith(2)
-      .and.affectNoOtherStatuses();
+    theCorrosiveSkill.givenTheAttacker
+      .shouldAffectTheStatus('attackWeaken').stackingWithCurrentValue()
+      .and.shouldAffectTheStatus('corroded').stackingWithCurrentValue()
+      .and.shouldAffectTheStatus('corrosionTimer').replacingCurrentValueWith(2)
+      .and.shouldAffectNoOtherStatuses();
 
     theCorrosiveSkill.shouldNotAffectTheDefender();
 

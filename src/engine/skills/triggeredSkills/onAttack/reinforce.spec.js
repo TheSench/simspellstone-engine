@@ -5,9 +5,9 @@ describe('reinforce', () => {
   let theReinforceSkill = theCombatSkill(reinforce);
 
   describe('effects', () => {
-    theReinforceSkill.shouldAffectTheAttacker
-      .applyingTheStatus('protection').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+    theReinforceSkill.givenTheAttacker
+      .shouldAffectTheStatus('protection').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
 
     theReinforceSkill.shouldNotAffectTheDefender();
   });

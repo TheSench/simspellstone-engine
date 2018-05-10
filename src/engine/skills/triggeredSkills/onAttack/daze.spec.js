@@ -5,9 +5,9 @@ describe('daze', () => {
   let theDazeSkill = theCombatSkill(daze);
 
   describe('effects', () => {
-    theDazeSkill.shouldAffectTheDefender
-      .applyingTheStatus('attackWeaken').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+    theDazeSkill.givenTheDefender
+      .shouldAffectTheStatus('attackWeaken').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
 
     theDazeSkill.shouldNotAffectTheAttacker();
   });

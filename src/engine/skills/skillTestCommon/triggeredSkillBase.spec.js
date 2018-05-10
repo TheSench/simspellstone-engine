@@ -1,22 +1,23 @@
 import { createTestUnit } from "../../unitFactory/unitFactory";
 import { testDamageModifiers, testHealingOrDamage } from './helpers/testDamageAndHealing.spec';
+import { clearStatusesWhenTimer, shouldNeverWearOff, shouldWearOffWhenTimer } from "./helpers/testEffectWearsOff.spec";
 import { changeSkillTo } from "./helpers/testSkillChanges.spec";
 import { testSkillDoesNothing } from "./helpers/testSkillDoesNothing.spec";
 import { applicationTypes, shouldAffectNoOtherStatuses, shouldApplyStatusTo } from './helpers/testStatusEffects.spec';
 
 export function theCombatSkill(skill) {
   return {
-    get shouldAffectTheAttacker() {
-      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'attacker'))
+    get givenTheAttacker() {
+      return combatSkillHelper(skill, 'attacker');
     },
-    get shouldAffectTheDefender() {
-      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'defender'))
+    get givenTheDefender() {
+      return combatSkillHelper(skill, 'defender');
     },
     shouldNotAffectTheAttacker() {
-      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'attacker')).affectNoOtherStatuses();
+      return combatSkillHelper(skill, 'attacker').shouldAffectNoOtherStatuses();
     },
     shouldNotAffectTheDefender() {
-      return getTriggeredSkillHelpers(makeCombatSkillTestState(skill, 'defender')).affectNoOtherStatuses();
+      return combatSkillHelper(skill, 'defender').shouldAffectNoOtherStatuses();
     }
   }
 }
@@ -24,34 +25,78 @@ export function theCombatSkill(skill) {
 export function theTurnSkill(skill) {
   return {
     get shouldAffectTheUnit() {
-      return getTriggeredSkillHelpers(makeTurnSkillTestState(skill, 'source'));
+      return getTurnSkillHelper(skill, 'source');
     },
     shouldDoNothing: () => testSkillDoesNothing(skill),
     shouldChangeItselfTo: (newSkillID) => changeSkillTo(skill, newSkillID)
   }
 }
 
-function getTriggeredSkillHelpers(testState) {
+export function theRecurringEffect(effect) {
   return {
-    applyingTheStatus(status) {
+      triggeredDuringUpkeep: () => getRecurringEffectSkillHelper(effect, 'upkeep'),
+      triggeredAtTurnStart: () => getRecurringEffectSkillHelper(effect, 'turnStart'),
+      triggeredAtTurnEnd: () => getRecurringEffectSkillHelper(effect, 'turnEnd')
+  };
+}
+
+function combatSkillHelper(skill, target) {
+  let testState = makeCombatSkillTestState(skill, target);
+  return getSkillHelper(testState);
+}
+
+function getTurnSkillHelper(skill, target) {
+  let testState = makeTurnSkillTestState(skill, target);
+  return getSkillHelper(testState);
+}
+
+function getRecurringEffectSkillHelper(effect, effectType) {
+  let testState = makeRecurringEffectTestState(effect, effectType);
+  return getSkillHelper(testState);
+}
+
+function getSkillHelper(testState) {
+  return {
+    shouldAffectTheStatus(status) {
       testState.affectedStatuses.push(status);
 
       return {
+        incrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "+" + value),
+        decrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "-" + value),
         stackingWithCurrentValue: () => doTestApplyStatus(testState, status,  applicationTypes.stack),
-        keepingHighestValue: () => doTestApplyStatus(testState, status, applicationTypes.max),
+        replacingTheCurrentValueIfHigher: () => doTestApplyStatus(testState, status, applicationTypes.max),
         replacingCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.replace),
-        replacingCurrentValueWith: (value) => doTestApplyStatus(testState, status, value)
+        replacingCurrentValueWith: (value) => doTestApplyStatus(testState, status, value),
+        addingTheValueOf: (valueStatus) => {
+          return {
+            toTheCurrentValue() {
+              return doTestApplyStatus(testState, status, applicationTypes.stack, valueStatus);
+            }
+          };
+        }
       }
     },
-    get healingDamage() {
+    get shouldHealDamage() {
       return dealOrHealDamageHelper(testState, 'heal');
     },
-    get dealingDamage() {
+    get shouldDealDamage() {
       return dealOrHealDamageHelper(testState, 'deal');
     },
-    affectNoOtherStatuses() {
+    shouldAffectNoOtherStatuses() {
       return shouldAffectNoOtherStatuses(testState);
-    }
+    },
+    shouldWearOff: {
+      whenTimer(timerStatus) {
+        return {
+          becomesZero() {
+            return effectWearsOffHelper(testState,
+              () => shouldWearOffWhenTimer(testState, timerStatus),
+              (clearedStatuses) => clearStatusesWhenTimer(testState, timerStatus, clearedStatuses));
+          }
+        };
+      }
+    },
+    shouldNeverWearOff: () => shouldNeverWearOff(testState)
   }
 }
 
@@ -66,19 +111,23 @@ function dealOrHealDamageHelper(testState, dealOrHeal) {
     exactlyXDamage(x) {
       testHealingOrDamage(testState, dealOrHeal, { flatValue: x });
       return getDamageContinuation(testState);
+    },
+    equalToTheValueOf(sourceStatus) {
+      testHealingOrDamage(testState, dealOrHeal, { sourceStatus: sourceStatus });
+      return getDamageContinuation(testState);
     }
   }
 }
 
-function doTestApplyStatus(testState, status, applicationType) {
-  shouldApplyStatusTo(testState, status, applicationType);
+function doTestApplyStatus(testState, status, applicationType, valueStatus) {
+  shouldApplyStatusTo(testState, status, applicationType, valueStatus);
   return getContinuation(testState);
 }
 
 function getDamageContinuation(testState) {
   return {
     get and() {
-      return getTriggeredSkillHelpers(testState);
+      return getSkillHelper(testState);
     },
     modifiedBy(...modifiers) {
       modifiers.forEach((modifier) => testState.affectedStatuses.push(modifier));
@@ -95,7 +144,21 @@ function getDamageContinuation(testState) {
 function getContinuation(testState) {
   return {
     get and() {
-      return getTriggeredSkillHelpers(testState);
+      return getSkillHelper(testState);
+    }
+  };
+}
+
+function effectWearsOffHelper(testState, wearOffFn, clearStatusFn) {
+  wearOffFn();
+  return {
+    and: {
+      shouldClearTheStatus(status) {
+        clearStatusFn([status]);
+      },
+      clearTheStatuses(statuses) {
+        clearStatusFn(statuses);
+      }
     }
   };
 }
@@ -133,6 +196,22 @@ function makeTurnSkillTestState(skill, target) {
   return {
     skill,
     target,
+    executeSkill,
+    affectedStatuses: []
+  }
+}
+
+
+
+function makeRecurringEffectTestState(effect, effectType) {
+  function executeSkill(effectInstance, unit) {
+    effect.apply(effectInstance, unit);
+  }
+
+  return {
+    skill: effect,
+    target: 'unit',
+    effectType,
     executeSkill,
     affectedStatuses: []
   }

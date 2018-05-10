@@ -1,11 +1,12 @@
-import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
+import { theRecurringEffect } from '../skillTestCommon/triggeredSkillBase.spec';
 import { poisoned } from './../skills';
 
 describe('poisoned', () => {
-  whenTriggered.atTurnEnd(poisoned)
-    .shouldDealDamage.equalToTheValueOf('poisoned')
-    .and.affectNoOtherStatuses();
+  let thePoisonedEffect = theRecurringEffect(poisoned).triggeredAtTurnEnd();
 
-  whenTriggered.atTurnEnd(poisoned)
-    .shouldNeverWearOff();
+  thePoisonedEffect
+    .shouldDealDamage.equalToTheValueOf('poisoned')
+    .and.shouldAffectNoOtherStatuses();
+
+    thePoisonedEffect.shouldNeverWearOff();
 });

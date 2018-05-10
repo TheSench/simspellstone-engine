@@ -5,10 +5,10 @@ describe('vengeance', () => {
   let vengeance = theCombatSkill(counter);
 
   describe('effects', () => {
-    vengeance.shouldAffectTheAttacker
-      .dealingDamage.equalToItsValue()
+    vengeance.givenTheAttacker
+      .shouldDealDamage.equalToItsValue()
       .modifiedBy('protection', 'warded')
-      .and.affectNoOtherStatuses();
+      .and.shouldAffectNoOtherStatuses();
 
     vengeance.shouldNotAffectTheDefender();
   });

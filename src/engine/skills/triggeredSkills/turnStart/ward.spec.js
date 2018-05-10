@@ -6,7 +6,7 @@ describe('ward', () => {
 
   describe('effects', () => {
     ward.shouldAffectTheUnit
-      .applyingTheStatus('warded').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+      .shouldAffectTheStatus('warded').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
   });
 });

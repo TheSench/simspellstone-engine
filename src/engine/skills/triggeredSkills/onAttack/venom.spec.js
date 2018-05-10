@@ -4,10 +4,10 @@ import { venom } from './../../skills';
 describe('venom', () => {
   let theVenomSkill = theCombatSkill(venom);
 
-  theVenomSkill.shouldAffectTheDefender
-    .applyingTheStatus('envenomed').keepingHighestValue()
-    .and.applyingTheStatus('hexed').stackingWithCurrentValue()
-    .and.affectNoOtherStatuses();
+  theVenomSkill.givenTheDefender
+    .shouldAffectTheStatus('envenomed').replacingTheCurrentValueIfHigher()
+    .and.shouldAffectTheStatus('hexed').stackingWithCurrentValue()
+    .and.shouldAffectNoOtherStatuses();
 
   it('adds envenomed to the attacker');
 

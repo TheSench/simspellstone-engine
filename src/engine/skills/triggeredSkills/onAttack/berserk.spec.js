@@ -5,9 +5,9 @@ describe('berserk', () => {
   let theBerserkSkill = theCombatSkill(berserk);
 
   describe('effects', () => {
-    theBerserkSkill.shouldAffectTheAttacker
-      .applyingTheStatus('attackBerserk').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+    theBerserkSkill.givenTheAttacker
+      .shouldAffectTheStatus('attackBerserk').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
 
     theBerserkSkill.shouldNotAffectTheDefender();
   });

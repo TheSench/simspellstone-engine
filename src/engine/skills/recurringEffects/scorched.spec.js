@@ -1,12 +1,14 @@
-import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
+import { theRecurringEffect } from '../skillTestCommon/triggeredSkillBase.spec';
 import { scorched } from './../skills';
 
 describe('scorched', () => {
-  whenTriggered.atTurnEnd(scorched)
-    .shouldDealDamage.equalToTheValueOf('scorched')
-    .and.shouldModifyTheStatus('scorchTimer').decrementingTheCurrentValueBy(1)
-    .and.affectNoOtherStatuses();
+  let theScorchedEffect = theRecurringEffect(scorched).triggeredAtTurnEnd();
 
-  whenTriggered.atTurnEnd(scorched)
+  theScorchedEffect
+    .shouldDealDamage.equalToTheValueOf('scorched')
+    .and.shouldAffectTheStatus('scorchTimer').decrementingTheCurrentValueBy(1)
+    .and.shouldAffectNoOtherStatuses();
+
+  theScorchedEffect
     .shouldWearOff.whenTimer('scorchTimer').becomesZero();
 });

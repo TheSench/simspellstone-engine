@@ -6,7 +6,7 @@ describe('invisibility', () => {
 
   describe('effects', () => {
     invisibility.shouldAffectTheUnit
-      .applyingTheStatus('invisible').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+      .shouldAffectTheStatus('invisible').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
   });
 });

@@ -5,7 +5,7 @@ import { testPotentialTargets } from './helpers/testPotentialTargets.spec';
 import { shouldApplyStatus, shouldChangeStateTo, shouldNotApplyStatusesOtherThan } from './helpers/testStatusApplication.spec';
 import { testTargetting } from './helpers/testTargetting.spec';
 
-
+// TODO: Make fluent like other skill test suites
 export function theSkill(skill) {
   var testState = makeSkillTestState(skill);
   return {
@@ -55,7 +55,7 @@ export function theSkill(skill) {
     shouldApplyTheStatus(status) {
       return {
         stackingWithCurrentValue: () => shouldApplyStatus(testState, status, true),
-        keepingHighestValue: () => shouldApplyStatus(testState, status, false),
+        replacingTheCurrentValueIfHigher: () => shouldApplyStatus(testState, status, false),
         replacingCurrentValue: () => shouldApplyStatus(testState, status, 'replace'),
         replacingCurrentValueWith: (value) => shouldApplyStatus(testState, status, false, value)
       }

@@ -7,7 +7,7 @@ export const whenTriggered = {
   duringUpkeep: (effect) => whenTriggeredHelper(effect, 'upkeep'),
   atTurnStart: (effect) => whenTriggeredHelper(effect, 'turnStart'),
   atTurnEnd: (effect) => whenTriggeredHelper(effect, 'turnEnd')
-}
+};
 
 function whenTriggeredHelper(effect, effectType) {
   var testState = makeSkillTestState(effect, effectType);
@@ -15,13 +15,12 @@ function whenTriggeredHelper(effect, effectType) {
 }
 
 function getRecurringEffectHelpers(testState) {
-
   return {
     shouldModifyTheStatus(status) {
       testState.affectedStatuses.push(status);
 
       return {
-        addingTheEffectValueToTheCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.stack),
+        stackingWithCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.stack),
         incrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "+" + value),
         decrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "-" + value),
         replacingTheCurrentValueIfHigher: () => doTestApplyStatus(testState, status, applicationTypes.max),
@@ -42,7 +41,7 @@ function getRecurringEffectHelpers(testState) {
     get shouldDealDamage() {
       return dealOrHealDamageHelper(testState, 'deal');
     },
-    affectNoOtherStatuses() {
+    shouldAffectNoOtherStatuses() {
       return shouldAffectNoOtherStatuses(testState);
     },
     shouldWearOff: {
@@ -89,7 +88,7 @@ function effectWearsOffHelper(testState, wearOffFn, clearStatusFn) {
   wearOffFn();
   return {
     and: {
-      clearTheStatus(status) {
+      shouldClearTheStatus(status) {
         clearStatusFn([status]);
       },
       clearTheStatuses(statuses) {

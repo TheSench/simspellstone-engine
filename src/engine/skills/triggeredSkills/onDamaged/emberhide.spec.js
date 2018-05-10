@@ -5,10 +5,10 @@ describe('emberhide', () => {
   let emberhide = theCombatSkill(counterburn);
 
   describe('effects', () => {
-    emberhide.shouldAffectTheAttacker
-      .applyingTheStatus('scorched').stackingWithCurrentValue()
-      .and.applyingTheStatus('scorchTimer').replacingCurrentValueWith(2)
-      .and.affectNoOtherStatuses();
+    emberhide.givenTheAttacker
+      .shouldAffectTheStatus('scorched').stackingWithCurrentValue()
+      .and.shouldAffectTheStatus('scorchTimer').replacingCurrentValueWith(2)
+      .and.shouldAffectNoOtherStatuses();
 
     it('adds scorched to the attacker');
 

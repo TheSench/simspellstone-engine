@@ -1,13 +1,15 @@
+import { theRecurringEffect } from '../skillTestCommon/triggeredSkillBase.spec';
 import { corroded } from './../skills';
-import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
 
 describe('corroded', () => {
-  whenTriggered.atTurnEnd(corroded)
-    .shouldModifyTheStatus('attackWeaken').addingTheValueOf('corroded').toTheCurrentValue()
-    .and.shouldModifyTheStatus('corrosionTimer').decrementingTheCurrentValueBy(1)
-    .and.affectNoOtherStatuses();
+  let corrodedEffect = theRecurringEffect(corroded).triggeredAtTurnEnd();
 
-  whenTriggered.atTurnEnd(corroded)
+  corrodedEffect
+    .shouldAffectTheStatus('attackWeaken').addingTheValueOf('corroded').toTheCurrentValue()
+    .and.shouldAffectTheStatus('corrosionTimer').decrementingTheCurrentValueBy(1)
+    .and.shouldAffectNoOtherStatuses();
+
+  corrodedEffect
     .shouldWearOff.whenTimer('corrosionTimer').becomesZero()
-    .and.clearTheStatus('corroded');
+    .and.shouldClearTheStatus('corroded');
 });

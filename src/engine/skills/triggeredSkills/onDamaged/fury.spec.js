@@ -5,13 +5,13 @@ describe('fury', () => {
   let theFurySkill = theCombatSkill(fury);
 
   describe('effects', () => {
-    theFurySkill.shouldAffectTheAttacker
-      .dealingDamage.equalToItsValue()
+    theFurySkill.givenTheAttacker
+      .shouldDealDamage.equalToItsValue()
       .modifiedBy('protection', 'warded')
-      .and.affectNoOtherStatuses();
+      .and.shouldAffectNoOtherStatuses();
 
-    theFurySkill.shouldAffectTheDefender
-      .applyingTheStatus('attackBerserk').stackingWithCurrentValue()
-      .and.affectNoOtherStatuses();
+    theFurySkill.givenTheDefender
+      .shouldAffectTheStatus('attackBerserk').stackingWithCurrentValue()
+      .and.shouldAffectNoOtherStatuses();
   });
 });

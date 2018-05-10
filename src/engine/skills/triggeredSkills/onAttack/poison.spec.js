@@ -5,9 +5,9 @@ describe('poison', () => {
   let thePoisonSkill = theCombatSkill(poison);
 
   describe('effects', () => {
-    thePoisonSkill.shouldAffectTheDefender
-      .applyingTheStatus('poisoned').keepingHighestValue()
-      .and.affectNoOtherStatuses();
+    thePoisonSkill.givenTheDefender
+      .shouldAffectTheStatus('poisoned').replacingTheCurrentValueIfHigher()
+      .and.shouldAffectNoOtherStatuses();
 
     it('adds poisoned to the attacker');
 

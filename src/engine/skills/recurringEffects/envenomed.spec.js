@@ -1,20 +1,21 @@
+import { theRecurringEffect } from '../skillTestCommon/triggeredSkillBase.spec';
 import { envenomedHex, envenomedPoison } from './../skills';
-import { whenTriggered } from '../skillTestCommon/recurringEffectBase.spec';
 
 describe('envenom', () => {
-  // Hex at start of turn
-  whenTriggered.atTurnStart(envenomedHex)
-    .shouldModifyTheStatus('hexed').addingTheValueOf('envenomed').toTheCurrentValue()
-    .and.affectNoOtherStatuses();
+  let envenomedHexEffect = theRecurringEffect(envenomedHex).triggeredAtTurnStart();
+  let envenomedPoisonEffect = theRecurringEffect(envenomedPoison).triggeredAtTurnStart();
 
-  whenTriggered.atTurnEnd(envenomedHex)
-    .shouldNeverWearOff();
+  // Hex at start of turn
+  envenomedHexEffect
+    .shouldAffectTheStatus('hexed').addingTheValueOf('envenomed').toTheCurrentValue()
+    .and.shouldAffectNoOtherStatuses();
+
+  envenomedHexEffect.shouldNeverWearOff();
 
   // Poison at end of turn
-  whenTriggered.atTurnEnd(envenomedPoison)
+  envenomedPoisonEffect
     .shouldDealDamage.equalToTheValueOf('envenomed')
-    .and.affectNoOtherStatuses();
+    .and.shouldAffectNoOtherStatuses();
 
-  whenTriggered.atTurnEnd(envenomedPoison)
-    .shouldNeverWearOff();
+  envenomedPoisonEffect.shouldNeverWearOff();
 });

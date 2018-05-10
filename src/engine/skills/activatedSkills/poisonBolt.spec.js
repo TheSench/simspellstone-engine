@@ -14,7 +14,7 @@ describe('bolt', () => {
 
     it('adds scorched to the target');
 
-    thePoisonBoltSkill.shouldApplyTheStatus('poisoned').keepingHighestValue();
+    thePoisonBoltSkill.shouldApplyTheStatus('poisoned').replacingTheCurrentValueIfHigher();
     thePoisonBoltSkill.shouldNotAffectStatusesOtherThan('poisoned', 'healthLeft');
     thePoisonBoltSkill.shouldBeNegatedBy.invisible();
   });
