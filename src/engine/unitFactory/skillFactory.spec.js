@@ -7,8 +7,12 @@ import * as skillFactory from './skillFactory';
 var sandbox = sinon.createSandbox();
 
 describe('skillFactory', () => {
-    beforeEach(() => {
+    before(() => {
         sandbox.replace(gameData, 'skills', mockSkills);
+    });
+
+    after(() => {
+      sandbox.restore();
     });
 
     it('should return an object with "skills" and "passives"', () => {
@@ -44,9 +48,6 @@ describe('skillFactory', () => {
         let value = createdSkills.passives.passiveSkill;
         expect(value, "skill.x").to.equal(1);
     });
-
-    afterEach(function () {
-    });
 });
 
 function itShouldAdd(skillType) {
@@ -67,6 +68,7 @@ function itShouldAdd(skillType) {
                     let skill = createdSkills.skills[skillType][0];
                     expect(skill.id, "skill.id").to.equal(skillID);
                     expect(skill.value, "skill.value").to.equal(1);
+                    expect(skill.enhanced, "skill.enhanced").to.be.false;
                 });
             }
         }
