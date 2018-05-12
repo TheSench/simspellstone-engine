@@ -32,6 +32,13 @@ describe('Unit states', () => {
             willBeActive: false
         });
 
+        testStateProperties('frozeSelf', {
+            willAttack: false,
+            active: false,
+            alive: true,
+            willBeActive: false
+        });
+
         testStateProperties('weakened', {
             willAttack: false,
             active: true,
@@ -94,6 +101,17 @@ describe('Unit states', () => {
                 other: 'inactive'
             },
             weaken: 'frozen'
+        });
+
+        testStateTransitions('frozeSelf', {
+            activate: 'frozeSelf',
+            activateNextTurn: 'frozeSelf',
+            die: 'dead',
+            empower: 'frozeSelf',
+            freeze: 'frozeSelf',
+            revive: 'frozeSelf',
+            unfreeze: 'frozen',
+            weaken: 'frozeSelf'
         });
 
         testStateTransitions('weakened', {

@@ -8,7 +8,7 @@ export const applicationTypes = {
   replace: 'applicationType.replace'
 };
 
-export function shouldApplyStatusTo({executeSkill, target}, affectedStatus, applicationType, applicationValueSource) {
+export function shouldApplyStatusTo({ executeSkill, target }, affectedStatus, applicationType, applicationValueSource) {
   describe(`effect on ${target}.status.${affectedStatus}`, () => {
     let targetUnit = null,
       skillInstance;
@@ -67,8 +67,8 @@ export function shouldApplyStatusTo({executeSkill, target}, affectedStatus, appl
           });
         } else {
           [1, 99].forEach(function replaceStatus(flatValue) {
-            let valueSource = (applicationValueSource ? `${applicationValueSource} status` : 'effect');
-            it(`should always set value of ${affectedStatus} to ${valueSource} value`, () => {
+            let valueSource = (applicationValueSource ? `value of ${applicationValueSource} status` : applicationType);
+            it(`should always set value of ${affectedStatus} to ${valueSource}`, () => {
               let expectedValue = (applicationType !== applicationTypes.replace ? applicationType : skillInstance.value);
 
               targetUnit.status[affectedStatus] = flatValue;
@@ -121,14 +121,28 @@ function basicStatusApplication(executeSkill, affectedStatus, { sourceStatus, fl
   }
 }
 
-export function shouldAffectNoOtherStatuses({executeSkill, affectedStatuses, target}) {
+export function shouldAffectNoOtherStatuses({ executeSkill, affectedStatuses, target }) {
   describe(`No other modifications to ${target}.status`, () => {
     let description = (affectedStatuses.length
       ? `should only modify ${orListFromArray(affectedStatuses)}`
       : 'should NOT modify any statuses');
-    it(description, () => {
+
+    it(`${description} when statuses are 0`, () => {
       let targetUnit = createTestUnit(),
         expectedStatus = Object.assign({}, targetUnit.status);
+
+      executeSkill({ value: 5 }, targetUnit);
+      affectedStatuses.forEach((status) => expectedStatus[status] = targetUnit.status[status]);
+
+      expect(targetUnit.status, "target.status").to.deep.equal(expectedStatus);
+    });
+
+    it(`${description} when statuses are 10`, () => {
+      let targetUnit = createTestUnit(),
+        expectedStatus = Object.assign({}, targetUnit.status);
+      affectedStatuses
+        .filter(status => ['invisible', 'nullified'].indexOf(status) === -1)
+        .forEach((status) => targetUnit.status[status] = 10);
 
       executeSkill({ value: 5 }, targetUnit);
       affectedStatuses.forEach((status) => expectedStatus[status] = targetUnit.status[status]);

@@ -170,7 +170,6 @@ export function createStatus(stats) {
     attackValor: 0,
     attackEmpower: 0,
     attackWeaken: 0,
-    attackCorroded: 0,
     corrosionTimer: 0,
     // Mark
     markTarget: 0,

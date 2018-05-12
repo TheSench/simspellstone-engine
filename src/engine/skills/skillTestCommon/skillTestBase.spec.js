@@ -123,8 +123,8 @@ function getSkillHelper(testState) {
       testState.affectedStatuses.push(status);
 
       return {
-        incrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "+" + value),
         decrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "-" + value),
+        incrementingTheCurrentValueBy: (value) => doTestApplyStatus(testState, status, "+" + value),
         stackingWithCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.stack),
         replacingTheCurrentValueIfHigher: () => doTestApplyStatus(testState, status, applicationTypes.max),
         replacingCurrentValue: () => doTestApplyStatus(testState, status, applicationTypes.replace),

@@ -41,6 +41,8 @@ const skillAppliers = {
   }
 };
 
+// TODO: Turn these into chain of functions
+
 function createActivationSkillApplier(skillSlot) {
   return function activationSkillApplier(skill) {
     return function applyActivationSkill(allSkills) {
