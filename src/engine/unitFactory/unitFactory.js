@@ -168,10 +168,12 @@ export function createStatus(stats) {
     // Attack Modifiers
     attackBerserk: 0,
     attackValor: 0,
+    // TODO: Merge these two
     attackEmpower: 0,
     attackWeaken: 0,
     corrosionTimer: 0,
     // Mark
+    markedBy: [],
     markTarget: 0,
     // Other Statuses
     // Numeric-Statuses
