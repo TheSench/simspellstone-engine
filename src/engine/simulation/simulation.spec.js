@@ -1,6 +1,6 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { runSimulation } from './simulation';
-import { verifyCallCounts } from './spyHelpers.spec';
 import * as turnManager from './turnManager';
 
 describe('runSimulation', () => {
@@ -21,7 +21,7 @@ describe('runSimulation', () => {
       it(`given maxTurns of ${maxTurns} should process ${maxTurns} turns`, () => {
         runSimulation(maxTurns);
 
-        verifyCallCounts(maxTurns, processTurn);
+        expect(processTurn.callCount).to.equal(maxTurns);
       });
     });
   });

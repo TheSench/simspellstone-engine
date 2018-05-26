@@ -9,7 +9,7 @@ export function verifyCallOrder(spies) {
 }
 
 export function verifyCallCounts(expectedCount, spies) {
-  (Array.isArray(spies) ? spies : [spies]).forEach((spy) => {
+  spies.forEach((spy) => {
     expect(spy.callCount).to.equal(expectedCount);
   });
 }
