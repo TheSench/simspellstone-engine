@@ -6,15 +6,15 @@ import * as turnManager from './turnManager';
 describe('runSimulation', () => {
   var sandbox = sinon.createSandbox();
 
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('maxTurns', () => {
     var processTurn;
 
     beforeEach(() => {
       processTurn = sandbox.stub(turnManager, 'processTurn');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     [1, 100].forEach((maxTurns) => {
