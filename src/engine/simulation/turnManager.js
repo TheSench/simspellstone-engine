@@ -1,46 +1,32 @@
-export class TurnManager {
-  constructor() {
-    this.turn = 1;
-  }
+export function processTurn() {
+  exports.upkeep();
+  exports.startTurn();
+  exports.drawCard();
+  exports.playCard();
+  exports.activations();
+  exports.endTurn();
+}
 
-  processTurn() {
-    if(this.turn > 100) {
-      return false;
-    }
+export function upkeep() {
 
-    this.upkeep();
-    this.startTurn();
-    this.drawCard();
-    this.playCard();
-    this.activations();
-    this.endTurn();
+}
 
-    this.turn++;
+export function startTurn() {
 
-    return true;
-  }
+}
 
-  upkeep() {
+export function drawCard() {
 
-  }
+}
 
-  startTurn() {
+export function playCard() {
 
-  }
+}
 
-  drawCard() {
+export function activations() {
 
-  }
+}
 
-  playCard() {
+export function endTurn() {
 
-  }
-
-  activations() {
-
-  }
-
-  endTurn() {
-
-  }
 }

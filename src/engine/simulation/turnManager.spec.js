@@ -1,37 +1,31 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { TurnManager } from './turnManager';
+import { verifyCallCounts, verifyCallOrder } from './spyHelpers.spec';
+import * as turnManager from './turnManager';
 
 describe('turnManager', () => {
-  let turnManager;
-
-  beforeEach(() => {
-    turnManager = new TurnManager();
-  });
-
-  describe('Upkeep', () => {
+  describe('upkeep', () => {
     it('should clear statuses that end at beginning of turn');
   });
 
-  describe('StartTurn', () => {
+  describe('startTurn', () => {
     it('should trigger startTurn skills');
   });
 
-  describe('DrawCard', () => {
+  describe('drawCard', () => {
     it("should draw the top card from player's deck");
   });
 
-  describe('PlayCard', () => {
+  describe('playCard', () => {
     it("should play a card from player's hand");
   });
 
-  describe('Activations', () => {
+  describe('activations', () => {
     it('should trigger earlyActivation skills');
 
     it('should trigger activation skills');
   });
 
-  describe('EndTurn', () => {
+  describe('endTurn', () => {
     it('should clear statuses that end at end of turn');
 
     it("should apply recurring status effects such as DoT's");
@@ -41,24 +35,25 @@ describe('turnManager', () => {
     it('should trigger endTurn skills');
   });
 
-  describe('Process Turn', () => {
-    let turnPhases;
+  describe('process Turn', () => {
+    var turnPhases;
+    var sandbox;
 
     beforeEach(() => {
-      sinon.stub(turnManager, "upkeep");
-      sinon.stub(turnManager, "startTurn");
-      sinon.stub(turnManager, "drawCard");
-      sinon.stub(turnManager, "playCard");
-      sinon.stub(turnManager, "activations");
-      sinon.stub(turnManager, "endTurn");
+      sandbox = sinon.createSandbox();
+
       turnPhases = [
-        turnManager.upkeep,
-        turnManager.startTurn,
-        turnManager.drawCard,
-        turnManager.playCard,
-        turnManager.activations,
-        turnManager.endTurn
+        sandbox.stub(turnManager, "upkeep"),
+        sandbox.stub(turnManager, "startTurn"),
+        sandbox.stub(turnManager, "drawCard"),
+        sandbox.stub(turnManager, "playCard"),
+        sandbox.stub(turnManager, "activations"),
+        sandbox.stub(turnManager, "endTurn")
       ];
+    });
+
+    afterEach(() => {
+      sandbox.restore();
     });
 
     it('should call the turn phases in the correct order', () => {
@@ -67,65 +62,5 @@ describe('turnManager', () => {
       verifyCallOrder(turnPhases);
       verifyCallCounts(1, turnPhases);
     });
-
-    it('should start at turn 1', () => {
-      expect(turnManager.turn, "turn").to.equal(1);
-    });
-
-
-    it('should increment the turn each time it runs', () => {
-      turnManager.processTurn();
-      expect(turnManager.turn, "turn").to.equal(2);
-
-      turnManager.processTurn();
-      expect(turnManager.turn, "turn").to.equal(3);
-    });
-
-    [1, 99, 100].forEach((turn) => {
-      it('should return true if less than 100 turns have transpired', () => {
-        turnManager.turn = turn;
-
-        var result = turnManager.processTurn();
-        expect(result).to.be.true;
-      });
-
-      it('should process turn phases if less than 100 turns have transpired', () => {
-        turnManager.turn = turn;
-
-        turnManager.processTurn();
-        verifyCallCounts(1, turnPhases);
-      });
-    });
-
-    [101, 102].forEach((turn) => {
-      it('should return false after turn 100', () => {
-        turnManager.turn = turn;
-
-        var result = turnManager.processTurn();
-        expect(result).to.be.false;
-      });
-
-      it('should do nothing after turn 100', () => {
-        turnManager.turn = turn;
-
-        turnManager.processTurn();
-
-        verifyCallCounts(0, turnPhases);
-      });
-    });
   });
 });
-
-function verifyCallOrder(spies) {
-  for (var i = 0; i < spies.length - 1; i++) {
-    expect(spies[i].calledImmediatelyBefore(spies[i + 1]), `step ${i} called before ${i + 1}`).to.be.true;
-  }
-  var lastSpy = spies.length - 1;
-  expect(spies[lastSpy].calledImmediatelyAfter(spies[lastSpy - 1]), `step ${lastSpy} called after ${lastSpy - 1}`).to.be.true;
-}
-
-function verifyCallCounts(expectedCount, spies) {
-  spies.forEach((spy) => {
-    expect(spy.callCount).to.equal(expectedCount);
-  });
-}
