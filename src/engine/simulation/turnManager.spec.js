@@ -3,12 +3,36 @@ import { verifyCallCounts, verifyCallOrder } from './spyHelpers.spec';
 import * as turnManager from './turnManager';
 
 describe('turnManager', () => {
+  var matchInfo;
+
+  beforeEach(() => {
+    matchInfo = {
+      player1: 0,
+      fields: {
+      }
+    };
+  });
+
   describe('upkeep', () => {
     it('should clear statuses that end at beginning of turn');
+
+    it('should trigger onUpkeep skills on commander and all units', () => {
+      var currentFeild = mockField('onUpkeep');
+
+      turnManager.upkeep(currentFeild, matchInfo.fields);
+
+      currentFeild.verifyCallCounts(1);
+    });
   });
 
   describe('startTurn', () => {
-    it('should trigger startTurn skills');
+    it('should trigger startTurn skills on commander and all units', () => {
+      var currentFeild = mockField('onStartTurn');
+
+      turnManager.startTurn(currentFeild, matchInfo.fields);
+
+      currentFeild.verifyCallCounts(1);
+    });
   });
 
   describe('drawCard', () => {
@@ -32,7 +56,13 @@ describe('turnManager', () => {
 
     it('should remove dead units');
 
-    it('should trigger endTurn skills');
+    it('should trigger endTurn skills on commander and all units', () => {
+      var currentFeild = mockField('onEndTurn');
+
+      turnManager.endTurn(currentFeild, matchInfo.fields);
+
+      currentFeild.verifyCallCounts(1);
+    });
   });
 
   describe('process Turn', () => {
@@ -57,10 +87,26 @@ describe('turnManager', () => {
     });
 
     it('should call the turn phases in the correct order', () => {
-      turnManager.processTurn();
+      turnManager.processTurn(matchInfo.player1, matchInfo);
 
       verifyCallOrder(turnPhases);
       verifyCallCounts(1, turnPhases);
     });
   });
 });
+
+function mockField(methodName) {
+  return {
+    commander: {
+      [methodName]: sinon.spy()
+    },
+    units: [
+      { [methodName]: sinon.spy() },
+      { [methodName]: sinon.spy() }
+    ],
+    verifyCallCounts(count) {
+      var spies = [this.commander[methodName], ...this.units.map(unit => unit[methodName])];
+      verifyCallCounts(count, spies);
+    }
+  };
+}

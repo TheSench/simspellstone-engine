@@ -5,12 +5,20 @@ import * as turnManager from './turnManager';
 
 describe('runSimulation', () => {
   var sandbox = sinon.createSandbox();
+  var matchInfo;
+
+  beforeEach(() => {
+    matchInfo = {
+      player1: 0,
+      player2: -1
+    };
+  });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  describe('maxTurns', () => {
+  describe('calling processTurn', () => {
     var processTurn;
 
     beforeEach(() => {
@@ -19,10 +27,20 @@ describe('runSimulation', () => {
 
     [1, 100].forEach((maxTurns) => {
       it(`given maxTurns of ${maxTurns} should process ${maxTurns} turns`, () => {
-        runSimulation(maxTurns);
+        runSimulation({ matchInfo, maxTurns });
 
         expect(processTurn.callCount).to.equal(maxTurns);
       });
+    });
+
+    it(`alternates players`, () => {
+      runSimulation({ matchInfo, maxTurns: 5 });
+
+      expect(processTurn.getCall(0).args[0]).to.equal(matchInfo.player1);
+      expect(processTurn.getCall(1).args[0]).to.equal(matchInfo.player2);
+      expect(processTurn.getCall(2).args[0]).to.equal(matchInfo.player1);
+      expect(processTurn.getCall(3).args[0]).to.equal(matchInfo.player2);
+      expect(processTurn.getCall(4).args[0]).to.equal(matchInfo.player1);
     });
   });
 });
