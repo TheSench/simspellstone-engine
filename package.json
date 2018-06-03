@@ -20,6 +20,7 @@
   "author": "Jon Senchyna",
   "license": "MIT",
   "dependencies": {
+    "chai-arrays": "^2.0.0",
     "ramda": "^0.25.0",
     "seedrandom": "^2.4.3"
   },

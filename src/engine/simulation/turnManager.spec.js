@@ -1,4 +1,5 @@
 import sinon from 'sinon';
+import { createPlayer } from '../setup/playerFactory';
 import { verifyCallCounts, verifyCallOrder } from './spyHelpers.spec';
 import * as turnManager from './turnManager';
 
@@ -7,7 +8,7 @@ describe('turnManager', () => {
 
   beforeEach(() => {
     matchInfo = {
-      player1: 0,
+      player1: createPlayer(),
       fields: {
       }
     };
