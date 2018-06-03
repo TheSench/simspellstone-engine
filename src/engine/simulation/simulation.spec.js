@@ -9,9 +9,11 @@ describe('runSimulation', () => {
 
   beforeEach(() => {
     matchInfo = {
-      player1: 0,
-      player2: -1
+      player1: {},
+      player2: {}
     };
+    matchInfo.player1.opponent = matchInfo.player2;
+    matchInfo.player2.opponent = matchInfo.player1;
   });
 
   afterEach(() => {

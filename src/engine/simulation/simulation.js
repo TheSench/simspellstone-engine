@@ -5,7 +5,7 @@ export function runSimulation({matchInfo, maxTurns}) {
   try {
     for (let turn = 0; turn < maxTurns; turn++) {
       processTurn(currentPlayer, matchInfo);
-      currentPlayer = ~currentPlayer;
+      currentPlayer = currentPlayer.opponent;
     }
   } catch (commanderDied) {
     // TODO: Process results
