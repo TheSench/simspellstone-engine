@@ -19,11 +19,11 @@ const configDefaults = {
 };
 
 export default class DamageSkill extends ActivatedSkillBase {
-    constructor(configOverrides) {
+     constructor(configOverrides) {
         let config = Object.assign({}, configDefaults, configOverrides);
 
         super(config.negatedBy);
-        
+
         var modifiers = R.pipe(...damageModifiersOrdered.filter(key => config[key]).map((key) => damageModifiers[key]));
 
         if (modifiers.length) {

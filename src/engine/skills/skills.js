@@ -1,4 +1,4 @@
-import Attack from './activatedSkills/attack';
+export { attack } from './activatedSkills/attack';
 import Barrage from './activatedSkills/barrage';
 import Bolt from './activatedSkills/bolt';
 import Empower from './activatedSkills/empower';
@@ -14,8 +14,8 @@ import Mark from './activatedSkills/mark';
 import PoisonBolt from './activatedSkills/poisonBolt';
 import Protect from './activatedSkills/protect';
 import Scorch from './activatedSkills/scorch';
-import ScorchSelf from './activatedSkills/scorchSelf';
 import Scorchbreath from './activatedSkills/scorchbreath';
+import ScorchSelf from './activatedSkills/scorchSelf';
 import Weaken from './activatedSkills/weaken';
 import WeakenSelf from './activatedSkills/weakenSelf';
 import WingWard from './activatedSkills/wingWard';
@@ -46,7 +46,6 @@ import ValorTriggered from './triggeredSkills/upkeep/valorTriggered';
 
 // maintain legacy skill names
 export const absorb = getInstance(Ward);
-export const attack = getInstance(Attack);
 export const barrage = getInstance(Barrage);
 export const berserk = getInstance(Berserk);
 export const burn = getInstance(Scorch);
