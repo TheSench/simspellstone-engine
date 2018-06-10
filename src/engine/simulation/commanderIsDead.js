@@ -1,5 +1,5 @@
-export class CommanderIsDead {
-  constructor(whichCommander) {
-    this.whichCommander = whichCommander;
-  }
+export default function throwCommanderIsDead(whichCommander) {
+  throw {
+    whichCommander
+  };
 }
