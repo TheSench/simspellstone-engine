@@ -1,6 +1,7 @@
 export { attack } from './activatedSkills/attack';
-import Barrage from './activatedSkills/barrage';
-import Bolt from './activatedSkills/bolt';
+export { barrage } from './activatedSkills/barrage';
+export { bolt as strike } from './activatedSkills/bolt';
+export { poisonBolt as poisonstrike } from './activatedSkills/poisonBolt';
 import Empower from './activatedSkills/empower';
 import Enlarge from './activatedSkills/enlarge';
 import Enrage from './activatedSkills/enrage';
@@ -11,7 +12,6 @@ import Heal from './activatedSkills/heal';
 import Hex from './activatedSkills/hex';
 import Legion from './activatedSkills/legion';
 import Mark from './activatedSkills/mark';
-import PoisonBolt from './activatedSkills/poisonBolt';
 import Protect from './activatedSkills/protect';
 import Scorch from './activatedSkills/scorch';
 import Scorchbreath from './activatedSkills/scorchbreath';
@@ -46,7 +46,6 @@ import ValorTriggered from './triggeredSkills/upkeep/valorTriggered';
 
 // maintain legacy skill names
 export const absorb = getInstance(Ward);
-export const barrage = getInstance(Barrage);
 export const berserk = getInstance(Berserk);
 export const burn = getInstance(Scorch);
 export const burnself = getInstance(ScorchSelf);
@@ -75,14 +74,12 @@ export const nullify = getInstance(Nullify);
 export const mark = getInstance(Mark);
 export const poison = getInstance(Poison);
 export const poisoned = getInstance(Poisoned);
-export const poisonstrike = getInstance(PoisonBolt);
 export const protect = getInstance(Protect);
 export const rally = getInstance(Empower);
 export const regenerate = getInstance(Regenerate);
 export const reinforce = getInstance(Reinforce);
 export const scorchbreath = getInstance(Scorchbreath);
 export const scorched = getInstance(Scorched);
-export const strike = getInstance(Bolt);
 export const unitEndTurn = getInstance(UnitEndTurn);
 export const unitUpkeep = getInstance(UnitUpkeep);
 export const valor = getInstance(Valor);
@@ -92,5 +89,5 @@ export const weaken = getInstance(Weaken);
 export const weakenself = getInstance(WeakenSelf);
 
 function getInstance(Constructor) {
-    return new Constructor();
+  return new Constructor();
 }

@@ -1,7 +1,7 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { poisonstrike as poisonBolt } from './../skills';
 
-describe('bolt', () => {
+describe('poisonBolt', () => {
   let thePoisonBoltSkill = theActivationSkill(poisonBolt);
 
   thePoisonBoltSkill.shouldTarget.allOpposingUnits()

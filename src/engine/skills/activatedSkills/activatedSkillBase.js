@@ -1,13 +1,13 @@
 import R from 'ramda';
 import { random } from './../../../helpers/random';
 
-function checkNegation(negatedBy, self) {
+function checkNegation(negatedBy) {
     return function (skill, source, target, baseValue) {
         if (target.status[negatedBy]) {
             target.status[negatedBy]--;
             return false;
         } else {
-            self.doAffectTarget(skill, source, target, baseValue);
+            this.doAffectTarget(skill, source, target, baseValue);
             return true;
         }
     };
@@ -16,7 +16,7 @@ function checkNegation(negatedBy, self) {
 export default class ActivatedSkillBase {
     constructor(negatedBy) {
         if (negatedBy) {
-            this.affectTarget = checkNegation(negatedBy, this);
+            this.affectTarget = checkNegation(negatedBy);
         } else {
             this.affectTarget = function (skill, source, target, baseValue) {
                 this.doAffectTarget(skill, source, target, baseValue);
