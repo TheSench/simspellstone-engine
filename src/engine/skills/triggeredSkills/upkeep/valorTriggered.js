@@ -1,8 +1,11 @@
-import TurnSkillBase from './../turnSkillBase';
+import createTurnSkillBase from "./../turnSkillBase";
 
-export default class ValorTriggered extends TurnSkillBase {
+export default Object.assign(
+  createTurnSkillBase(),
+  {
     // eslint-disable-next-line no-unused-vars
-    performSkill(skill, source, field){
-        // Do nothing
+    performSkill(skill, source, field) {
+      // Do nothing
     }
-}
+  }
+);

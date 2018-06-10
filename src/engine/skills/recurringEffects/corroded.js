@@ -1,4 +1,4 @@
-export default class Corroded {
+export default {
   apply(corroded, unit) {
     unit.status.attackWeaken += unit.status.corroded;
     if (!--unit.status.corrosionTimer) {
@@ -6,4 +6,4 @@ export default class Corroded {
       unit.removeSkill("turnEnd", corroded);
     }
   }
-}
+};

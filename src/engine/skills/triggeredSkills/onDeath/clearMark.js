@@ -1,7 +1,10 @@
-import TurnSkillBase from "./../turnSkillBase";
+import createTurnSkillBase from "./../turnSkillBase";
 
-export default class ClearMark extends TurnSkillBase {
-  // eslint-disable-next-line no-unused-vars
-  doPerformSkill(skill, source, field, baseValue) {
+export default Object.assign(
+  createTurnSkillBase(),
+  {
+    // eslint-disable-next-line no-unused-vars
+    doPerformSkill(skill, source, field, baseValue) {
+    }
   }
-}
+);

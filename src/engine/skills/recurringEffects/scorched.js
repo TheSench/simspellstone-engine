@@ -1,4 +1,4 @@
-export default class Scorched {
+export default {
     apply(scorched, unit) {
       unit.takeDamage(unit.status.scorched);
       if (!--unit.status.scorchTimer) {
@@ -6,5 +6,4 @@ export default class Scorched {
         unit.removeSkill("turnEnd", scorched);
       }
     }
-  }
-  
+  };
