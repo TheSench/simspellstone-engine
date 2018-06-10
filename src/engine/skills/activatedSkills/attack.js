@@ -6,7 +6,7 @@ var skillBase = new DamageSkill({
   armored: true
 });
 
-export const attack = Object.assign(
+export default Object.assign(
   Object.create(skillBase),
   {
     getPotentialTargets(source, field) {

@@ -1,6 +1,6 @@
-import { bolt } from './bolt';
+import bolt from './bolt';
 
-export const poisonBolt = Object.assign(
+export default Object.assign(
   Object.create(bolt),
   {
     // eslint-disable-next-line no-unused-vars

@@ -4,7 +4,7 @@ var skillBase = new DamageSkill({
   hexed: false
 });
 
-export const barrage = Object.assign(
+export default Object.assign(
   Object.create(skillBase),
   {
     getFinalTargets(skill, filteredTargets) {

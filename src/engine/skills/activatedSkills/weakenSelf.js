@@ -1,12 +1,15 @@
-import Weaken from './weaken';
+import weaken from './weaken';
 
-export default class WeakenSelf extends Weaken {
+export default Object.assign(
+  Object.create(weaken),
+  {
     // eslint-disable-next-line no-unused-vars
     getPotentialTargets(source, field) {
-        return [source];
-    }
+      return [source];
+    },
 
     getFinalTargets(skill, filteredTargets) {
       return filteredTargets.slice(0, 1);
     }
-}
+  }
+);

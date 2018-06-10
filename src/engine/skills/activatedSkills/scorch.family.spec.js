@@ -20,7 +20,7 @@ function testScorchBase(scorchSkill, targetShape) {
   scorch.shouldTarget[targetShape]()
     .onlyAffecting.targetsThatAreAlive()
     .andNeverBeNegated();
-    
+
   describe('effects', () => {
     scorch.whenAffectingTargets
       .shouldAffectTheStatus('scorched').stackingWithCurrentValue()
