@@ -1,7 +1,7 @@
-import BuffSkill from './buffSkill';
+import createBuffSkill from './buffSkill';
 
 export default Object.assign(
-  new BuffSkill('nullified'),
+  createBuffSkill('nullified'),
   {
     // eslint-disable-next-line no-unused-vars
     addSingleTargetFilters(skill, filters) {

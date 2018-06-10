@@ -1,7 +1,7 @@
-import DebuffSkill from './debuffSkill';
+import createDebuffSkill from './debuffSkill';
 
 export default Object.assign(
-  new DebuffSkill(),
+  createDebuffSkill(),
   {
     addSingleTargetFilters(skill, filters) {
       filters.push((unit) => unit.state.willAttack);

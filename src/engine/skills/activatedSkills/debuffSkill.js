@@ -1,18 +1,21 @@
-import ActivatedSkillBase from './activatedSkillBase';
+import createActivatedSkill from './activatedSkillBase';
 
 const defaultConfig = {
-    negatedBy: 'invisible'
+  negatedBy: 'invisible'
 };
 
-export default class DebuffSkill extends ActivatedSkillBase{
-    constructor(overrides) {
-        let config = Object.assign({}, defaultConfig, overrides);
+const debuffSkillBase = {
+  getPotentialTargets(source, field) {
+    // TODO: Define source.opponent
+    return field[source.opponent].units;
+  }
+};
 
-        super(config.negatedBy);
-    }
+export default function createDebuffSkill(overrides) {
+  let config = Object.assign({}, defaultConfig, overrides);
 
-    getPotentialTargets(source, field) {
-        // TODO: Define source.opponent
-        return field[source.opponent].units;
-    }
+  return Object.assign(
+    createActivatedSkill(config.negatedBy),
+    debuffSkillBase
+  );
 }

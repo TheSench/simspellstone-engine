@@ -1,26 +1,25 @@
-import ActivatedSkillBase from './activatedSkillBase';
+import createActivatedSkill from './activatedSkillBase';
 
-export default class Weaken extends ActivatedSkillBase{
-    constructor() {
-        super('invisible');
-    }
-    
+export default Object.assign(
+  createActivatedSkill('invisible'),
+  {
     // eslint-disable-next-line no-unused-vars
     addSingleTargetFilters(skill, filters) {
-        filters.push((unit) => unit.state.willBeActive);
-    }
+      filters.push((unit) => unit.state.willBeActive);
+    },
 
     getPotentialTargets(source, field) {
-        // TODO: Define source.opponent
-        return field[source.opponent].units;
-    }
+      // TODO: Define source.opponent
+      return field[source.opponent].units;
+    },
 
     getSkillValue() {
-        return null;
-    }
-    
+      return null;
+    },
+
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-        target.freeze();
+      target.freeze();
     }
-}
+  }
+);

@@ -1,13 +1,15 @@
-import DamageSkill from './damageSkill';
+import createDamageSkill from './damageSkill';
 
-var skillBase = new DamageSkill({
+var skillBase = createDamageSkill({
   negatedBy: null,
   warded: false,
   armored: true
 });
 
+const doAffectTargetBase = skillBase.doAffectTarget;
+
 export default Object.assign(
-  Object.create(skillBase),
+  skillBase,
   {
     getPotentialTargets(source, field) {
       var opponent = field[source.opponent];
@@ -20,7 +22,7 @@ export default Object.assign(
 
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-      if (skillBase.doAffectTarget(skill, source, target, baseValue) > 0) {
+      if (doAffectTargetBase.call(this, skill, source, target, baseValue) > 0) {
         // source.OnDamageDealt skills
         // target.OnDamaged skills
       }

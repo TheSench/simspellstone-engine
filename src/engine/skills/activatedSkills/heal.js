@@ -1,17 +1,16 @@
-import BuffSkill from './buffSkill';
+import createBuffSkill from './buffSkill';
 
-export default class Heal extends BuffSkill{
-    constructor() {
-        super('nullified');
-    }
-
+export default Object.assign(
+  createBuffSkill('nullified'),
+  {
     // eslint-disable-next-line no-unused-vars
     addSingleTargetFilters(skill, filters) {
-        filters.push((unit) => unit.damageTaken() > 0);
-    }
+      filters.push((unit) => unit.damageTaken() > 0);
+    },
 
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-        target.healDamage(baseValue);
+      target.healDamage(baseValue);
     }
-}
+  }
+);

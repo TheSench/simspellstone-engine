@@ -1,7 +1,7 @@
-import DebuffSkill from './debuffSkill';
+import createDebuffSkill from './debuffSkill';
 
 export default Object.assign(
-  new DebuffSkill({ negatedBy: null }),
+  createDebuffSkill({ negatedBy: null }),
   {
     // eslint-disable-next-line no-unused-vars
     addSingleTargetFilters(skill, filters) {

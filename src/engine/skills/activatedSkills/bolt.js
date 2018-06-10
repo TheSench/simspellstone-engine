@@ -1,3 +1,3 @@
-import DamageSkill from './damageSkill';
+import createDamageSkill from './damageSkill';
 
-export default new DamageSkill();
+export default createDamageSkill();

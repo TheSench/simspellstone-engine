@@ -1,8 +1,11 @@
-import DebuffSkill from './debuffSkill';
+import createDebuffSkill from './debuffSkill';
 
-export default class Hex extends DebuffSkill{
+export default Object.assign(
+  createDebuffSkill(),
+  {
     // eslint-disable-next-line no-unused-vars
     doAffectTarget(skill, source, target, baseValue) {
-        target.status.hexed += baseValue;
+      target.status.hexed += baseValue;
     }
-}
+  }
+);

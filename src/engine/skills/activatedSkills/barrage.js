@@ -1,14 +1,18 @@
-import DamageSkill from './damageSkill';
+import createDamageSkill from './damageSkill';
 
-var skillBase = new DamageSkill({
+var skillBase = createDamageSkill({
   hexed: false
 });
 
+const getFinalTargetsBase = skillBase.getFinalTargets;
+const getSkillValueBase = skillBase.getSkillValue;
+const performSkillBase = skillBase.performSkill;
+
 export default Object.assign(
-  Object.create(skillBase),
+  skillBase,
   {
     getFinalTargets(skill, filteredTargets) {
-      return skillBase.getFinalTargets(skill, filteredTargets);
+      return getFinalTargetsBase.call(this, skill, filteredTargets);
     },
 
     // eslint-disable-next-line no-unused-vars
@@ -19,12 +23,12 @@ export default Object.assign(
 
     performSkill(skill, source, field) {
       // The "value" of Barrage is how many times it fires
-      var iterations = skillBase.getSkillValue(skill, source);
+      var iterations = getSkillValueBase.call(this, skill, source);
 
       // TODO: Optimize this so we get targets once, and then just trim dead units
       let affected = 0;
       for (let i = iterations; i > 0; i--) {
-        affected += skillBase.performSkill(skill, source, field);
+        affected += performSkillBase.call(this, skill, source, field);
       }
       return affected;
     }

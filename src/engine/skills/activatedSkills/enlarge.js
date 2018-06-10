@@ -1,11 +1,10 @@
-import BuffSkill from './buffSkill';
+import createBuffSkill from './buffSkill';
 
-export default class Enlarge extends BuffSkill {
-    constructor() {
-        super({ negatedBy: null });
-    }
-
+export default Object.assign(
+  createBuffSkill({ negatedBy: null }),
+  {
     doAffectTarget(skill, source, target, baseValue) {
-        target.status.attackEmpower += baseValue;
+      target.status.attackEmpower += baseValue;
     }
-}
+  }
+);

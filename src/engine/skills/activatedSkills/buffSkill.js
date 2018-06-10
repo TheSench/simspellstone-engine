@@ -1,22 +1,26 @@
-import ActivatedSkillBase from './activatedSkillBase';
+import createActivatedSkill from './activatedSkillBase';
 
 const defaultConfig = {
-    negatedBy: 'nullified'
+  negatedBy: 'nullified'
 };
 
-export default class BuffSkill extends ActivatedSkillBase{
-    constructor(overrides) {
-        let config = Object.assign({}, defaultConfig, overrides);
-        super(config.negatedBy);
-    }
+const buffSkillBase = {
+  // eslint-disable-next-line no-unused-vars
+  addSingleTargetFilters(skill, filters) {
+    filters.push((unit) => unit.state.active);
+  },
 
-    // eslint-disable-next-line no-unused-vars
-    addSingleTargetFilters(skill, filters) {
-        filters.push((unit) => unit.state.active);
-    }
+  getPotentialTargets(source, field) {
+    // TODO: Define source.opponent
+    return field[source.owner].units;
+  }
+};
 
-    getPotentialTargets(source, field) {
-        // TODO: Define source.opponent
-        return field[source.owner].units;
-    }
+export default function createBuffSkill(overrides) {
+  let config = Object.assign({}, defaultConfig, overrides);
+
+  return Object.assign(
+    createActivatedSkill(config.negatedBy),
+    buffSkillBase
+  );
 }
