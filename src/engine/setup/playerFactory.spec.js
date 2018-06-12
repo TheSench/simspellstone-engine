@@ -20,10 +20,19 @@ describe('playerFactory', () => {
 
         expect(player.deck).to.exist;
       });
+
+      it('should return a player with the specified name', () => {
+        let name = "A name";
+
+        let player = createPlayer(name);
+
+        expect(player.name).to.equal(name);
+      });
     });
 
     describe('deck creation', () => {
       var sandbox = sinon.createSandbox();
+      var deckHash = "ADeckHash";
       var deck = {
         commander: {},
         units: [1,2,3]
@@ -31,7 +40,7 @@ describe('playerFactory', () => {
 
       beforeEach(() => {
         var createDeck = sandbox.stub(deckFactory, "createDeck");
-        createDeck = deckFactory.createDeck;
+        createDeck.alwaysCalledWithExactly(deckHash);
         createDeck.returns(deck);
       });
 
@@ -40,7 +49,7 @@ describe('playerFactory', () => {
       });
 
       it("should retrieve the player's deck from the deckFactory using the given hash", () => {
-        var player = createPlayer();
+        var player = createPlayer(null, deckHash);
 
         expect(player.deck).to.equal(deck.units);
       });

@@ -13,7 +13,7 @@ function checkNegation(negatedBy) {
   };
 }
 
-var activatedSkillBase = {
+const activatedSkillBase = {
   getFilters(skill) {
     let filters = [
       (unit) => unit.state.alive
