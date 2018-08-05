@@ -1,4 +1,4 @@
-# JavaScript Development Environment
+# simspellstone-engine
 
 ## Development Dependencies
 
