@@ -57,12 +57,17 @@ export function testDamageModifiers({ executeSkill }, damageModifierList) {
       constant: true,
       loc: 'status'
     },
-    warded: {
+    protection: {
       effect: -1,
       constant: false,
       loc: 'status'
     },
-    protection: {
+    stasisField: {
+      effect: -1,
+      constant: true,
+      loc: 'status'
+    },
+    warded: {
       effect: -1,
       constant: false,
       loc: 'status'
@@ -77,8 +82,9 @@ export function testDamageModifiers({ executeSkill }, damageModifierList) {
       {
         armored: false,
         hexed: false,
-        warded: false,
-        protection: false
+        protection: false,
+        stasisField: false,
+        warded: false
       });
 
     let skillInstance,

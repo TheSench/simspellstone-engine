@@ -10,7 +10,7 @@ describe('bolt', () => {
 
   describe('effects', () => {
     bolt.whenAffectingTargets
-      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded')
+      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded', 'stasisField')
       .and.shouldAffectNoOtherStatuses();
   });
 });

@@ -10,7 +10,7 @@ describe('attack', () => {
 
   describe('effects', () => {
     attack.whenAffectingTargets
-      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'armored')
+      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'armored', 'stasisField')
       .and.shouldAffectNoOtherStatuses();
   });
 });

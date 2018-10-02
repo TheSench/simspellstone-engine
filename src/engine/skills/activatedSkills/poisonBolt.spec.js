@@ -10,7 +10,7 @@ describe('poisonBolt', () => {
 
   describe('effects', () => {
     thePoisonBoltSkill.whenAffectingTargets
-      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded')
+      .shouldDealDamage.equalToItsValue().modifiedBy('hexed', 'protection', 'warded', 'stasisField')
       .and.shouldAffectTheStatus('poisoned').replacingTheCurrentValueIfHigher()
       .and.shouldAffectNoOtherStatuses();
 
