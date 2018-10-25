@@ -42,6 +42,7 @@ export { default as unitEndTurn } from './triggeredSkills/turnEnd/unitEndTurn';
 export { default as evade } from './triggeredSkills/turnStart/invisibility';
 export { default as stasis } from './triggeredSkills/turnStart/stasis';
 export { default as absorb } from './triggeredSkills/turnStart/ward';
+export { default as cooldown } from './triggeredSkills/upkeep/cooldown';
 export { default as unitUpkeep } from './triggeredSkills/upkeep/unitUpkeep';
 export { default as valor } from './triggeredSkills/upkeep/valor';
 
