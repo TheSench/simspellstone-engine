@@ -5,12 +5,9 @@ export default Object.assign(
   {
     // eslint-disable-next-line no-unused-vars
     doPerformSkill(skill, source, field, baseValue) {
-      //if (!source.status.valorTriggered) {
       if (this.checkOpponent(source, field)) {
-        source.status.attackValor = baseValue;
+        source.status.attackValor += baseValue;
       }
-      skill.id = 'valorTriggered';
-      //}
     },
 
     // eslint-disable-next-line no-unused-vars

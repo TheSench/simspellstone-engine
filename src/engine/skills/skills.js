@@ -44,5 +44,4 @@ export { default as stasis } from './triggeredSkills/turnStart/stasis';
 export { default as absorb } from './triggeredSkills/turnStart/ward';
 export { default as unitUpkeep } from './triggeredSkills/upkeep/unitUpkeep';
 export { default as valor } from './triggeredSkills/upkeep/valor';
-export { default as valorTriggered } from './triggeredSkills/upkeep/valorTriggered';
 

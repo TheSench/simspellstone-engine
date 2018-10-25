@@ -6,11 +6,7 @@ describe('valor', () => {
 
   describe('effects', () => {
     theValorSkill.shouldAffectTheUnit
-      .shouldAffectTheStatus('attackValor').replacingCurrentValue()
+      .shouldAffectTheStatus('attackValor').stackingWithCurrentValue()
       .and.shouldAffectNoOtherStatuses();
-
-    it('should mark itself as triggered once it fires', () => {
-      theValorSkill.shouldChangeItselfTo('valorTriggered');
-    });
   });
 });
