@@ -5,18 +5,18 @@ const damageModifiers = {
   hexed: ([skill, source, target, damage]) => [skill, source, target, damage + target.status.hexed],
   warded: ([skill, source, target, damage]) => [skill, source, target, target.applyWard(damage)],
   protection: ([skill, source, target, damage]) => [skill, source, target, target.applyProtect(damage)],
-  stasisField: ([skill, source, target, damage]) => [skill, source, target, damage - target.status.stasisField],
+  shrouded: ([skill, source, target, damage]) => [skill, source, target, Math.max(damage - target.status.shrouded, 0)],
   armored: ([skill, source, target, damage]) => [skill, source, target, Math.max(damage - target.passives.armored, 0)]
 };
 
-const damageModifiersOrdered = ['hexed', 'stasisField', 'warded', 'protection', 'armored'];
+const damageModifiersOrdered = ['hexed', 'warded', 'protection', 'shrouded', 'armored'];
 
 const configDefaults = {
   negatedBy: 'invisible',
   hexed: true,
   warded: true,
   protection: true,
-  stasisField: true,
+  shrouded: true,
   armored: false
 };
 

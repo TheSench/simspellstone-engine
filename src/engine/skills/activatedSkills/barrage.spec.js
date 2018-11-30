@@ -10,7 +10,7 @@ describe('barrage', () => {
 
   describe('effects', () => {
     theBarrageSkill.whenAffectingTargets
-      .shouldDealDamage.equalToItsValue().modifiedBy('protection', 'warded', 'stasisField')
+      .shouldDealDamage.equalToItsValue().modifiedBy('protection', 'warded', 'shrouded')
       .and.shouldAffectNoOtherStatuses();
   });
 

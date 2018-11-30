@@ -31,6 +31,7 @@ export { default as poison } from './triggeredSkills/onAttack/poison';
 export { default as reinforce } from './triggeredSkills/onAttack/reinforce';
 export { default as leech } from './triggeredSkills/onAttack/siphon';
 export { default as venom } from './triggeredSkills/onAttack/venom';
+export { default as backlash } from './triggeredSkills/onDamaged/backlash';
 export { default as corrosive } from './triggeredSkills/onDamaged/corrosive';
 export { default as counterburn } from './triggeredSkills/onDamaged/emberhide';
 export { default as fury } from './triggeredSkills/onDamaged/fury';
@@ -40,7 +41,7 @@ export { default as commanderDied } from './triggeredSkills/onDeath/commanderDie
 export { default as regenerate } from './triggeredSkills/turnEnd/regenerate';
 export { default as unitEndTurn } from './triggeredSkills/turnEnd/unitEndTurn';
 export { default as evade } from './triggeredSkills/turnStart/invisibility';
-export { default as stasis } from './triggeredSkills/turnStart/stasis';
+export { default as stasis } from './triggeredSkills/turnStart/shroud';
 export { default as absorb } from './triggeredSkills/turnStart/ward';
 export { default as cooldown } from './triggeredSkills/upkeep/cooldown';
 export { default as unitUpkeep } from './triggeredSkills/upkeep/unitUpkeep';

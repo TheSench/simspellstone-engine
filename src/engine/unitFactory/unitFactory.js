@@ -189,7 +189,7 @@ export function createStatus(stats) {
     protection: 0,
     scorched: 0,
     scorchTimer: 0,
-    stasisField: 0,
+    shrouded: 0,
     warded: 0,
     // Boolean-Status
     silenced: false,

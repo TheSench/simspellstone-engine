@@ -35,7 +35,8 @@ export function testHealingOrDamage({ executeSkill }, dealOrHeal, { sourceStatus
       });
 
       it(`should ${dealOrHeal} ${expectedValue} damage`, () => {
-        expect(damageFn.calledWithExactly(expectedValue), `${dealtOrHealed} ${expectedValue} damage`).to.be.true;
+        //expect(damageFn.calledWithExactly(expectedValue), `${dealtOrHealed} ${expectedValue} damage`).to.be.true;
+        expect(damageFn.args[0][0], `${dealtOrHealed} ${expectedValue} damage`).to.equal(expectedValue);
       });
 
       it(`should only ${dealOrHeal} damage once`, () => {
@@ -62,7 +63,7 @@ export function testDamageModifiers({ executeSkill }, damageModifierList) {
       constant: false,
       loc: 'status'
     },
-    stasisField: {
+    shrouded: {
       effect: -1,
       constant: true,
       loc: 'status'
@@ -83,7 +84,7 @@ export function testDamageModifiers({ executeSkill }, damageModifierList) {
         armored: false,
         hexed: false,
         protection: false,
-        stasisField: false,
+        shrouded: false,
         warded: false
       });
 

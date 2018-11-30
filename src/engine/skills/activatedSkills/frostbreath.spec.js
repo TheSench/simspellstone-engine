@@ -10,7 +10,7 @@ describe('frostbreath', () => {
 
   describe('effects', () => {
     frostbreath.whenAffectingTargets
-      .shouldDealDamage.equalToItsValue().modifiedBy('protection', 'warded', 'hexed', 'stasisField')
+      .shouldDealDamage.equalToItsValue().modifiedBy('protection', 'warded', 'hexed', 'shrouded')
       .and.shouldAffectNoOtherStatuses();
   });
 });
