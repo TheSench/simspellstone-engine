@@ -10,23 +10,23 @@ const expect = chai.expect;
 
 describe('matchInfoFactory', () => {
   const sandbox = sinon.createSandbox(),
-        playerHash = 'PlayerDeckHash',
-        cpuHash = 'CpuDeckHash';
+    playerHash = 'PlayerDeckHash',
+    cpuHash = 'CpuDeckHash';
 
   var dummyPlayer,
-      dummyCpu,
-      dummyPlayerField,
-      dummyCpuField;
+    dummyCpu,
+    dummyPlayerField,
+    dummyCpuField;
 
   beforeEach(() => {
     dummyPlayer = { name: 'player' };
-    dummyCpu = { name: 'cpu '};
+    dummyCpu = { name: 'cpu ' };
     dummyPlayerField = {};
     dummyCpuField = {};
 
     sandbox.stub(playerFactory, "createPlayer")
-      .withArgs('player', playerHash).returns(dummyPlayer)
-      .withArgs('cpu', cpuHash).returns(dummyCpu);
+    .withArgs('player', playerHash).returns(dummyPlayer)
+    .withArgs('cpu', cpuHash).returns(dummyCpu);
 
     sandbox.stub(fieldFactory, "createField")
       .withArgs(dummyPlayer).returns(dummyPlayerField)
@@ -37,32 +37,35 @@ describe('matchInfoFactory', () => {
     sandbox.restore();
   });
 
-  it('should create two players', () => {
-    var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
+  describe('basic match creation', () => {
 
-    expect(game.player1).to.equal(dummyPlayer);
-    expect(game.player2).to.equal(dummyCpu);
-  });
+    it('should create two players', () => {
+      var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
 
-  it('should set players as opponents of each other', () => {
-    var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
+      expect(game.player1).to.equal(dummyPlayer);
+      expect(game.player2).to.equal(dummyCpu);
+    });
 
-    expect(game.player1.opponent).to.equal(dummyCpu);
-    expect(game.player2.opponent).to.equal(dummyPlayer);
-  });
+    it('should set players as opponents of each other', () => {
+      var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
 
-  it('should create two fields', () => {
-    var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
+      expect(game.player1.opponent).to.equal(dummyCpu);
+      expect(game.player2.opponent).to.equal(dummyPlayer);
+    });
 
-    expect(game.fields).to.exist;
-    expect(game.fields).to.be.array();
-    expect(game.fields).to.be.ofSize(2);
-  });
+    it('should create two fields', () => {
+      var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
 
-  it('should create fields for a "player" and a "cpu"', () => {
-    var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
+      expect(game.fields).to.exist;
+      expect(game.fields).to.be.array();
+      expect(game.fields).to.be.ofSize(2);
+    });
 
-    var expectedField = [dummyPlayerField, dummyCpuField];
-    expect(game.fields).to.deep.equal(expectedField);
+    it('should create fields for a "player" and a "cpu"', () => {
+      var game = matchInfoFactory.createMatchInfo(playerHash, cpuHash);
+
+      var expectedField = [dummyPlayerField, dummyCpuField];
+      expect(game.fields).to.deep.equal(expectedField);
+    });
   });
 });
