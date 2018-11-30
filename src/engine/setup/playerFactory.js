@@ -7,6 +7,7 @@ export function createPlayer(name, deckHash) {
     name,
     commander: deck.commander,
     deck: deck.units,
+    drawPile: [],
     hand: []
   };
 }

@@ -9,10 +9,18 @@ const expect = chai.expect;
 describe('playerFactory', () => {
   describe('createPlayer', () => {
     describe('basic functionality', () => {
-      it('should return a player object with hand array', () => {
+      it('should return a player object with empty hand array', () => {
         var player = createPlayer();
 
         expect(player.hand).to.be.array();
+        expect(player.hand).to.be.empty;
+      });
+
+      it('should return a player object with empty drawPile array', () => {
+        var player = createPlayer();
+
+        expect(player.drawPile).to.be.array();
+        expect(player.drawPile).to.be.empty;
       });
 
       it('should return a player that has a deck object', () => {
