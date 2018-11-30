@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createPlayer } from '../setup/playerFactory';
 import { runSimulation } from './simulation';
 import * as turnManager from './turnManager';
 
@@ -10,8 +9,8 @@ describe('runSimulation', () => {
 
   beforeEach(() => {
     matchInfo = {
-      player1: createPlayer(),
-      player2: createPlayer()
+      player1: {},
+      player2: {}
     };
     matchInfo.player1.opponent = matchInfo.player2;
     matchInfo.player2.opponent = matchInfo.player1;

@@ -1,6 +1,5 @@
 import chai from 'chai';
 import assertArrays from 'chai-arrays';
-import R from 'ramda';
 import { createField } from './fieldFactory';
 chai.use(assertArrays);
 const expect = chai.expect;
@@ -36,10 +35,6 @@ describe('fieldFactory', () => {
 
     it("should return a field object with a unit for the given player's commander", () => {
       expect(field.commander.unitKey).to.equal(player.commander);
-    });
-
-    it("should return a field object with deck of units for the given player's deck", () => {
-      expect(R.pluck('unitKey', field.deck)).to.deep.equal(player.deck);
     });
   });
 });
