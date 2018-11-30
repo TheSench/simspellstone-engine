@@ -1,7 +1,7 @@
-import { createField } from './../setup/fieldFactory';
-import { createPlayer } from './../setup/playerFactory';
+import { createField } from './fieldFactory';
+import { createPlayer } from './playerFactory';
 
-export function createGame(playerHash, cpuHash) {
+export function createMatchInfo(playerHash, cpuHash) {
   var fields = [
     ['player', playerHash],
     ['cpu', cpuHash]
