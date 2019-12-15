@@ -10,4 +10,5 @@ export function runSimulation({matchInfo, maxTurns}) {
   } catch (commanderDied) {
     // TODO: Process results
   }
+  // TODO: Return tie
 }
