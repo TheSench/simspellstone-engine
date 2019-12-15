@@ -77,7 +77,5 @@
     "watch-files": [
       "src/**/*.js"
     ]
-  },
-  "mochaExplorer.files": "src/**/*.spec.js",
-  "mochaExplorer.require": "babel-register"
+  }
 }

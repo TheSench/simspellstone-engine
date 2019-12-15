@@ -1,0 +1,6 @@
+{
+  "mochaExplorer.logpanel": true,
+  "mochaExplorer.optsFile": "",
+  "mochaExplorer.files": "src/**/*.spec.js",
+  "mochaExplorer.require": "babel-register"
+}
