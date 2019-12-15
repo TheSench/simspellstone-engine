@@ -28,7 +28,8 @@
         "--timeout", "999999",
         "--colors",
         "buildScripts/testSetup.js",
-        "${file}"
+        "${file}",
+        "${fileDirname}/${fileBasenameNoExtension}.spec.js"
       ],
       "console": "internalConsole",
       "internalConsoleOptions": "neverOpen"
