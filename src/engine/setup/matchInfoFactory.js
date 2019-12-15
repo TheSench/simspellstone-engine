@@ -5,7 +5,7 @@ export function createMatchInfo(playerHash, cpuHash) {
   var players = [
     ['player', playerHash],
     ['cpu', cpuHash]
-  ].map(args => createPlayer.apply(null, args));
+  ].map(args => createPlayer(...args));
 
   var [player1, player2] = players;
   player1.opponent = player2;
