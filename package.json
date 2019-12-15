@@ -43,11 +43,11 @@
     "file-loader": "^1.1.11",
     "mocha": "5.1.0",
     "npm-run-all": "4.1.2",
-    "nsp": "3.2.1",
     "numeral": "2.0.6",
     "nyc": "^14.1.1",
     "rimraf": "2.6.2",
     "sinon": "^5.1.1",
+    "source-map-support": "^0.5.16",
     "url-loader": "^1.0.1",
     "webpack": "^4.41.2",
     "webpack-dev-middleware": "3.1.2"
@@ -62,5 +62,22 @@
     ],
     "sourceMap": false,
     "instrument": false
-  }
+  },
+  "mocha": {
+    "diff": true,
+    "extension": [
+      "js"
+    ],
+    "opts": false,
+    "package": "./package.json",
+    "reporter": "progress",
+    "slow": 75,
+    "timeout": 2000,
+    "ui": "bdd",
+    "watch-files": [
+      "src/**/*.js"
+    ]
+  },
+  "mochaExplorer.files": "src/**/*.spec.js",
+  "mochaExplorer.require": "babel-register"
 }
