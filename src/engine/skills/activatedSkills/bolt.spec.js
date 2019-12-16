@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { strike } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('bolt', () => {
+describeSkill('bolt', () => {
   let bolt = theActivationSkill(strike);
 
   bolt.shouldTarget.allOpposingUnits()

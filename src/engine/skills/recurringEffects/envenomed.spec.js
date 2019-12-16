@@ -1,7 +1,8 @@
 import { theRecurringEffect } from '../skillTestCommon/skillTestBase.spec';
 import { envenomedHex, envenomedPoison } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('envenom', () => {
+describeSkill('envenom', () => {
   let envenomedHexEffect = theRecurringEffect(envenomedHex).triggeredAtTurnStart();
   let envenomedPoisonEffect = theRecurringEffect(envenomedPoison).triggeredAtTurnStart();
 

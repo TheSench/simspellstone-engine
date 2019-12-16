@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { evadebarrier } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('wingWard', () => {
+describeSkill('wingWard', () => {
   let wingWard = theActivationSkill(evadebarrier);
 
   wingWard.shouldTarget.allAlliedUnits()

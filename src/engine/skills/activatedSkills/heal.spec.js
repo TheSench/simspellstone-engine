@@ -2,8 +2,9 @@ import { expect } from 'chai';
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { createTestUnit } from './../../unitFactory/unitFactory';
 import { heal } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('heal', () => {
+describeSkill('heal', () => {
   let theHealSkill = theActivationSkill(heal);
 
   theHealSkill.shouldTarget.allAlliedUnits()

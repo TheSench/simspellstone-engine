@@ -1,16 +1,16 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { burn as scorch, burnself as scorchSelf, scorchbreath } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-
-describe('scorch', () => {
+describeSkill('scorch', () => {
   testScorchBase(scorch, 'theDirectlyOpposingUnit');
 });
 
-describe('scorchbreath', () => {
+describeSkill('scorchbreath', () => {
   testScorchBase(scorchbreath, 'opposingUnitsInACone');
 });
 
-describe('scorchSelf', () => {
+describeSkill('scorchSelf', () => {
   testScorchBase(scorchSelf, 'itself');
 });
 

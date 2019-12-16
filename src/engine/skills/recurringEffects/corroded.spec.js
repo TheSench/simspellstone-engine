@@ -1,7 +1,8 @@
 import { theRecurringEffect } from '../skillTestCommon/skillTestBase.spec';
 import { corroded } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('corroded', () => {
+describeSkill('corroded', () => {
   let corrodedEffect = theRecurringEffect(corroded).triggeredAtTurnEnd();
 
   corrodedEffect

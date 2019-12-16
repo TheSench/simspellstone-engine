@@ -1,10 +1,12 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { weaken, weakenself as weakenSelf } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('weaken', () => {
+describeSkill('weaken', () => {
   testWeakenBase(weaken, 'allOpposingUnits');
 });
-describe('weakenSelf', () => {
+
+describeSkill('weakenSelf', () => {
   testWeakenBase(weakenSelf, 'itself');
 });
 

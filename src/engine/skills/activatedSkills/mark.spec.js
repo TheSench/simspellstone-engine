@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { mark } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('mark', () => {
+describeSkill('mark', () => {
   let theSkillMark = theActivationSkill(mark);
 
   theSkillMark.shouldTarget.allOpposingUnits()

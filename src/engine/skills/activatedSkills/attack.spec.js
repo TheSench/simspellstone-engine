@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { attack as skill } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('attack', () => {
+describeSkill('attack', () => {
   let attack = theActivationSkill(skill);
 
   attack.shouldTarget.theDirectlyOpposingUnitOrCommander()

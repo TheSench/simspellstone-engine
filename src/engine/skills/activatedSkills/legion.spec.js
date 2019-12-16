@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { legion } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('legion', () => {
+describeSkill('legion', () => {
   let theLegionSkill = theActivationSkill(legion);
 
   theLegionSkill.shouldTarget.adjacentAlliedUnits()

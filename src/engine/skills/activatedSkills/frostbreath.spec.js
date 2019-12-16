@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { frost } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('frostbreath', () => {
+describeSkill('frostbreath', () => {
   let frostbreath = theActivationSkill(frost);
 
   frostbreath.shouldTarget.opposingUnitsInACone()

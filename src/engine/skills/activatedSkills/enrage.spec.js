@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { enrage } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('enrage', () => {
+describeSkill('enrage', () => {
   let theEnrageSkill = theActivationSkill(enrage);
 
   theEnrageSkill.shouldTarget.allAlliedUnits()

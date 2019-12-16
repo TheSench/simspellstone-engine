@@ -1,7 +1,8 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { enfeeble } from './../skills';
+import { default as describeSkill } from './../skills.spec';
 
-describe('hex', () => {
+describeSkill('hex', () => {
   let hex = theActivationSkill(enfeeble);
 
   hex.shouldTarget.allOpposingUnits()
