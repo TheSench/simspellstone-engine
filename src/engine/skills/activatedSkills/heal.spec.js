@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { createTestUnit } from './../../unitFactory/unitFactory';
 import { heal } from './../skills';
-import { default as describeSkill } from './../skills.spec';
+import { default as describeSkill } from './activatedSkills.spec';
 
 describeSkill('heal', () => {
   let theHealSkill = theActivationSkill(heal);

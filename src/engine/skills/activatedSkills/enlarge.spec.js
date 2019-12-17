@@ -1,6 +1,6 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { enlarge } from './../skills';
-import { default as describeSkill } from './../skills.spec';
+import { default as describeSkill } from './activatedSkills.spec';
 
 describeSkill('enlarge', () => {
   let theEnlargeSkill = theActivationSkill(enlarge);

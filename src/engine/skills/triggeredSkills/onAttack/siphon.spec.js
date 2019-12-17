@@ -1,7 +1,8 @@
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { leech } from './../../skills';
+import { default as describeSkill } from './onAttack.spec';
 
-describe('siphon', () => {
+describeSkill('siphon', () => {
     let siphon = theCombatSkill(leech);
 
     describe('effects', () => {

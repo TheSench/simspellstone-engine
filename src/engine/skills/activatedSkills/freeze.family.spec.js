@@ -1,6 +1,6 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { jam as freeze, jamself as freezeSelf } from './../skills';
-import { default as describeSkill } from './../skills.spec';
+import { default as describeSkill } from './activatedSkills.spec';
 
 describeSkill('freeze', () => {
   testFreezeBase(freeze, 'allOpposingUnits');

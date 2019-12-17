@@ -1,6 +1,6 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { strike } from './../skills';
-import { default as describeSkill } from './../skills.spec';
+import { default as describeSkill } from './activatedSkills.spec';
 
 describeSkill('bolt', () => {
   let bolt = theActivationSkill(strike);

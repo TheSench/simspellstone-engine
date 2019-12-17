@@ -1,6 +1,6 @@
 import { theActivationSkill } from '../skillTestCommon/skillTestBase.spec';
 import { poisonstrike as poisonBolt } from './../skills';
-import { default as describeSkill } from './../skills.spec';
+import { default as describeSkill } from './activatedSkills.spec';
 
 describeSkill('poisonBolt', () => {
   let thePoisonBoltSkill = theActivationSkill(poisonBolt);

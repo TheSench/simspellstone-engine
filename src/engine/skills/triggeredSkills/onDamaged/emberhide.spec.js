@@ -1,7 +1,8 @@
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { counterburn } from './../../skills';
+import { default as describeSkill } from './onDamaged.spec';
 
-describe('emberhide', () => {
+describeSkill('emberhide', () => {
   let emberhide = theCombatSkill(counterburn);
 
   describe('effects', () => {

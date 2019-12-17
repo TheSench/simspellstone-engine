@@ -1,4 +1,4 @@
-import { default as describeSkill } from './../skills.spec';
+import { default as describeSkill } from './activatedSkills.spec';
 
 describeSkill('imbue', () => {
 

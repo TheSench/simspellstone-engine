@@ -1,7 +1,8 @@
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { nullify } from './../../skills';
+import { default as describeSkill } from './onAttack.spec';
 
-describe('nullify', () => {
+describeSkill('nullify', () => {
   let theNullifySkill = theCombatSkill(nullify);
 
   describe('effects', () => {

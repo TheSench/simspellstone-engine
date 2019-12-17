@@ -1,7 +1,8 @@
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { absorb } from './../../skills';
+import { default as describeSkill } from './turnStart.spec';
 
-describe('ward', () => {
+describeSkill('ward', () => {
   let ward = theTurnSkill(absorb);
 
   describe('effects', () => {

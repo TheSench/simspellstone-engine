@@ -1,7 +1,8 @@
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { clearMark } from './../../skills';
+import { default as describeSkill } from './onDeath.spec';
 
-describe('clearMark', () => {
+describeSkill('clearMark', () => {
     let theClearMarkSkill = theTurnSkill(clearMark);
 
     describe('effects', () => {

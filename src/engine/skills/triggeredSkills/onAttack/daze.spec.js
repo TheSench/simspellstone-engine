@@ -1,7 +1,8 @@
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { daze } from './../../skills';
+import { default as describeSkill } from './onAttack.spec';
 
-describe('daze', () => {
+describeSkill('daze', () => {
   let theDazeSkill = theCombatSkill(daze);
 
   describe('effects', () => {

@@ -1,7 +1,8 @@
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { regenerate } from './../../skills';
+import { default as describeSkill } from './turnEnd.spec';
 
-describe('regenerate', () => {
+describeSkill('regenerate', () => {
     let theRegenerateSkill = theTurnSkill(regenerate);
 
     describe('effects', () => {

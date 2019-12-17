@@ -1,7 +1,8 @@
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { cooldown } from './../../skills';
+import { default as describeSkill } from './upkeep.spec';
 
-describe('cooldown', () => {
+describeSkill('cooldown', () => {
   let skillOnCooldown = theTurnSkill(cooldown);
 
   describe('effects', () => {

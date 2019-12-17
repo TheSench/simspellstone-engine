@@ -1,7 +1,8 @@
 import { backlash } from '../../skills';
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
+import { default as describeSkill } from './onDamaged.spec';
 
-describe('backlash', () => {
+describeSkill('backlash', () => {
   let theBacklashSkill = theCombatSkill(backlash);
 
   describe('effects', () => {

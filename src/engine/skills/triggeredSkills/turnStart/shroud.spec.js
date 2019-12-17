@@ -1,7 +1,8 @@
 import { stasis } from '../../skills';
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
+import { default as describeSkill } from './turnStart.spec';
 
-describe('stasis', () => {
+describeSkill('stasis', () => {
   let shroud = theTurnSkill(stasis);
 
   describe('effects', () => {

@@ -1,7 +1,8 @@
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { fury } from './../../skills';
+import { default as describeSkill } from './onDamaged.spec';
 
-describe('fury', () => {
+describeSkill('fury', () => {
   let theFurySkill = theCombatSkill(fury);
 
   describe('effects', () => {

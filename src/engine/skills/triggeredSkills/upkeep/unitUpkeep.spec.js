@@ -1,8 +1,9 @@
 
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { unitUpkeep } from './../../skills';
+import { default as describeSkill } from './upkeep.spec';
 
-describe('unitUpkeep', () => {
+describeSkill('unitUpkeep', () => {
   describe('effects', () => {
     theTurnSkill(unitUpkeep).shouldAffectTheUnit
       .shouldAffectTheStatus('hexed').replacingCurrentValueWith(0)

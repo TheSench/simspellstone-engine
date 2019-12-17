@@ -1,7 +1,8 @@
 import { theCombatSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { venom } from './../../skills';
+import { default as describeSkill } from './onAttack.spec';
 
-describe('venom', () => {
+describeSkill('venom', () => {
   let theVenomSkill = theCombatSkill(venom);
 
   theVenomSkill.givenTheDefender

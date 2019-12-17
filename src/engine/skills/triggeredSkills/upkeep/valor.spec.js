@@ -1,7 +1,8 @@
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { valor } from './../../skills';
+import { default as describeSkill } from './upkeep.spec';
 
-describe('valor', () => {
+describeSkill('valor', () => {
   let theValorSkill = theTurnSkill(valor);
 
   describe('effects', () => {

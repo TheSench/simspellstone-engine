@@ -1,8 +1,9 @@
 
 import { theTurnSkill } from '../../skillTestCommon/skillTestBase.spec';
 import { unitEndTurn } from './../../skills';
+import { default as describeSkill } from './turnEnd.spec';
 
-describe('unitUpkeep', () => {
+describeSkill('unitUpkeep', () => {
   describe('effects', () => {
     theTurnSkill(unitEndTurn).shouldAffectTheUnit
       .shouldAffectTheStatus('attackEmpower').replacingCurrentValueWith(0)
