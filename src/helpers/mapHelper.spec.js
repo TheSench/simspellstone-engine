@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { reverseMap } from './mapHelpers';
 
 describe('reverseMap', () => {
-  it('should make an object with swapped keys/values of  the given object', () => {
+  it('should make an object with swapped keys/values of the given object (numeric keys)', () => {
     let reversed = reverseMap({
       prop0: 0,
       prop1: 1,
@@ -16,7 +16,7 @@ describe('reverseMap', () => {
     });
   });
 
-  it('should make an object with swapped keys/values of  the given object', () => {
+  it('should make an object with swapped keys/values of the given object (string keys)', () => {
     let reversed = reverseMap({
       a: 'x',
       b: 'y',

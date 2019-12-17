@@ -27,8 +27,8 @@ describe('unit hashing', () => {
     {id: 21000, level: 7,   runeId: 5999},  // Max values for fused unit
   ];
 
-  unitKeys.forEach((unitKey) => {
-    it('should return the same unitKey when hashed and unhashed', () => {
+  unitKeys.forEach((unitKey, i) => {
+    it('should return the same unitKey when hashed and unhashed (' + i + ')', () => {
       var converted = R.pipe(unitKeyToBase64, base64ToUnitKey)(unitKey);
 
       expect(converted).to.deep.equal(unitKey);
